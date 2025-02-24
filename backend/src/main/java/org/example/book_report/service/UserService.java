@@ -1,9 +1,10 @@
 package org.example.book_report.service;
 
-import java.util.Optional;
 import org.example.book_report.dto.requestDto.SignupRequestDto;
-import org.example.book_report.entity.User;
+import org.example.book_report.exception.ResourceConflictException;
 import org.example.book_report.repository.UserRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,8 +26,11 @@ public class UserService {
      *
      * @param signupRequestDto 유저 회원가입 정보
      */
-    private boolean checkExistUsername(SignupRequestDto signupRequestDto) {
+    private ResponseEntity<HttpStatus> checkExistUsername(SignupRequestDto signupRequestDto) {
 
-        return userRepository.findByUsername(signupRequestDto.getUsername()).orElseThrow()
+        return userRepository.findByUsername(signupRequestDto.getUsername())
+                .map(user->ResponseEntity.ok(HttpStatus.OK))
+                .orElseThrow(()-> new ResourceConflictException());
     }
+
 }
