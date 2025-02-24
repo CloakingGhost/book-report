@@ -22,7 +22,7 @@ public class UserService {
 
             throw new ResourceConflictException("입력값 확인 필요");
         }
-
+        // 암호화 TODO
         userRepository.save(signupRequestDto.toEntity());
     }
 
@@ -30,7 +30,7 @@ public class UserService {
     /**
      *
      * @param userName
-     * @return userName 중복 여부
+     * @return username 중복 여부
      */
     public boolean checkExistsUsername(String userName) {
 

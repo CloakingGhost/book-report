@@ -12,7 +12,7 @@ import org.example.book_report.entity.User;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SignupRequestDto {
-
+    // validation TODO
     private String username;
     private String password;
     private String name;
