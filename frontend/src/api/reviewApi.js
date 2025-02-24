@@ -11,12 +11,7 @@ const reviewApi = {
    */
   createReview: async (data) => {
     try {
-      const token = '사용자 토큰'; // 사용자 토큰을 여기에 추가하세요.
-      const response = await axios.post('/api/reviews', data, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axios.post('/api/reviews', data);
       return response.data;
     } catch (error) {
       console.error('감상문 생성 오류:', error); // 오류 로깅
@@ -29,12 +24,7 @@ const reviewApi = {
    */
   getReviews: async () => {
     try {
-      const token = '사용자 토큰'; // 사용자 토큰을 여기에 추가하세요.
-      const response = await axios.get('/api/reviews', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axios.get('/api/reviews');
       return response.data;
     } catch (error) {
       console.error('감상문 목록 조회 오류:', error); // 오류 로깅
@@ -48,12 +38,7 @@ const reviewApi = {
    */
   getReviewDetail: async (reviewId) => {
     try {
-      const token = '사용자 토큰'; // 사용자 토큰을 여기에 추가하세요.
-      const response = await axios.get(`/api/reviews/${reviewId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axios.get(`/api/reviews/${reviewId}`);
       return response.data;
     } catch (error) {
       console.error('감상문 상세 조회 오류:', error); // 오류 로깅
@@ -68,36 +53,11 @@ const reviewApi = {
    */
   updateReview: async (reviewId, data) => {
     try {
-      const token = '사용자 토큰'; // 사용자 토큰을 여기에 추가하세요.
-      const response = await axios.put(`/api/reviews/${reviewId}`, data, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axios.put(`/api/reviews/${reviewId}`, data);
       return response.data;
     } catch (error) {
       console.error('감상문 수정 오류:', error); // 오류 로깅
       throw new Error('감상문 수정에 실패했습니다.'); // 사용자에게 알림
-    }
-  },
-  /**
-   * 리뷰의 일부 정보를 수정하는 함수입니다.
-   * @param {String} reviewId 수정할 리뷰의 ID입니다.
-   * @param {Object} data 수정할 리뷰 정보를 포함하는 객체입니다.
-   * @returns {Promise} 수정된 리뷰 응답 데이터를 반환합니다.
-   */
-  patchReview: async (reviewId, data) => {
-    try {
-      const token = '사용자 토큰'; // 사용자 토큰을 여기에 추가하세요.
-      const response = await axios.patch(`/api/reviews/${reviewId}`, data, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      return response.data;
-    } catch (error) {
-      console.error('감상문 일부 수정 오류:', error); // 오류 로깅
-      throw new Error('감상문 일부 수정에 실패했습니다.'); // 사용자에게 알림
     }
   },
   /**
@@ -107,12 +67,7 @@ const reviewApi = {
    */
   deleteReview: async (reviewId) => {
     try {
-      const token = '사용자 토큰'; // 사용자 토큰을 여기에 추가하세요.
-      const response = await axios.delete(`/api/reviews/${reviewId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axios.delete(`/api/reviews/${reviewId}`);
       return response.data;
     } catch (error) {
       console.error('감상문 삭제 오류:', error); // 오류 로깅
@@ -120,20 +75,18 @@ const reviewApi = {
     }
   },
   /**
-   * 도서에 대한 리뷰를 조회하는 함수입니다.
-   * @param {String} bookId 조회할 도서의 ID입니다.
-   * @param {String} reviewId 조회할 리뷰의 ID입니다.
-   * @returns {Promise} 도서 리뷰 응답 데이터를 반환합니다.
+   * 리뷰 공개여부를 변경하는 함수입니다.
+   * @param {String} reviewId 공개여부를 변경할 리뷰의 ID입니다.
+   * @param {Object} data 수정할 리뷰 정보를 포함하는 객체입니다.
+   * @returns {Promise} 공개여부를 변경할 리뷰 응답 데이터를 반환합니다.
    */
-  getBookReviews: async (bookId, reviewId) => {
+  patchReviewPrivateStatus: async (reviewId, data) => {
     try {
-      const response = await axios.get(`/api/books/${bookId}/reviews/${reviewId}`, {
-        headers: {},
-      });
+      const response = await axios.patch(`/api/reviews/${reviewId}`, data);
       return response.data;
     } catch (error) {
-      console.error('도서 감상문 조회 오류:', error); // 오류 로깅
-      throw new Error('도서 감상문 조회에 실패했습니다.'); // 사용자에게 알림
+      console.error('감상문 공개범위 변경 오류:', error); // 오류 로깅
+      throw new Error('감상문 공개범위 변경에 실패했습니다.'); // 사용자에게 알림
     }
   },
 };
