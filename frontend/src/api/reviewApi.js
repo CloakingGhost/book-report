@@ -77,6 +77,7 @@ const reviewApi = {
   /**
    * 리뷰 공개여부를 변경하는 함수입니다.
    * @param {String} reviewId 공개여부를 변경할 리뷰의 ID입니다.
+   * @param {Object} data 수정할 리뷰 정보를 포함하는 객체입니다.
    * @returns {Promise} 공개여부를 변경할 리뷰 응답 데이터를 반환합니다.
    */
   patchReviewPrivateStatus: async (reviewId, data) => {
