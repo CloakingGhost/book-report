@@ -6,12 +6,12 @@ import axios from './axios'; // axios 인스턴스 가져오기
 const authApi = {
   /**
    * 로그인 함수입니다.
-   * @param {Object} credentials 로그인 정보를 포함하는 객체입니다.
+   * @param {Object} loginData 로그인 정보를 포함하는 객체입니다.
    * @returns {Promise} 로그인 응답 데이터를 반환합니다.
    */
-  login: async (credentials) => {
+  login: async (loginData) => {
     try {
-      const response = await axios.post('/api/auth/login', credentials);
+      const response = await axios.post('/api/auth/login', loginData);
       return response.data;
     } catch (error) {
       console.error('로그인 오류:', error); // 오류 로깅
@@ -25,12 +25,7 @@ const authApi = {
    */
   logout: async () => {
     try {
-      const token = '사용자 토큰'; // 사용자 토큰을 여기에 추가하세요.
-      const response = await axios.post('/api/auth/logout', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axios.get('/api/auth/logout');
       return response.data;
     } catch (error) {
       console.error('로그아웃 오류:', error); // 오류 로깅
@@ -55,7 +50,7 @@ const authApi = {
 
   /**
    * 회원가입 아이디 중복확인 함수입니다.
-   * @param {String} username 확인할 사용자 이름입니다.
+   * @param {String} username 확인할 사용자 아이디입니다.
    * @returns {Promise} 중복 확인 응답 데이터를 반환합니다.
    */
   verifyUsername: async (username) => {
@@ -67,7 +62,6 @@ const authApi = {
       throw new Error('아이디 중복확인에 실패했습니다.'); // 사용자에게 알림
     }
   },
-
   /**
    * 사용자 감상문 목록 조회 함수입니다.
    * @param {String} username 감상문 목록을 조회할 사용자 이름입니다.
@@ -75,9 +69,7 @@ const authApi = {
    */
   getUserReviews: async (username) => {
     try {
-      const response = await axios.get(`/api/mypage/${username}`, {
-        headers: {},
-      });
+      const response = await axios.get(`/api/userpage/${username}`);
       return response.data;
     } catch (error) {
       console.error('감상문 목록 조회 오류:', error); // 오류 로깅
