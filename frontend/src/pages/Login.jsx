@@ -64,7 +64,11 @@ export default function Login() {
       </form>
 
       <div>
-        아직 계정이 없으신가요? <button>회원가입</button>
+        아직 계정이 없으신가요?
+        <label htmlFor="signup">
+          <input type="button" id="signup" onClick={() => navigate(`/signup`)} hidden />
+          회원가입
+        </label>
       </div>
     </>
   );
