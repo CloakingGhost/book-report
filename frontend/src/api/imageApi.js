@@ -5,17 +5,12 @@ import axios from './axios';
  */
 const imageApi = {
   /**
-   * JWT를 통해 사용자가 생성한 이미지 목록을 조회하는 함수입니다.
+   * JWT를 통해 사용자가 생성한 이미지 목록을 조회하는 함수(감상문 작성 시)입니다.
    * @returns {Promise} 사용자가 생성한 이미지 목록 응답 데이터를 반환합니다.
    */
   getUserImages: async () => {
     try {
-      const token = '사용자 토큰'; // 사용자 토큰을 여기에 추가하세요.
-      const response = await axios.get('/api/images/user', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axios.get('/api/reviews/images');
       return response.data;
     } catch (error) {
       console.error('사용자 이미지 목록 조회 오류:', error); // 오류 로깅
@@ -30,14 +25,7 @@ const imageApi = {
    */
   createImage: async (data) => {
     try {
-      const token = '사용자 토큰'; // 사용자 토큰을 여기에 추가하세요.
-
-      const response = await axios.post('/api/images', data, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axios.post('/api/images', data);
       return response.data;
     } catch (error) {
       console.error('이미지 생성 오류:', error); // 오류 로깅
@@ -52,12 +40,7 @@ const imageApi = {
    */
   deleteImage: async (imageId) => {
     try {
-      const token = '사용자 토큰'; // 사용자 토큰을 여기에 추가하세요.
-      const response = await axios.delete(`/api/images/${imageId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axios.delete(`/api/images/${imageId}`);
       return response.data;
     } catch (error) {
       console.error('이미지 삭제 오류:', error); // 오류 로깅
