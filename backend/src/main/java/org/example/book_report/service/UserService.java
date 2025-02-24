@@ -1,16 +1,40 @@
 package org.example.book_report.service;
 
+import lombok.RequiredArgsConstructor;
+import org.example.book_report.dto.requestDto.SignupRequestDto;
+import org.example.book_report.exception.ResourceConflictException;
 import org.example.book_report.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
+@RequiredArgsConstructor
 public class UserService {
-    UserRepository userRepository;
+    private final UserRepository userRepository;
 
 
-    public void signup() {
-        // 디비 한번 찌르고 유저 생성 TODO
+    @Transactional
+    public void signup(SignupRequestDto signupRequestDto) {
+
+        boolean flag = checkExistsUsername(signupRequestDto.getUsername());
+        if (flag) {
+
+            throw new ResourceConflictException("입력값 확인 필요");
+        }
+        // 암호화 TODO
+        userRepository.save(signupRequestDto.toEntity());
     }
+
+
+    /**
+     *
+     * @param userName
+     * @return username 중복 여부
+     */
+    public boolean checkExistsUsername(String userName) {
+
+        return userRepository.existsByUsername(userName);
+    }
+
 }
