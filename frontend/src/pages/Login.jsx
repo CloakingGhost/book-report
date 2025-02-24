@@ -37,7 +37,7 @@ export default function Login() {
       <div>Login</div>
       <label htmlFor="logo">
         <h1>
-          <input type="button" id="logo" />
+          <input type="button" id="logo" onClick={() => navigate(`/`)} hidden />
           로고
         </h1>
       </label>
