@@ -10,7 +10,7 @@ public class UserService {
     UserRepository userRepository;
 
 
-    public Void signup() {
+    public void signup() {
         // 디비 한번 찌르고 유저 생성 TODO
     }
 }
