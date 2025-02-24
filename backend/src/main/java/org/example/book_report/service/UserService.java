@@ -15,7 +15,7 @@ public class UserService {
 
     public void signup(SignupRequestDto signupRequestDto) {
 
-        checkExistUsername(signupRequestDto);
+        checkExistUsername(signupRequestDto)
         // 디비 한번 찌르고 유저 생성 TODO
 
     }
@@ -27,6 +27,6 @@ public class UserService {
      */
     private boolean checkExistUsername(SignupRequestDto signupRequestDto) {
 
-        return userRepository.findByUsername(signupRequestDto.getUsername()).isPresent();
+        return userRepository.findByUsername(signupRequestDto.getUsername()).orElseThrow()
     }
 }
