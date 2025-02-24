@@ -1,6 +1,7 @@
 package org.example.book_report.controller;
 
 import lombok.RequiredArgsConstructor;
+
 import org.example.book_report.common.ApiResponse;
 import org.example.book_report.dto.requestDto.SignupRequestDto;
 import org.example.book_report.dto.requestDto.CheckExistUserNameResponseDto;
@@ -12,13 +13,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
+
 @RequestMapping("/api/auth")
+
 public class UserController {
     private final UserService userService;
+
 
 
     @PostMapping("/signup")
@@ -47,4 +52,5 @@ public class UserController {
                 )
         );
     }
+
 }
