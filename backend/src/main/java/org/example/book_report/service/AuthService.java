@@ -15,5 +15,4 @@ public class AuthService {
 
     private final AuthRepository authRepository;
 
-
 }
