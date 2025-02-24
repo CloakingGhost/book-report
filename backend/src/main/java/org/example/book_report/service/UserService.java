@@ -1,36 +1,40 @@
 package org.example.book_report.service;
 
+import lombok.RequiredArgsConstructor;
 import org.example.book_report.dto.requestDto.SignupRequestDto;
 import org.example.book_report.exception.ResourceConflictException;
 import org.example.book_report.repository.UserRepository;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(readOnly = true)
+@RequiredArgsConstructor
 public class UserService {
-    UserRepository userRepository;
+    private final UserRepository userRepository;
 
 
+    @Transactional
     public void signup(SignupRequestDto signupRequestDto) {
 
-        checkExistUsername(signupRequestDto)
-        // 디비 한번 찌르고 유저 생성 TODO
+        boolean flag = checkExistsUsername(signupRequestDto.getUsername());
+        if (flag) {
 
+            throw new ResourceConflictException("입력값 확인 필요");
+        }
+
+        userRepository.save(signupRequestDto.toEntity());
     }
 
-    /**
-     * username 중복 확인
-     *
-     * @param signupRequestDto 유저 회원가입 정보
-     */
-    private ResponseEntity<HttpStatus> checkExistUsername(SignupRequestDto signupRequestDto) {
 
-        return userRepository.findByUsername(signupRequestDto.getUsername())
-                .map(user->ResponseEntity.ok(HttpStatus.OK))
-                .orElseThrow(()-> new ResourceConflictException());
+    /**
+     *
+     * @param userName
+     * @return userName 중복 여부
+     */
+    public boolean checkExistsUsername(String userName) {
+
+        return userRepository.existsByUsername(userName);
     }
 
 }
