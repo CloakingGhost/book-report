@@ -24,13 +24,27 @@ export default function BookReview() {
     }
   };
 
-  useEffect(() => {
-    console.log(searchBook);
-  }, [searchBook]);
-
   return (
     <>
       <input type="text" onChange={handleSearchBookTitle} />
+      {
+        <>
+          {items.size != 0 ? (
+            <ul>
+              {items.map((item) => (
+                <li key={item.bookId}>
+                  <img src={item.imgUrl} alt="" />
+                  <div>{item.title}</div>
+                  <div>{item.author}</div>
+                  <div>{item.publisher}</div>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <div>도서 검색 직접입력 모달창</div>
+          )}
+        </>
+      }
 
       <img name="bookImage" src={bookImage} alt="" />
       <input name="title" type="text" placeholder="도서 검색을 먼저 하세요" readOnly />
