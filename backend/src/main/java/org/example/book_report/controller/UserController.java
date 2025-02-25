@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.book_report.common.ApiResponse;
 import org.example.book_report.dto.requestDto.SignupRequestDto;
 import org.example.book_report.dto.responseDto.CheckExistUserNameResponseDto;
-import org.example.book_report.exception.ResourceConflictException;
+import org.example.book_report.global.exception.ResourceConflictException;
 import org.example.book_report.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
