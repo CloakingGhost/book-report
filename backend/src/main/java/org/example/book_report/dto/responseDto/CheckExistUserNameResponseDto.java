@@ -1,4 +1,4 @@
-package org.example.book_report.dto.requestDto;
+package org.example.book_report.dto.responseDto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

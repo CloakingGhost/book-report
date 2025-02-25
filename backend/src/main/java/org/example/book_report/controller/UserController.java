@@ -1,9 +1,10 @@
 package org.example.book_report.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.book_report.common.ApiResponse;
 import org.example.book_report.dto.requestDto.SignupRequestDto;
-import org.example.book_report.dto.requestDto.CheckExistUserNameResponseDto;
+import org.example.book_report.dto.responseDto.CheckExistUserNameResponseDto;
 import org.example.book_report.exception.ResourceConflictException;
 import org.example.book_report.service.UserService;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ public class UserController {
 
 
     @PostMapping("/signup")
-    public ResponseEntity<ApiResponse<Void>> signup(@RequestBody SignupRequestDto signupRequestDto) {
+    public ResponseEntity<ApiResponse<Void>> signup(@RequestBody @Valid SignupRequestDto signupRequestDto) {
 
         userService.signup(signupRequestDto);
 
@@ -32,7 +33,8 @@ public class UserController {
     }
 
     @GetMapping("/signup/verify")
-    public ResponseEntity<ApiResponse<CheckExistUserNameResponseDto>> checkExistUsername(@RequestParam String username) {
+    public ResponseEntity<ApiResponse<CheckExistUserNameResponseDto>> checkExistUsername(
+            @RequestParam String username) {
         if (userService.checkExistsUsername(username)) {
 
             throw new ResourceConflictException("입력값 확인 필요");
