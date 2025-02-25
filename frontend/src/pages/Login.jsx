@@ -34,14 +34,16 @@ export default function Login() {
       setPasswordBlankCheck(false);
     }
 
-    try {
-      const response = await authApi.login(formData);
-      const data = response.data;
+    if (formData.username != '' && formData.password != '') {
+      try {
+        const response = await authApi.login(formData);
+        const data = response.data;
 
-      const { token, status, error } = data.data;
-      navigate('/');
-    } catch {
-      console.error();
+        const { token, status, error } = data.data;
+        navigate('/');
+      } catch {
+        console.error();
+      }
     }
   };
 
