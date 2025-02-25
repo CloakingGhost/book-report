@@ -1,5 +1,5 @@
 import React from 'react';
 
-export default function BookReviewCreate() {
-  return <div>BookReviewCreate</div>;
+export default function BookReview() {
+  return <div>BookReview</div>;
 }

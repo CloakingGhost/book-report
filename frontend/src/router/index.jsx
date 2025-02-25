@@ -1,7 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 import Home from '../pages/Home';
 import RootLayout from '../layouts/RootLayout';
-import BookReviewCreate from '../pages/BookReviewCreate';
+import BookReview from '../pages/BookReview';
 import BookReviewDetail from '../pages/BookReivewDetatil';
 import UserBookReview from '../pages/UserBookReview';
 import Login from '../pages/Login';
@@ -20,7 +20,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/reviews/create',
-        element: <BookReviewCreate />,
+        element: <BookReview />,
       },
       {
         path: '/reviews/{reviewId}',
