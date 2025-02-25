@@ -1,22 +1,21 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
 export default function Login() {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     username: '',
-    setPassword: '',
+    password: '',
   });
 
   const handleFormInput = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: value.trim(),
     }));
   };
-
-  let blankCheck = false;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,7 +24,7 @@ export default function Login() {
       const response = await authApi.login(formData);
       const data = response.data;
 
-      const { token } = data.data;
+      const { token, status, error } = data.data;
       navigate('/');
     } catch {
       console.error();
@@ -49,7 +48,7 @@ export default function Login() {
           placeholder="아이디"
           onChange={handleFormInput}
         />
-        {blankCheck && <div>필수 입력 값입니다</div>}
+
         <input
           type="password"
           name="password"
@@ -57,9 +56,9 @@ export default function Login() {
           placeholder="비밀번호"
           onChange={handleFormInput}
         />
-        {blankCheck && <div>필수 입력 값입니다</div>}
+
         <br />
-        {/* <div>아이디와 비밀번호를 확인해주세요</div> */}
+        {/* {error ? <div>아이디와 비밀번호를 확인해주세요</div> : null} */}
         <button>로그인</button>
       </form>
 
