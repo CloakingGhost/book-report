@@ -5,6 +5,13 @@ import { useNavigate } from 'react-router-dom';
 export default function Signup() {
   const navigate = useNavigate();
 
+  // 전화번호 기록용 state
+  const [phoneNumberInput, setPhoneNumberInput] = useState({
+    phone1: '',
+    phone2: '',
+    phone3: '',
+  });
+
   // 회원가입 폼 데이터 제출용 state
   const [userData, setUserData] = useState({
     username: '',
@@ -42,9 +49,26 @@ export default function Signup() {
   // 회원가입 폼 입력값
   function handleFormInput(e) {
     const { name, value } = e.target;
-    console.log(name);
-    console.log(value);
     setUserData((prev) => ({ ...prev, [name]: value }));
+  }
+
+  // 전화번호 입력값
+  function handlePhoneNumberInput(e) {
+    const { name, value } = e.target;
+
+    const updatedPhoneNumberInput = {
+      ...phoneNumberInput,
+      [name]: value,
+    };
+
+    setPhoneNumberInput(updatedPhoneNumberInput);
+
+    const { phone1, phone2, phone3 } = updatedPhoneNumberInput;
+
+    setUserData((prev) => ({
+      ...prev,
+      phoneNumber: phone1 + phone2 + phone3,
+    }));
   }
 
   return (
@@ -77,9 +101,29 @@ export default function Signup() {
         <input type="text" name="name" id="name" value={userData.name} onChange={handleFormInput} />
         <label htmlFor="phone1">전화번호</label>
         <div>
-          <input type="tel" id="phone1" name="phone1" /> -
-          <input type="tel" id="phone2" name="phone2" /> -
-          <input type="tel" id="phone3" name="phone3" />
+          <input
+            type="tel"
+            id="phone1"
+            name="phone1"
+            value={phoneNumberInput.phone1}
+            onChange={handlePhoneNumberInput}
+          />
+          -
+          <input
+            type="tel"
+            id="phone2"
+            name="phone2"
+            value={phoneNumberInput.phone2}
+            onChange={handlePhoneNumberInput}
+          />
+          -
+          <input
+            type="tel"
+            id="phone3"
+            name="phone3"
+            value={phoneNumberInput.phone3}
+            onChange={handlePhoneNumberInput}
+          />
         </div>
         <button>회원가입</button>
       </form>
