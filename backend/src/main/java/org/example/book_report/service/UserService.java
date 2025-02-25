@@ -30,7 +30,7 @@ public class UserService {
         User user = signupRequestDto.toEntity();
         String encryptedPassword= passwordEncoder.encode(signupRequestDto.getPassword());
         user.setPassword(encryptedPassword);
-        userRepository.save(signupRequestDto.toEntity());
+        userRepository.save(user);
     }
 
 
