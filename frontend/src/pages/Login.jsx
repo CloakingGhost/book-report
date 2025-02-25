@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
   const navigate = useNavigate();
+  const [usernameBlankCheck, setUsernameBlankCheck] = useState(false);
+  const [passwordBlankCheck, setPasswordBlankCheck] = useState(false);
 
   const [formData, setFormData] = useState({
     username: '',
@@ -19,6 +21,18 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (formData.username == '') {
+      setUsernameBlankCheck(true);
+    } else if (formData.username != '') {
+      setUsernameBlankCheck(false);
+    }
+
+    if (formData.password == '') {
+      setPasswordBlankCheck(true);
+    } else if (formData.password != '') {
+      setPasswordBlankCheck(false);
+    }
 
     try {
       const response = await authApi.login(formData);
@@ -48,6 +62,7 @@ export default function Login() {
           placeholder="아이디"
           onChange={handleFormInput}
         />
+        {usernameBlankCheck && <div>필수 입력 값입니다</div>}
 
         <input
           type="password"
@@ -56,6 +71,7 @@ export default function Login() {
           placeholder="비밀번호"
           onChange={handleFormInput}
         />
+        {passwordBlankCheck && <div>필수 입력 값입니다</div>}
 
         <br />
         {/* {error ? <div>아이디와 비밀번호를 확인해주세요</div> : null} */}
