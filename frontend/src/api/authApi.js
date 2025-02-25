@@ -11,7 +11,7 @@ const authApi = {
    */
   login: async (loginData) => {
     try {
-      const response = await axios.post('/api/auth/login', loginData);
+      const response = await axios.post('/auth/login', loginData);
       return response.data;
     } catch (error) {
       console.error('로그인 오류:', error); // 오류 로깅
@@ -25,7 +25,7 @@ const authApi = {
    */
   logout: async () => {
     try {
-      const response = await axios.get('/api/auth/logout');
+      const response = await axios.get('/auth/logout');
       return response.data;
     } catch (error) {
       console.error('로그아웃 오류:', error); // 오류 로깅
@@ -40,7 +40,7 @@ const authApi = {
    */
   signup: async (userData) => {
     try {
-      const response = await axios.post('/api/auth/signup', userData);
+      const response = await axios.post('/auth/signup', userData);
       return response.data;
     } catch (error) {
       console.error('회원가입 오류:', error); // 오류 로깅
@@ -55,7 +55,7 @@ const authApi = {
    */
   verifyUsername: async (username) => {
     try {
-      const response = await axios.get(`/api/auth/signup/verify?username=${username}`);
+      const response = await axios.get(`/auth/signup/verify?username=${username}`);
       return response.data;
     } catch (error) {
       console.error('아이디 중복확인 오류:', error); // 오류 로깅
@@ -69,7 +69,7 @@ const authApi = {
    */
   getUserReviews: async (username) => {
     try {
-      const response = await axios.get(`/api/userpage/${username}`);
+      const response = await axios.get(`/userpage/${username}`);
       return response.data;
     } catch (error) {
       console.error('감상문 목록 조회 오류:', error); // 오류 로깅

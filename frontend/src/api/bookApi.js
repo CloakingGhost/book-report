@@ -11,7 +11,7 @@ const bookApi = {
    */
   searchBooks: async (title) => {
     try {
-      const response = await axios.get(`/api/books?title=${title}`);
+      const response = await axios.get(`/books?title=${title}`);
       return response.data;
     } catch (error) {
       console.error('도서 검색 오류:', error); // 오류 로깅
