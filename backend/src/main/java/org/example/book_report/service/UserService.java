@@ -1,7 +1,7 @@
 package org.example.book_report.service;
 
 import lombok.RequiredArgsConstructor;
-import org.example.book_report.dto.requestDto.SignupRequestDto;
+import org.example.book_report.dto.request.SignupRequestDto;
 import org.example.book_report.entity.User;
 import org.example.book_report.global.exception.ResourceConflictException;
 import org.example.book_report.repository.UserRepository;

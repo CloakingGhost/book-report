@@ -1,4 +1,4 @@
-package org.example.book_report.dto.requestDto;
+package org.example.book_report.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;

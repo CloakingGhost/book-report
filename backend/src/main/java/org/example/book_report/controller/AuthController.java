@@ -2,8 +2,8 @@ package org.example.book_report.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.example.book_report.common.ApiResponse;
-import org.example.book_report.dto.requestDto.LoginRequestDto;
-import org.example.book_report.dto.responseDto.TokenResponseDto;
+import org.example.book_report.dto.request.LoginRequestDto;
+import org.example.book_report.dto.response.TokenResponseDto;
 import org.example.book_report.service.AuthService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
