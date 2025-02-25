@@ -19,7 +19,11 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: ['/reviews/create', '/reviews/modify/:reviewId'],
+        path: '/reviews/create',
+        element: <BookReview />,
+      },
+      {
+        path: '/reviews/modify/:reviewId',
         element: <BookReview />,
       },
       {
