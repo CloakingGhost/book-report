@@ -1,4 +1,4 @@
-package org.example.book_report.exception;
+package org.example.book_report.global.exception;
 
 import org.example.book_report.common.ApiResponse;
 import org.springframework.http.HttpStatus;
