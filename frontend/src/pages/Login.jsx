@@ -76,7 +76,7 @@ export default function Login() {
         {passwordBlankCheck && <div>필수 입력 값입니다</div>}
 
         <br />
-        {/* {error ? <div>아이디와 비밀번호를 확인해주세요</div> : null} */}
+        {error && <div>아이디와 비밀번호를 확인해주세요</div>}
         <button>로그인</button>
       </form>
 
