@@ -5,6 +5,7 @@ export default function Login() {
   const navigate = useNavigate();
   const [usernameBlankCheck, setUsernameBlankCheck] = useState(false);
   const [passwordBlankCheck, setPasswordBlankCheck] = useState(false);
+  const [error, setError] = useState(false);
 
   const [formData, setFormData] = useState({
     username: '',
@@ -39,7 +40,11 @@ export default function Login() {
         const response = await authApi.login(formData);
         const data = response.data;
 
-        const { token, status, error } = data.data;
+        const { status, error } = data.data;
+        if (error) {
+          setError(error);
+        }
+
         navigate('/');
       } catch {
         console.error();
