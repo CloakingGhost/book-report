@@ -19,15 +19,15 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: '/reviews/create',
+        path: ['/reviews/create', '/reviews/modify/:reviewId'],
         element: <BookReview />,
       },
       {
-        path: '/reviews/{reviewId}',
+        path: '/reviews/:reviewId',
         element: <BookReviewDetail />,
       },
       {
-        path: '/{username}/reviews',
+        path: '/userpage/:username',
         element: <UserBookReview />,
       },
     ],
