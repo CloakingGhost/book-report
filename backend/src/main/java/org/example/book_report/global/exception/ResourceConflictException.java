@@ -1,4 +1,4 @@
-package org.example.book_report.exception;
+package org.example.book_report.global.exception;
 
 public class ResourceConflictException extends RuntimeException{
     public ResourceConflictException(String message) {

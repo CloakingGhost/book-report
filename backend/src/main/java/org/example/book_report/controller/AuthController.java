@@ -26,6 +26,7 @@ public class AuthController {
         return ResponseEntity.ok()
                 .header(SET_COOKIE, token.generateCookie().toString())
                 .body(ApiResponse.ok(token));
+
     }
 
     @GetMapping("/logout")

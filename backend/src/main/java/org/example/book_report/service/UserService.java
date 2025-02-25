@@ -2,7 +2,7 @@ package org.example.book_report.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.book_report.dto.requestDto.SignupRequestDto;
-import org.example.book_report.exception.ResourceConflictException;
+import org.example.book_report.global.exception.ResourceConflictException;
 import org.example.book_report.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

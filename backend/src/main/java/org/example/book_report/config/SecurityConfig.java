@@ -45,14 +45,16 @@ public class SecurityConfig {
 
 
                 // 유효한 jwt인지 확인
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+//                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+//
+//                .exceptionHandling(exception -> exception
+//                        // 권한이 없는 리소스 접근 시
+//                        .accessDeniedHandler(accessDeniedHandler)
+//                        // 인증되지 않은 사용자가 보호된 리소스에 접근 시
+//                        .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+//                )
 
-                .exceptionHandling(exception -> exception
-                        // 권한이 없는 리소스 접근 시
-                        .accessDeniedHandler(accessDeniedHandler)
-                        // 인증되지 않은 사용자가 보호된 리소스에 접근 시
-                        .authenticationEntryPoint(jwtAuthenticationEntryPoint)
-                );
+        ;
 
 
 
