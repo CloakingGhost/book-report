@@ -1,12 +1,14 @@
 package org.example.book_report.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.example.book_report.common.ApiResponse;
+import org.example.book_report.dto.requestDto.LoginRequestDto;
+import org.example.book_report.dto.responseDto.TokenResponseDto;
 import org.example.book_report.service.AuthService;
-import org.springframework.web.bind.annotation.GetMapping;
-
-
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -15,9 +17,22 @@ public class AuthController {
 
     private final AuthService authService;
 
-    @GetMapping("/test")
-    public String test() {
-        return "test";
+    @PostMapping("/login")
+    public ResponseEntity<ApiResponse<TokenResponseDto>> login(@RequestBody LoginRequestDto requestDto) {
+        final String SET_COOKIE = "Set-Cookie";
+
+        TokenResponseDto token = authService.login(requestDto);
+
+        return ResponseEntity.ok()
+                .header(SET_COOKIE, token.generateCookie().toString())
+                .body(ApiResponse.ok(token));
+
+    }
+
+    @GetMapping("/logout")
+    public String logout(@CookieValue(TokenResponseDto.ACCESS_TOKEN) String accessToken) {
+
+        return "logout";
     }
 
 
