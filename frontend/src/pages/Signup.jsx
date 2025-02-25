@@ -30,7 +30,7 @@ export default function Signup() {
   // 아이디 중복확인용 함수
   async function handleUsedUsername() {
     try {
-      const response = await authApi.verifyUsername(username);
+      const response = await authApi.verifyUsername(userData.username);
       const data = response.data;
       setIsUsed(data.used);
       if (!isUsed) {
@@ -56,12 +56,14 @@ export default function Signup() {
 
     // 아이디 중복확인이 완료되지 않으면 폼 제출 불가
     if (isUsed && !isChecked) {
-      return alert('아이디 중복확인 버튼을 눌러주세요.');
+      alert('아이디 중복확인 버튼을 눌러주세요.');
+      return;
     }
 
     // 비밀번호가 일치하지 않으면 폼 제출 불가
     if (!isEqual) {
-      return alert('비밀번호가 일치하지 않습니다.');
+      alert('비밀번호가 일치하지 않습니다.');
+      return;
     }
 
     try {
@@ -113,7 +115,9 @@ export default function Signup() {
             value={userData.username}
             onChange={handleFormInput}
           />
-          <button onClick={handleUsedUsername}>중복확인</button>
+          <button type="button" onClick={handleUsedUsername}>
+            중복확인
+          </button>
           {isUsed && <div>이미 사용중인 아이디입니다.</div>}
         </div>
         <label htmlFor="password">비밀번호</label>
