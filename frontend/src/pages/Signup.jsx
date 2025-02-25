@@ -22,6 +22,10 @@ export default function Signup() {
 
   // 아이디 중복확인용 state
   const [isUsed, setIsUsed] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
+
+  // 비밀번호 확인용 state
+  const [isEqual, setIsEqual] = useState(false);
 
   // 아이디 중복확인용 함수
   async function handleUsedUsername() {
@@ -29,14 +33,36 @@ export default function Signup() {
       const response = await authApi.verifyUsername(username);
       const data = response.data;
       setIsUsed(data.used);
-    } catch (e) {
+      if (!isUsed) {
+        setIsChecked(true);
+      }
+    } catch {
       console.error('입력값을 확인해주세요');
+    }
+  }
+
+  // 비밀번호 확인용 함수
+  function handlePasswordCheck(e) {
+    if (userData.password == e.target.value) {
+      setIsEqual(true);
+    } else {
+      setIsEqual(false);
     }
   }
 
   // 회원가입 폼 제출용 함수
   async function handleSubmit(e) {
     e.preventDefault();
+
+    // 아이디 중복확인이 완료되지 않으면 폼 제출 불가
+    if (isUsed && !isChecked) {
+      return alert('아이디 중복확인 버튼을 눌러주세요.');
+    }
+
+    // 비밀번호가 일치하지 않으면 폼 제출 불가
+    if (!isEqual) {
+      return alert('비밀번호가 일치하지 않습니다.');
+    }
 
     try {
       await authApi.signup(userData);
@@ -74,7 +100,10 @@ export default function Signup() {
   return (
     <>
       <h1>로고</h1>
-      <form onSubmit={handleSubmit}>
+      <form
+        onSubmit={handleSubmit}
+        style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}
+      >
         <label htmlFor="username">아이디</label>
         <div>
           <input
@@ -96,7 +125,12 @@ export default function Signup() {
           onChange={handleFormInput}
         />
         <label htmlFor="checkPassword">비밀번호 확인</label>
-        <input type="password" name="checkPassword" id="checkPassword" />
+        <input
+          type="password"
+          name="checkPassword"
+          id="checkPassword"
+          onChange={handlePasswordCheck}
+        />
         <label htmlFor="name">이름</label>
         <input type="text" name="name" id="name" value={userData.name} onChange={handleFormInput} />
         <label htmlFor="phone1">전화번호</label>
