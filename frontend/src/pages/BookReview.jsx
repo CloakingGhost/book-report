@@ -7,36 +7,33 @@ export default function BookReview() {
   const [cardImage, setCardImage] = useState('');
 
   // 도서 검색 관련
-  const [status, setStatus] = useState();
-  const [page, setPage] = useState();
-  const [size, setSize] = useState();
-  const [items, setItems] = useState([]);
+  const [bookList, setBookList] = useState([]);
 
   const handleSearchBookTitle = async (e) => {
     setSearchBook(e.target.value);
 
     try {
       const response = await bookApi.searchBooks(searchBook);
-      const [status, page, size, items] = response;
-      setItems(items);
+      const { hasNext, bookList } = response;
+
+      setBookList(bookList);
     } catch {
       console.error();
     }
   };
-
   return (
     <>
       <input type="text" onChange={handleSearchBookTitle} />
       {
         <>
-          {items.size != 0 ? (
+          {bookList.length != 0 ? (
             <ul>
-              {items.map((item) => (
-                <li key={item.bookId}>
-                  <img src={item.imgUrl} alt="" />
-                  <div>{item.title}</div>
-                  <div>{item.author}</div>
-                  <div>{item.publisher}</div>
+              {bookList.map((book) => (
+                <li key={book.bookId}>
+                  <img src={book.imgUrl} alt="" />
+                  <div>{book.title}</div>
+                  <div>{book.author}</div>
+                  <div>{book.publisher}</div>
                 </li>
               ))}
             </ul>
