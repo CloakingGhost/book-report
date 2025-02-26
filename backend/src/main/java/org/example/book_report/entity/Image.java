@@ -1,18 +1,15 @@
 package org.example.book_report.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.example.book_report.common.BaseTimeEntity;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-
-import java.time.LocalDateTime;
+import org.example.book_report.dto.request.ImageUploadRequestDto;
 
 @Table(name = "image")
 @Entity
 @Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Image extends BaseTimeEntity {
 
@@ -30,4 +27,5 @@ public class Image extends BaseTimeEntity {
     @OneToOne
     @JoinColumn(name = "member_image_id")
     private UserImage userImage;
+
 }

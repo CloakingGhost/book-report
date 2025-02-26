@@ -40,7 +40,8 @@ public class S3Service {
 
         return Map.of(
                 "imageUrl", imageUrl,
-                "s3Key", s3Key
+                "s3Key", s3Key,
+                "originalFileName", image.getOriginalFilename()
         );
     }
 
