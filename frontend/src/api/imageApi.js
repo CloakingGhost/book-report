@@ -10,7 +10,7 @@ const imageApi = {
    */
   getUserImages: async () => {
     try {
-      const response = await axios.get('/api/reviews/images');
+      const response = await axios.get('/reviews/images');
       return response.data;
     } catch (error) {
       console.error('사용자 이미지 목록 조회 오류:', error); // 오류 로깅
@@ -25,7 +25,7 @@ const imageApi = {
    */
   createImage: async (data) => {
     try {
-      const response = await axios.post('/api/images', data);
+      const response = await axios.post('/images', data);
       return response.data;
     } catch (error) {
       console.error('이미지 생성 오류:', error); // 오류 로깅
@@ -40,7 +40,7 @@ const imageApi = {
    */
   deleteImage: async (imageId) => {
     try {
-      const response = await axios.delete(`/api/images/${imageId}`);
+      const response = await axios.delete(`/images/${imageId}`);
       return response.data;
     } catch (error) {
       console.error('이미지 삭제 오류:', error); // 오류 로깅

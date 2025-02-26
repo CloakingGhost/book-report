@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import authApi from '../api/authApi';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -38,9 +39,8 @@ export default function Login() {
     if (formData.username != '' && formData.password != '') {
       try {
         const response = await authApi.login(formData);
-        const data = response.data;
-
-        const { status, error } = data.data;
+        const { code, error } = response;
+        
         if (error) {
           setError(error);
         }
@@ -61,7 +61,7 @@ export default function Login() {
           로고
         </h1>
       </label>
-      <form action="" name="formData" onSubmit={handleSubmit}>
+      <form name="formData" onSubmit={handleSubmit}>
         <input
           type="text"
           name="username"

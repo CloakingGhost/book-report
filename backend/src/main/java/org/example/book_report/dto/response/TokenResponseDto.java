@@ -1,4 +1,4 @@
-package org.example.book_report.dto.responseDto;
+package org.example.book_report.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;

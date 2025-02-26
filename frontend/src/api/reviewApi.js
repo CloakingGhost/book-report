@@ -11,7 +11,7 @@ const reviewApi = {
    */
   createReview: async (data) => {
     try {
-      const response = await axios.post('/api/reviews', data);
+      const response = await axios.post('/reviews', data);
       return response.data;
     } catch (error) {
       console.error('감상문 생성 오류:', error); // 오류 로깅
@@ -24,7 +24,7 @@ const reviewApi = {
    */
   getReviews: async () => {
     try {
-      const response = await axios.get('/api/reviews');
+      const response = await axios.get('/reviews');
       return response.data;
     } catch (error) {
       console.error('감상문 목록 조회 오류:', error); // 오류 로깅
@@ -38,7 +38,7 @@ const reviewApi = {
    */
   getReviewDetail: async (reviewId) => {
     try {
-      const response = await axios.get(`/api/reviews/${reviewId}`);
+      const response = await axios.get(`/reviews/${reviewId}`);
       return response.data;
     } catch (error) {
       console.error('감상문 상세 조회 오류:', error); // 오류 로깅
@@ -53,7 +53,7 @@ const reviewApi = {
    */
   updateReview: async (reviewId, data) => {
     try {
-      const response = await axios.put(`/api/reviews/${reviewId}`, data);
+      const response = await axios.put(`/reviews/${reviewId}`, data);
       return response.data;
     } catch (error) {
       console.error('감상문 수정 오류:', error); // 오류 로깅
@@ -67,7 +67,7 @@ const reviewApi = {
    */
   deleteReview: async (reviewId) => {
     try {
-      const response = await axios.delete(`/api/reviews/${reviewId}`);
+      const response = await axios.delete(`/reviews/${reviewId}`);
       return response.data;
     } catch (error) {
       console.error('감상문 삭제 오류:', error); // 오류 로깅
@@ -82,7 +82,7 @@ const reviewApi = {
    */
   patchReviewPrivateStatus: async (reviewId, data) => {
     try {
-      const response = await axios.patch(`/api/reviews/${reviewId}`, data);
+      const response = await axios.patch(`/reviews/${reviewId}`, data);
       return response.data;
     } catch (error) {
       console.error('감상문 공개범위 변경 오류:', error); // 오류 로깅

@@ -3,8 +3,8 @@ package org.example.book_report.service;
 import lombok.RequiredArgsConstructor;
 
 
-import org.example.book_report.dto.requestDto.LoginRequestDto;
-import org.example.book_report.dto.responseDto.TokenResponseDto;
+import org.example.book_report.dto.request.LoginRequestDto;
+import org.example.book_report.dto.response.TokenResponseDto;
 import org.example.book_report.global.security.jwt.JwtTokenProvider;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
