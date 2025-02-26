@@ -39,9 +39,8 @@ export default function Login() {
     if (formData.username != '' && formData.password != '') {
       try {
         const response = await authApi.login(formData);
-        console.log(response);
-
         const { code, error } = response;
+        
         if (error) {
           setError(error);
         }
