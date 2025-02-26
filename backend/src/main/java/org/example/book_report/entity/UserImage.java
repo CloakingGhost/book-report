@@ -5,7 +5,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Table(name = "user_image")
+@Table(name = "member_image")
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -21,11 +21,10 @@ public class UserImage {
     @Column(unique = true, nullable = true)
     private String s3Key;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
     private User user;
 
-    @OneToOne
-    @JoinColumn(name = "image_id")
+    @OneToOne(mappedBy = "image")
     private Image image;
 }
