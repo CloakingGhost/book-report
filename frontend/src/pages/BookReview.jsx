@@ -5,6 +5,7 @@ export default function BookReview() {
   // 도서 검색 관련
   const [searchBook, setSearchBook] = useState(false);
   const [bookItems, setBookItems] = useState([]);
+  const [isReadOnly, setIsReadOnly] = useState(true);
 
   // 도서 정보 입력칸 관련
   const [bookImage, setBookImage] = useState('');
@@ -12,6 +13,7 @@ export default function BookReview() {
   const [author, setAuthor] = useState('');
   const [publisher, setPublisher] = useState('');
 
+  // 한줄평 관련
   const [cardImage, setCardImage] = useState('');
 
   const handleSearchBookTitle = async (e) => {
@@ -22,9 +24,7 @@ export default function BookReview() {
     if (searchTitle !== '') {
       try {
         const response = await bookApi.searchBooks(searchTitle);
-
         const { hasNext, bookList } = response;
-        console.log(bookList);
 
         setBookItems(bookList);
       } catch {
@@ -41,6 +41,20 @@ export default function BookReview() {
     setAuthor(book.author);
     setPublisher(book.publisher);
   };
+
+  const onUserInput = (searchBook) => {
+    if (searchBook) {
+      setIsReadOnly(false);
+
+      setBookImage('');
+      setAuthor('');
+      setPublisher('');
+      setTitle(searchBook);
+    }
+  };
+  useEffect(() => {
+    console.log(isReadOnly);
+  }, []);
 
   return (
     <>
@@ -61,7 +75,7 @@ export default function BookReview() {
             </>
           ) : (
             <>
-              <li>직접입력 모달창</li>
+              <li onClick={() => onUserInput(searchBook)}>"{searchBook}" 직접입력</li>
             </>
           )}
         </ul>
@@ -73,21 +87,21 @@ export default function BookReview() {
         value={title}
         type="text"
         placeholder="도서 검색을 먼저 하세요"
-        readOnly
+        readOnly={isReadOnly}
       />
       <input
         name="author"
         value={author}
         type="text"
         placeholder="도서 검색을 먼저 하세요"
-        readOnly
+        readOnly={isReadOnly}
       />
       <input
         name="publisher"
         value={publisher}
         type="text"
         placeholder="도서 검색을 먼저 하세요"
-        readOnly
+        readOnly={isReadOnly}
       />
 
       <img name="cardImage" src={cardImage} alt="" />
