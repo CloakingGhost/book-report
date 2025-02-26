@@ -1,0 +1,68 @@
+services:
+  nginx:
+    image: nginx:latest
+    container_name: my_nginx
+    ports:
+      - "80:80"
+  db:
+    container_name: db-container
+    image: mysql:8.0
+    env_file:
+      - .env
+    volumes:
+      - db-volume:/var/lib/mysql
+    networks:
+      - db-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+  api:
+    container_name: api-container
+    build: 
+      context: ./backend
+      cache_to: 
+        - type=local,dest=/tmp/.buildx-cache/api,mode=max
+      cache_from: 
+        - type=local,src=/tmp/.buildx-cache/api
+    image: cloakingghost/book-backend:lts
+    env_file:
+      - .env
+    networks:
+      - db-network
+      - api-network
+    depends_on:
+      db:
+        condition: service_healthy
+  client:
+    container_name: client-container
+    build: 
+      context: ./frontend
+      args:
+        - VITE_API_URL=${VITE_API_URL}
+      cache_to: 
+        - type=local,dest=/tmp/.buildx-cache/client,mode=max
+      cache_from: 
+        - type=local,src=/tmp/.buildx-cache/client
+    image: cloakingghost/book-front:lts
+    env_file:
+      - .env
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - /etc/letsencrypt/live/${DOMAIN}/fullchain.pem:/etc/letsencrypt/live/${DOMAIN}/fullchain.pem:ro
+      - /etc/letsencrypt/live/${DOMAIN}/privkey.pem:/etc/letsencrypt/live/${DOMAIN}/privkey.pem:ro
+    depends_on:
+      - api
+    networks:
+      - api-network
+
+volumes:
+  db-volume:
+
+networks:
+  db-network:
+  api-network:
