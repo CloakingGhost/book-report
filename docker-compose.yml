@@ -1,9 +1,4 @@
 services:
-  nginx:
-    image: nginx:latest
-    container_name: my_nginx
-    ports:
-      - "80:80"
   db:
     container_name: db-container
     image: mysql:8.0
