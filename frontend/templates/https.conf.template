@@ -21,7 +21,7 @@ server {
         try_files $uri /index.html;
     }
     
-    location /api {
+    location /api/ {
         # API 서버로 요청을 프록시
         proxy_pass ${API_SERVER};
 
