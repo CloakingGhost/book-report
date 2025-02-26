@@ -21,8 +21,8 @@ jobs:
         uses: sarisia/actions-status-discord@v1
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
-          title: 시작한다. 배포.
-
+          title: ⭐Start Deploy⭐
+          color: 0xF09B59
 
       - name: run ssh-agent, webfactory/ssh-agent
         uses: webfactory/ssh-agent@v0.9.0
@@ -113,3 +113,29 @@ jobs:
             docker compose down
             docker compose up -d
             docker system prune -f
+            
+      # Discord 알림 - 배포 성공
+      - name: Discord Notification - Success
+        if: success()
+        uses: sarisia/actions-status-discord@v1
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          title: "🌞 Success Deploy 🌞"
+          description: |
+            Repository: ${{ github.repository }}
+            Branch: ${{ github.ref_name }}
+            Commit: ${{ github.event.head_commit.message }}
+          color: 0x75F94D
+      
+      # Discord 알림 - 배포 실패
+      - name: Discord Notification - Failure
+        if: failure()
+        uses: sarisia/actions-status-discord@v1
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          title: "😭 Failure Deploy 😭"
+          description: |
+            Repository: ${{ github.repository }}
+            Branch: ${{ github.ref_name }}
+            Commit: ${{ github.event.head_commit.message }}
+          color: 0xEA3680
