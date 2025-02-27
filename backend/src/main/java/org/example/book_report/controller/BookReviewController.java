@@ -2,10 +2,12 @@ package org.example.book_report.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.example.book_report.common.ApiResponse;
+import org.example.book_report.dto.request.CreateReviewRequestDto;
 import org.example.book_report.dto.request.UpdateBookReviewRequestDto;
 import org.example.book_report.dto.response.BookReviewDetailResponseDto;
 import org.example.book_report.dto.response.BookReviewToggleApprovedResponseDto;
 import org.example.book_report.dto.response.BookReviewsResponseDto;
+import org.example.book_report.entity.BookReview;
 import org.example.book_report.service.BookReviewService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -170,5 +172,9 @@ public class BookReviewController {
     }
 
 
-    // 감상문 생성: 슬찬님
+    @PostMapping
+    public BookReview createReview(Long reviewId, @RequestBody CreateReviewRequestDto createReviewRequestDto) {
+
+        return bookReviewService.createReview(createReviewRequestDto);
+    }
 }

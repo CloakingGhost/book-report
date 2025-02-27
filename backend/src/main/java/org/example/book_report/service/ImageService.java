@@ -59,6 +59,27 @@ public class ImageService {
         return ImageUploadResponseDto.from(type, imageResponseDtos);
     }
 
+    /**
+     * bookReviewService에서 사용
+     * @param image 파일
+     * @return Image 엔티티
+     */
+    @Transactional
+    public Image uploadImage(MultipartFile image) {
+
+    ImageType type = ImageType.BOOK;
+
+    Map<String, String> uploadImage = s3Service.uploadImage(image);
+
+    Image imageEntity = Image.builder()
+            .type(type)
+            .imageUrl(uploadImage.get("imageUrl"))
+            .build();
+    Image savedImage = imageRepository.save(imageEntity);
+
+    return savedImage;
+}
+
     @Transactional
     public void deleteImage(Long imageId) {
         UserImage userImage = userImageRepository.findByImageId(imageId)

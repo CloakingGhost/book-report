@@ -2,13 +2,17 @@ package org.example.book_report.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.example.book_report.common.BaseTimeEntity;
 
 @Entity(name = "book_review")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@Builder
 public class BookReview extends BaseTimeEntity {
 
     @Id
