@@ -27,6 +27,7 @@ export default function BookReview() {
 
   ////////////////카드 이미지//////////////////////////////
   const [cardImage, setCardImage] = useState();
+  const [onelineTitle, setOnelineTitle] = useState();
 
   // 감상문 내용
   const [content, setContent] = useState();
@@ -55,7 +56,9 @@ export default function BookReview() {
   const setBookInfo = async (book) => {
     cleanSearchTitle.current.value = '';
     setSearchBook(cleanSearchTitle.current.value);
+
     setIsReadOnly(true);
+
     setBookId(book.bookId);
     setBookImage(book.imageUrl);
     setTitle(book.title);
@@ -66,8 +69,10 @@ export default function BookReview() {
   // 사용자 수동 입력
   const onUserInput = () => {
     setTitle(searchBook);
+
     cleanSearchTitle.current.value = '';
     setSearchBook(cleanSearchTitle.current.value);
+
     removeBookInfo();
     setIsReadOnly(false);
   };
@@ -82,7 +87,6 @@ export default function BookReview() {
   // 수동 입력 이미지 넣기
   function addImage(e) {
     const addImage = e.target.files;
-    console.log(addImage);
     setBookImageFile(addImage);
 
     const imageurl = URL.createObjectURL(addImage[0]);
@@ -92,42 +96,40 @@ export default function BookReview() {
 
   // 감상문 저장
   const saveBookReview = async () => {
-    console.log(bookImageFile);
-    console.log(title);
-    console.log(author);
-    console.log(publisher);
-    console.log(content);
-
     let bookReview;
     if (bookId) {
       bookReview = {
-        book: {
-          title: null,
-          author: null,
-          publisher: null,
-          imageFile: bookImageFile, // (책 표지) => 임의로 지정함
-        },
+        data: {
+          book: {
+            title: null,
+            author: null,
+            publisher: null,
+          },
 
-        review: {
-          imageFile: cardImage, // 카드 커버
-          title: '한줄평',
-          content: content,
+          review: {
+            imageId: cardImage, // 카드 커버
+            title: onelineTitle,
+            content: content,
+          },
         },
+        imageFile: bookImageFile, // (책 표지)
       };
     } else {
       bookReview = {
-        book: {
-          title: title,
-          author: author,
-          publisher: publisher,
-          imageFile: bookImageFile, // (책 표지) => 임의로 지정함
-        },
+        data: {
+          book: {
+            title: title,
+            author: author,
+            publisher: publisher,
+          },
 
-        review: {
-          imageFile: cardImage, // 카드 커버
-          title: '한줄평',
-          content: content,
+          review: {
+            imageId: cardImage, // 카드 커버
+            title: '한줄평',
+            content: content,
+          },
         },
+        imageFile: bookImageFile, // (책 표지) => 임의로 지정함
       };
     }
 
@@ -145,7 +147,7 @@ export default function BookReview() {
 
   return (
     <>
-      검색:{' '}
+      검색:
       <input
         type="text"
         defaultValue={searchBook}
@@ -182,6 +184,7 @@ export default function BookReview() {
       {!isReadOnly && (
         <input type="file" accept="image/png, image/jpeg, image/jpg" onChange={addImage} />
       )}
+      <div>검색을 먼저 해야 입력이 가능합니다</div>
       책 제목: <input name="title" defaultValue={title} type="text" readOnly />
       작가:
       <input
