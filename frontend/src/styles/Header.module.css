@@ -1,0 +1,68 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #f8f9fa;
+  border-bottom: 0.0625rem solid #dee2e6;
+}
+
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+
+.link {
+  padding: 0.625rem 1rem;
+  text-decoration: none;
+  color: #007bff;
+  border: 0.0625rem solid #007bff;
+}
+
+.link:hover {
+  background-color: #e2e6ea;
+}
+
+.profileHover {
+  position: relative;
+}
+
+.profileButton {
+  box-sizing: content-box;
+  border: none;
+  border-bottom: 0.0625rem solid #007bff;
+  padding: 0.625rem 1rem;
+  background-color: transparent;
+  color: #007bff;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.profileButton:hover {
+  background-color: #e2e6ea;
+}
+
+.profileMenu {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  border: 0.0625rem dashed #007bff;
+  background-color: #f8f9fa;
+  z-index: 1000;
+  min-width: 9.375rem;
+  margin-top: 0.625rem;
+  right: 0;
+}
+
+.profileMenuLink {
+  text-decoration: none;
+  color: #007bff;
+  border: none;
+  padding: 0.625rem;
+}
+
+.profileMenuLink:hover {
+  background-color: #e2e6ea;
+}
