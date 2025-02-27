@@ -83,7 +83,7 @@ export default function BookReview() {
   function addImage(e) {
     const addImage = e.target.files;
     console.log(addImage);
-    setBookImageFile(addImage[0]);
+    setBookImageFile(addImage);
 
     const imageurl = URL.createObjectURL(addImage[0]);
 
@@ -96,8 +96,11 @@ export default function BookReview() {
     console.log(title);
     console.log(author);
     console.log(publisher);
-    if (bookId == null) {
-      const bookReview = {
+    console.log(content);
+
+    let bookReview;
+    if (bookId) {
+      bookReview = {
         book: {
           title: null,
           author: null,
@@ -112,12 +115,12 @@ export default function BookReview() {
         },
       };
     } else {
-      const bookReview = {
+      bookReview = {
         book: {
           title: title,
           author: author,
           publisher: publisher,
-          imageFile: bookImage, // (책 표지) => 임의로 지정함
+          imageFile: bookImageFile, // (책 표지) => 임의로 지정함
         },
 
         review: {
@@ -129,10 +132,12 @@ export default function BookReview() {
     }
 
     try {
-      const response = await reviewApi.createReview(bookReview);
+      // const response = await reviewApi.createReview(bookReview);
       // const { status, bookReviewId } = response;
-      const bookReviewId = 1;
-      navigate(`/reviews/{bookReviewId}`);
+
+      const bookReviewId = 1; // 백엔드 완성 전이라 임의로 설정
+      const reviewId = bookReviewId;
+      navigate(`/reviews/${reviewId}`);
     } catch {
       console.error();
     }
