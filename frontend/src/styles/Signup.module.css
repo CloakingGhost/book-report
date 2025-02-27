@@ -1,0 +1,19 @@
+@import '../styles/common.css'; /* 공통 스타일 import */
+
+.usernameGroup {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+.checkButton {
+  width: 100px;
+  height: 100%;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+}
