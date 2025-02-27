@@ -16,7 +16,6 @@ import java.util.List;
 @Builder
 public class ImageUploadRequestDto {
 
-    private ImageType imageType;
-    private List<MultipartFile> images;
+    private ImageType type;
 
 }

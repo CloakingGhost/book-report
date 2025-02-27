@@ -53,8 +53,8 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Book> books = new ArrayList<>();
 
-    @OneToMany(mappedBy = "image", fetch = FetchType.LAZY)
-    private List<Image> images = new ArrayList<>();
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<UserImage> userImages = new ArrayList<>();
 
     @Builder
     public User(String username, String password, String name, String phoneNumber, Role role) {

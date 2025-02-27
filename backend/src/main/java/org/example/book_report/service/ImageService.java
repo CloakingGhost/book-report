@@ -26,10 +26,9 @@ public class ImageService {
     private final S3Service s3Service;
 
     @Transactional
-    public ImageUploadResponseDto uploadImage(ImageUploadRequestDto imageUploadRequestDto) {
+    public ImageUploadResponseDto uploadImage(ImageUploadRequestDto imageUploadRequestDto, List<MultipartFile> images) {
 
-        ImageType type = imageUploadRequestDto.getImageType();
-        List<MultipartFile> images = imageUploadRequestDto.getImages();
+        ImageType type = imageUploadRequestDto.getType();
         List<Map<String, String>> uploadResults = images.stream().map(s3Service::uploadImage).toList();
 
         List<ImageResponseDto> imageResponseDtos = uploadResults.stream().map(uploadResult -> {
@@ -56,6 +55,17 @@ public class ImageService {
         }).toList();
 
         return ImageUploadResponseDto.from(type, imageResponseDtos);
+    }
+
+    @Transactional
+    public void deleteImage(Long imageId) {
+        Image image = imageRepository.findById(imageId)
+                .orElseThrow(() -> new IllegalArgumentException("Image not found with id: " + imageId));
+
+        // S3에서 이미지 파일을 삭제한다
+        s3Service.deleteImage(image.getUserImage().getS3Key());
+
+        imageRepository.delete(image);
     }
 
 }

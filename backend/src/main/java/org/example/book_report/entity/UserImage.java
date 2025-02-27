@@ -25,6 +25,6 @@ public class UserImage {
     @JoinColumn(name = "member_id")
     private User user;
 
-    @OneToOne(mappedBy = "image")
+    @OneToOne
     private Image image;
 }
