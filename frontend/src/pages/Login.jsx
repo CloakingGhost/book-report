@@ -1,16 +1,18 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import authApi from '../api/authApi';
+import styles from '../styles/Login.module.css';
 
 export default function Login() {
   const navigate = useNavigate();
-  const [usernameBlankCheck, setUsernameBlankCheck] = useState(false);
-  const [passwordBlankCheck, setPasswordBlankCheck] = useState(false);
-  const [error, setError] = useState(false);
-
   const [formData, setFormData] = useState({
     username: '',
     password: '',
+  });
+  const [errors, setErrors] = useState({
+    username: false,
+    password: false,
+    login: false,
   });
 
   const handleFormInput = (e) => {
@@ -19,79 +21,79 @@ export default function Login() {
       ...prev,
       [name]: value.trim(),
     }));
+    setErrors((prev) => ({ ...prev, [name]: false }));
+  };
+
+  const validateForm = () => {
+    const newErrors = {
+      username: formData.username === '',
+      password: formData.password === '',
+    };
+    setErrors(newErrors);
+    return !Object.values(newErrors).some(Boolean);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (formData.username == '') {
-      setUsernameBlankCheck(true);
-    } else if (formData.username != '') {
-      setUsernameBlankCheck(false);
-    }
+    if (!validateForm()) return;
 
-    if (formData.password == '') {
-      setPasswordBlankCheck(true);
-    } else if (formData.password != '') {
-      setPasswordBlankCheck(false);
-    }
-
-    if (formData.username != '' && formData.password != '') {
-      try {
-        const response = await authApi.login(formData);
-        const { code, error } = response;
-        
-        if (error) {
-          setError(error);
-        }
-
+    try {
+      const response = await authApi.login(formData);
+      if (response.error) {
+        setErrors((prev) => ({ ...prev, login: true }));
+      } else {
         navigate('/');
-      } catch {
-        console.error();
       }
+    } catch (error) {
+      console.error('로그인 실패:', error);
+      setErrors((prev) => ({ ...prev, login: true }));
     }
   };
 
   return (
-    <>
-      <div>Login</div>
-      <label htmlFor="logo">
-        <h1>
-          <input type="button" id="logo" onClick={() => navigate(`/`)} hidden />
-          로고
-        </h1>
-      </label>
-      <form name="formData" onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="username"
-          value={formData.username}
-          placeholder="아이디"
-          onChange={handleFormInput}
-        />
-        {usernameBlankCheck && <div>필수 입력 값입니다</div>}
+    <div className={styles.container}>
+      <Link to="/">
+        <h1>로고</h1>
+      </Link>
 
-        <input
-          type="password"
-          name="password"
-          value={formData.password}
-          placeholder="비밀번호"
-          onChange={handleFormInput}
-        />
-        {passwordBlankCheck && <div>필수 입력 값입니다</div>}
+      <form onSubmit={handleSubmit} className={styles.formWrapper}>
+        <div className={styles.formGroup}>
+          <input
+            type="text"
+            name="username"
+            value={formData.username}
+            placeholder="아이디"
+            onChange={handleFormInput}
+            className={errors.username ? styles.error : ''}
+          />
+          {errors.username && <div className={styles.errorMessage}>필수 입력 값입니다</div>}
+        </div>
 
-        <br />
-        {error && <div>아이디와 비밀번호를 확인해주세요</div>}
-        <button>로그인</button>
+        <div className={styles.formGroup}>
+          <input
+            type="password"
+            name="password"
+            value={formData.password}
+            placeholder="비밀번호"
+            onChange={handleFormInput}
+            className={errors.password ? styles.error : ''}
+          />
+          {errors.password && <div className={styles.errorMessage}>필수 입력 값입니다</div>}
+        </div>
+
+        {errors.login && (
+          <div className={styles.errorMessage}>아이디와 비밀번호를 확인해주세요</div>
+        )}
+
+        <button type="submit" className={styles.submitButton}>
+          로그인
+        </button>
       </form>
 
-      <div>
-        아직 계정이 없으신가요?
-        <label htmlFor="signup">
-          <input type="button" id="signup" onClick={() => navigate(`/signup`)} hidden />
-          회원가입
-        </label>
+      <div className={styles.subLink}>
+        아직 계정이 없으신가요? <Link to="/signup">회원가입</Link>
       </div>
-    </>
+    </div>
   );
 }

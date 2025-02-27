@@ -13,6 +13,7 @@ export default function Signup() {
     username: '',
     password: '',
     name: '',
+    phoneNumber: '',
   });
   const [isUsed, setIsUsed] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
@@ -54,13 +55,25 @@ export default function Signup() {
   // 전화번호 입력값 처리
   const handlePhoneNumberInput = (e) => {
     const { value } = e.target;
-    const formattedValue = value.replace(/\D/g, '').slice(0, 11);
-    const phoneNumber = formattedValue.replace(/(\d{3})(\d{4})(\d{0,4})/, (match, p1, p2, p3) => {
-      return `${p1}-${p2}${p3 ? '-' + p3 : ''}`;
-    });
+    const originPhoneNumber = value.replace(/\D/g, '').slice(0, 11);
 
-    setPhoneNumber(phoneNumber);
-    setFormData((prev) => ({ ...prev, phoneNumber: formattedValue }));
+    const formatPhoneNumber = (originPhoneNumber) => {
+      const length = originPhoneNumber.length;
+      if (length <= 3) {
+        return originPhoneNumber; // 3자 이하
+      } else if (length <= 7) {
+        return originPhoneNumber.replace(/(\d{3})(\d{0,4})/, (match, p1, p2) => {
+          return `${p1}-${p2}`;
+        }); // 4자 이하
+      } else {
+        return originPhoneNumber.replace(/(\d{3})(\d{4})(\d{0,4})/, (match, p1, p2, p3) => {
+          return `${p1}-${p2}${p3 ? '-' + p3 : ''}`;
+        }); // 8자 이상
+      }
+    };
+
+    setPhoneNumber(formatPhoneNumber(originPhoneNumber));
+    setFormData((prev) => ({ ...prev, phoneNumber: originPhoneNumber }));
   };
 
   // 회원가입 폼 제출
@@ -87,7 +100,7 @@ export default function Signup() {
     }
 
     try {
-      await authApi.signup({ ...formData, phoneNumber });
+      await authApi.signup({ ...formData });
       navigate('/login');
     } catch {
       console.error('입력값을 확인해주세요');
