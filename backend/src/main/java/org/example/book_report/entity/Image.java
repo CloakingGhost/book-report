@@ -3,7 +3,6 @@ package org.example.book_report.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.example.book_report.common.BaseTimeEntity;
-import org.example.book_report.dto.request.ImageUploadRequestDto;
 
 @Table(name = "image")
 @Entity

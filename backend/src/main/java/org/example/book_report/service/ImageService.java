@@ -62,7 +62,7 @@ public class ImageService {
     @Transactional
     public void deleteImage(Long imageId) {
         UserImage userImage = userImageRepository.findByImageId(imageId)
-                .orElseThrow(() -> new IllegalArgumentException("Image not found with id: " + imageId));
+                .orElseThrow(() -> new IllegalArgumentException("이미지가 존재하지 않습니다."));
 
         s3Service.deleteImage(userImage.getS3Key());
 

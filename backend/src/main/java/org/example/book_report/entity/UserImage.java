@@ -3,7 +3,6 @@ package org.example.book_report.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-@ToString
 @Table(name = "member_image")
 @Entity
 @Getter
