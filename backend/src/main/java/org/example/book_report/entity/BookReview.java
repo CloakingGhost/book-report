@@ -35,4 +35,11 @@ public class BookReview extends BaseTimeEntity {
 
     // 공개 비공개 : boolean
     private boolean approved;
+
+
+
+    public BookReview toggleApproved() {
+        this.approved = !this.approved;
+        return this;
+    }
 }
