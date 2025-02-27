@@ -1,6 +1,7 @@
 package org.example.book_report.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.example.book_report.dto.request.ImageUploadRequestDto;
 import org.example.book_report.dto.response.ImageResponseDto;
 import org.example.book_report.dto.response.ImageUploadResponseDto;
@@ -16,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -36,20 +38,20 @@ public class ImageService {
             String s3Key = uploadResult.get("s3Key");
             String originalFileName = uploadResult.get("originalFileName");
 
-            UserImage userImage = UserImage.builder()
-                    .originalFileName(originalFileName)
-                    .s3Key(s3Key)
-                    .build();
-
-            UserImage savedUserImage = userImageRepository.save(userImage);
-
             Image image = Image.builder()
                     .type(type)
                     .imageUrl(imageUrl)
-                    .userImage(userImage)
                     .build();
 
             Image savedImage = imageRepository.save(image);
+
+            UserImage userImage = UserImage.builder()
+                    .originalFileName(originalFileName)
+                    .s3Key(s3Key)
+                    .image(image)
+                    .build();
+
+            userImageRepository.save(userImage);
 
             return ImageResponseDto.from(savedImage);
         }).toList();
@@ -59,13 +61,13 @@ public class ImageService {
 
     @Transactional
     public void deleteImage(Long imageId) {
-        Image image = imageRepository.findById(imageId)
+        UserImage userImage = userImageRepository.findByImageId(imageId)
                 .orElseThrow(() -> new IllegalArgumentException("Image not found with id: " + imageId));
 
-        // S3에서 이미지 파일을 삭제한다
-        s3Service.deleteImage(image.getUserImage().getS3Key());
+        s3Service.deleteImage(userImage.getS3Key());
 
-        imageRepository.delete(image);
+        userImageRepository.delete(userImage);
+        imageRepository.delete(userImage.getImage());
     }
 
 }

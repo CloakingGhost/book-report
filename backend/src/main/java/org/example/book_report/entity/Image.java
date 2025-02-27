@@ -24,8 +24,4 @@ public class Image extends BaseTimeEntity {
     @Column(nullable = true)
     private String imageUrl;
 
-    @OneToOne
-    @JoinColumn(name = "member_image_id")
-    private UserImage userImage;
-
 }
