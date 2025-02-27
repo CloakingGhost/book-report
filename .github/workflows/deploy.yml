@@ -39,6 +39,7 @@ jobs:
           echo "ACCESS_KEY=${{secrets.ACCESS_KEY}}" >> .env
           echo "SECRET_KEY=${{secrets.SECRET_KEY}}" >> .env
           echo "BUCKET_NAME=${{secrets.BUCKET_NAME}}" >> .env
+          echo "REGION=${{secrets.REGION}}" >> .env
           echo "# EC2" >> .env
           echo "DOMAIN=${{secrets.DOMAIN}}" >> .env
           echo "API_SERVER=${{secrets.API_SERVER}}" >> .env
