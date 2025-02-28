@@ -134,14 +134,14 @@ export default function BookReview() {
     }
 
     try {
-      // const response = await reviewApi.createReview(bookReview);
-      // const { status, bookReviewId } = response;
+      const response = await reviewApi.createReview(bookReview);
+      const { status, bookReviewId } = response;
+      console.log(response);
 
-      const bookReviewId = 1; // 백엔드 완성 전이라 임의로 설정
-      const reviewId = bookReviewId;
-      navigate(`/reviews/${reviewId}`);
-    } catch {
-      console.error();
+      // const bookReviewId = 1; // 백엔드 완성 전이라 임의로 설정
+      navigate(`/reviews/${bookReviewId}`);
+    } catch (e) {
+      console.error(e);
     }
   };
 
