@@ -129,5 +129,6 @@ public class BookReviewController {
             @RequestPart("data") CreateReviewRequestDto createReviewRequestDto,
             @RequestPart(value = "imageFile") MultipartFile imageFile) {
 
-    // 감상문 생성: 슬찬님
+        return bookReviewService.createReview(createReviewRequestDto, imageFile);
+    }
 }

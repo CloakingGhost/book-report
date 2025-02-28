@@ -18,12 +18,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
-@RequiredArgsConstructor
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class BookReviewService {
 
-    private final private final BookReviewRepository bookReviewRepository;
+    private final BookReviewRepository bookReviewRepository;
     private final BookRepository bookRepository;
     private final ImageService imageService;
     private final UserImageRepository userImageRepository;
