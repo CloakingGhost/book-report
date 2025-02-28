@@ -1,15 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from '../../styles/Card.module.css';
 import { useDispatch } from 'react-redux';
 import { selectCard } from '../../store/slices/selectedCardSlice';
+import imageApi from '../../api/imageApi';
 
 export default function UserCardImageLists() {
   const [images, setImages] = useState([]);
-
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    async function fetchUserCardImages() {
+      const response = await imageApi.getUserImages('card');
+      const data = response.data;
+
+      setImages(data.images.items);
+    }
+    fetchUserCardImages();
+  });
+
   function handleClickImage(e) {
-    dispatch(selectCard({ imageId : 0, imageUrl: e.target.src }));
+    dispatch(selectCard({ imageId: 0, imageUrl: e.target.src }));
   }
 
   function addImage(e) {
@@ -33,7 +43,7 @@ export default function UserCardImageLists() {
     <div className={styles.selectCardImageSection}>
       {images.map((image, index) => (
         <div className={styles.cardImageStyle}>
-          <img key={index} src={image} alt="" onClick={handleClickImage}/>
+          <img key={index} src={image} alt="" onClick={handleClickImage} />
         </div>
       ))}
       <label htmlFor="image-file" className={styles.cardImageStyle}>
