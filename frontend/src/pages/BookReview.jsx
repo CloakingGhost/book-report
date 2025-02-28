@@ -42,7 +42,7 @@ export default function BookReview() {
       try {
         const response = await bookApi.searchBooks(searchTitle);
         const { hasNext, bookList } = response;
-
+        bookList = bookList.slice(0, 7);
         setBookItems(bookList);
       } catch {
         console.error();
