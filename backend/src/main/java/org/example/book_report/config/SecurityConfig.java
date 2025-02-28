@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -29,6 +30,7 @@ public class SecurityConfig {
     private final CustomAccessDeniedHandler accessDeniedHandler;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -47,15 +49,15 @@ public class SecurityConfig {
                 )
 
 
-        // 유효한 jwt인지 확인
-//                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-//
-//                .exceptionHandling(exception -> exception
-//                        // 권한이 없는 리소스 접근 시
-//                        .accessDeniedHandler(accessDeniedHandler)
-//                        // 인증되지 않은 사용자가 보호된 리소스에 접근 시
-//                        .authenticationEntryPoint(jwtAuthenticationEntryPoint)
-//                )
+                // 유효한 jwt인지 확인
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+
+                .exceptionHandling(exception -> exception
+                        // 권한이 없는 리소스 접근 시
+                        .accessDeniedHandler(accessDeniedHandler)
+                        // 인증되지 않은 사용자가 보호된 리소스에 접근 시
+                        .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                )
 
         ;
 
