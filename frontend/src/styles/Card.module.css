@@ -36,7 +36,7 @@ h3 {
   padding: 2rem;
 }
 
-.userImageStyle {
+.cardImageStyle {
   display: block;
   border: solid 2px lightgray;
   border-radius: 10%;
@@ -45,9 +45,4 @@ h3 {
   justify-content: center;
   align-items: center;
   overflow: hidden;
-}
-
-.userImageStyle > img {
-
-  object-fit: cover;
 }

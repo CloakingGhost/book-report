@@ -24,11 +24,11 @@ export default function UserCardImageLists() {
   return (
     <div className={styles.selectCardImageSection}>
       {images.map((image, index) => (
-        <div className={styles.userImageStyle}>
+        <div className={styles.cardImageStyle}>
           <img key={index} src={image} alt="" />
         </div>
       ))}
-      <label htmlFor="image-file" className={styles.userImageStyle}>
+      <label htmlFor="image-file" className={styles.cardImageStyle}>
         <input
           type="file"
           accept="image/png, image/jpeg, image/jpg"
