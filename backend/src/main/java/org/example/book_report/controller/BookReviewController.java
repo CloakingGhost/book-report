@@ -100,7 +100,7 @@ public class BookReviewController {
     @PostMapping
     public ResponseEntity<ApiResponse<CreateReviewResponseDto>> createReview(
             @RequestPart(value = "data") CreateReviewRequestDto requestDto,
-            @RequestPart(value = "imageFile", required = false) MultipartFile imageFile) {
+            @RequestPart(value = "imageFile") MultipartFile imageFile) {
 
         return ResponseEntity.ok(ApiResponse.ok(bookReviewService.createReview(requestDto, imageFile)));
     }

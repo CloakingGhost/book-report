@@ -20,9 +20,7 @@ const reviewApi = {
       );
 
       // 이미지 파일 추가 (책 표지)
-      if (bookReview.imageFile) {
-        formData.append('imageFile', bookReview.imageFile);
-      }
+      formData.append('imageFile', bookReview.imageFile[0]);
 
       const response = await axios.post('/reviews', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
