@@ -1,5 +1,6 @@
 package org.example.book_report.service;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 
 
@@ -34,9 +35,15 @@ public class AuthService {
                 )
         );
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+//        SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtTokenProvider.createToken(authentication);
 
         return new TokenResponseDto(jwt);
+    }
+
+    public TokenResponseDto logout(){
+
+
+        return new TokenResponseDto(null);
     }
 }
