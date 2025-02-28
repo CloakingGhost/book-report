@@ -8,9 +8,9 @@ const imageApi = {
    * JWT를 통해 사용자가 생성한 이미지 목록을 조회하는 함수(감상문 작성 시)입니다.
    * @returns {Promise} 사용자가 생성한 이미지 목록 응답 데이터를 반환합니다.
    */
-  getUserImages: async () => {
+  getUserImages: async (type) => {
     try {
-      const response = await axios.get('/reviews/images');
+      const response = await axios.get(`/reviews/images?type=${type}`);
       return response.data;
     } catch (error) {
       console.error('사용자 이미지 목록 조회 오류:', error); // 오류 로깅

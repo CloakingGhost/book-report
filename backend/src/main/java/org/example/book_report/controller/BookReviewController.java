@@ -7,10 +7,14 @@ import org.example.book_report.dto.request.UpdateBookReviewRequestDto;
 import org.example.book_report.dto.response.BookReviewDetailResponseDto;
 import org.example.book_report.dto.response.BookReviewToggleApprovedResponseDto;
 import org.example.book_report.dto.response.BookReviewsResponseDto;
+import org.example.book_report.dto.response.UserCardImageResponseDto;
+import org.example.book_report.entity.ImageType;
+import org.example.book_report.entity.User;
 import org.example.book_report.dto.response.CreateReviewResponseDto;
 import org.example.book_report.entity.BookReview;
 import org.example.book_report.service.BookReviewService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -125,6 +129,5 @@ public class BookReviewController {
             @RequestPart("data") CreateReviewRequestDto createReviewRequestDto,
             @RequestPart(value = "imageFile") MultipartFile imageFile) {
 
-        return bookReviewService.createReview(createReviewRequestDto, imageFile);
-    }
+    // 감상문 생성: 슬찬님
 }
