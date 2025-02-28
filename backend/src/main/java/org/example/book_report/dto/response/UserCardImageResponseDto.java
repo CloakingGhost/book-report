@@ -3,19 +3,35 @@ package org.example.book_report.dto.response;
 import lombok.Builder;
 import lombok.Getter;
 import org.example.book_report.entity.ImageType;
+
 import java.util.List;
 
 @Getter
 @Builder
 public class UserCardImageResponseDto {
 
-    private final int size;
-    private final List<ImageResponseDto> images;
+    private final ImageType type;
+    private final UserImageResponseDto images;
 
-    public static UserCardImageResponseDto from(List<ImageResponseDto> images){
+    public static UserCardImageResponseDto from(ImageType type, List<ImageResponseDto> images){
         return UserCardImageResponseDto.builder()
-                .size(images.size())
-                .images(images)
+                .type(type)
+                .images(UserImageResponseDto.from(images))
                 .build();
     }
+
+    @Builder
+    private static class UserImageResponseDto{
+
+        private int size;
+        private List<ImageResponseDto> items;
+
+        private static UserImageResponseDto from(List<ImageResponseDto> images){
+            return UserImageResponseDto.builder()
+                    .size(images.size())
+                    .items(images)
+                    .build();
+        }
+    }
+
 }

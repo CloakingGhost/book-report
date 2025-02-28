@@ -7,6 +7,7 @@ import org.example.book_report.dto.response.BookReviewDetailResponseDto;
 import org.example.book_report.dto.response.BookReviewToggleApprovedResponseDto;
 import org.example.book_report.dto.response.BookReviewsResponseDto;
 import org.example.book_report.dto.response.UserCardImageResponseDto;
+import org.example.book_report.entity.ImageType;
 import org.example.book_report.entity.User;
 import org.example.book_report.service.BookReviewService;
 import org.springframework.http.ResponseEntity;
@@ -85,7 +86,10 @@ public class BookReviewController {
 
     // 사용자가 업로드한 이미지 조회
     @GetMapping("/images")
-    public ResponseEntity<ApiResponse<UserCardImageResponseDto>> getUserCardImages(@AuthenticationPrincipal User user){
-        return ResponseEntity.ok(ApiResponse.ok(bookReviewService.getUserCardImages(user)));
+    public ResponseEntity<ApiResponse<UserCardImageResponseDto>> getUserCardImages(
+            @RequestParam ImageType type,
+            @AuthenticationPrincipal User user
+    ){
+        return ResponseEntity.ok(ApiResponse.ok(bookReviewService.getUserCardImages(type, user)));
    }
 }
