@@ -41,7 +41,7 @@ export default function BookReview() {
     if (searchTitle !== '') {
       try {
         const response = await bookApi.searchBooks(searchTitle);
-        const { hasNext, bookList } = response;
+        let { hasNext, bookList } = response;
         bookList = bookList.slice(0, 7);
         setBookItems(bookList);
       } catch {
