@@ -23,6 +23,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
         response.setContentType("application/json;charset=UTF-8");
         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
 
+
         ApiResponse<Void> errorResponse = ApiResponse.error("접근 권한이 없습니다.", "FORBIDDEN");
         response.getWriter().write(objectMapper.writeValueAsString(errorResponse));
     }
