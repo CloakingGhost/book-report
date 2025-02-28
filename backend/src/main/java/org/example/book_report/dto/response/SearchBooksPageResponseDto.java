@@ -42,7 +42,7 @@ public class SearchBooksPageResponseDto {
                     .title(book.getTitle())
                     .author(book.getAuthor())
                     .publisher(book.getPublisher())
-                    .imageUrl(book.getImage()) // 엔티티 교체 TODO
+                    .imageUrl(book.getImage().getImageUrl())
                     .build();
         }
     }

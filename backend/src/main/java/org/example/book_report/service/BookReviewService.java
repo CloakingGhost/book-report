@@ -4,11 +4,10 @@ import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.example.book_report.dto.request.CreateReviewRequestDto;
-import org.example.book_report.dto.request.CreateReviewRequestDto.DataDto;
 import org.example.book_report.dto.response.BookReviewDetailResponseDto;
 import org.example.book_report.dto.response.BookReviewToggleApprovedResponseDto;
 import org.example.book_report.dto.response.BookReviewsResponseDto;
-import org.example.book_report.entity.Book;
+import org.example.book_report.dto.response.CreateReviewResponseDto;
 import org.example.book_report.entity.BookReview;
 import org.example.book_report.entity.Image;
 import org.example.book_report.repository.BookRepository;
@@ -22,8 +21,8 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 public class BookReviewService {
 
-    BookReviewRepository bookReviewRepository;
-    BookRepository bookRepository;
+    private final BookReviewRepository bookReviewRepository;
+    private final BookRepository bookRepository;
     private final ImageService imageService;
 
     public BookReviewDetailResponseDto findByBookReviewId(Long reviewId) {
@@ -32,11 +31,13 @@ public class BookReviewService {
         return BookReviewDetailResponseDto.from(bookReview.orElseThrow(IllegalArgumentException::new));
     }
 
+    @Transactional
     public BookReviewToggleApprovedResponseDto updateApproved(Long reviewId) {
         BookReview bookReview = bookReviewRepository.findById(reviewId).orElseThrow(IllegalArgumentException::new);
         return BookReviewToggleApprovedResponseDto.from(bookReview.toggleApproved());
     }
 
+    @Transactional
     public void remove(Long reviewId) {
         bookReviewRepository.deleteById(reviewId);
     }
@@ -47,22 +48,12 @@ public class BookReviewService {
     }
 
     @Transactional
-    public BookReview createReview(CreateReviewRequestDto createReviewRequestDto) {
-
-        DataDto data = createReviewRequestDto.getData();
-        Book book = data.getBook().toEntity();
-        MultipartFile imageFile = createReviewRequestDto.getImageFile();
+    public CreateReviewResponseDto createReview(CreateReviewRequestDto createReviewRequestDto, MultipartFile imageFile) {
 
         Image image = imageService.uploadImage(imageFile);
+        BookReview bookReview = createReviewRequestDto.toEntity(image);
 
-        if (book.getId() == null) {
-            book = bookRepository.save(book);
-        } else {
-            book = bookRepository.findById(book.getId()).orElseThrow(IllegalArgumentException::new);
-        }
+        return CreateReviewResponseDto.from(bookReviewRepository.save(bookReview));
 
-        BookReview bookReview = data.getReview().toEntity(image, book );
-
-        return bookReviewRepository.save(bookReview);
     }
 }

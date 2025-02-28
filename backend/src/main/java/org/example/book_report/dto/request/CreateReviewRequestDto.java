@@ -11,24 +11,19 @@ import org.springframework.web.multipart.MultipartFile;
 @Getter
 @NoArgsConstructor
 public class CreateReviewRequestDto {
+    private BookDto book;
+    private ReviewDto review;
 
-    private DataDto data;
-    private MultipartFile imageFile;
-
-    @Getter
-    @NoArgsConstructor
-    public static class DataDto {
-        private BookDto book;
-        private ReviewDto review;
-
+    public BookReview toEntity(Image image) {
+        return BookReview.builder()
+                .book(book.toEntity(image))
+                .title(review.getTitle())
+                .image(image)
+                .content(review.getContent())
+                .build();
     }
 
-
-
-
-
-
-
+    // 내부 클래스 정의
     @Getter
     @NoArgsConstructor
     public static class BookDto {
@@ -37,16 +32,16 @@ public class CreateReviewRequestDto {
         private String author;
         private String publisher;
 
-        public Book toEntity() {
-
+        public Book toEntity(Image imageFile) {
             return Book.builder()
+                    .id(bookId)
                     .title(title)
                     .author(author)
                     .publisher(publisher)
+                    .image(imageFile)
                     .build();
         }
     }
-
 
     @Getter
     @NoArgsConstructor
@@ -54,14 +49,5 @@ public class CreateReviewRequestDto {
         private Long imageId;
         private String title;
         private String content;
-
-        public BookReview toEntity(Image image, Book book) {
-            return BookReview.builder()
-                    .image(image)
-                    .book(book)
-                    .title(title)
-                    .content(content)
-                    .build();
-        }
     }
 }
