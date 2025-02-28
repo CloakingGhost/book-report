@@ -25,8 +25,8 @@ h3 {
 
 .selectCardImageSection {
   border: solid 2px lightgray;
-  width: 400px;
-  height: 400px;
+  width: 350px;
+  height: 350px;
   border-radius: 10%;
   box-sizing: border-box;
   display: grid;
@@ -45,4 +45,17 @@ h3 {
   justify-content: center;
   align-items: center;
   overflow: hidden;
+}
+
+.cardImageTypeContainer {
+  display: flex;
+  justify-content: space-around;
+}
+
+.cardImageType {
+  box-sizing: border-box;
+  border: solid 2px lightgray;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-bottom: none;
 }

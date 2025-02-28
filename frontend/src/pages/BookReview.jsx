@@ -3,6 +3,7 @@ import bookApi from '../api/bookApi';
 import { useRef } from 'react';
 import reviewApi from '../api/reviewApi';
 import { useNavigate } from 'react-router-dom';
+import CardCreateSection from '../components/card/CardCreateSection';
 
 export default function BookReview() {
   const navigate = useNavigate();
@@ -202,7 +203,7 @@ export default function BookReview() {
         readOnly={isReadOnly}
         onChange={(e) => setPublisher(e.target.value)}
       />
-      <div>나중에 카드 컴포넌트 들어갈 자리</div>
+      <CardCreateSection></CardCreateSection>
       <textarea name="content" onChange={(e) => setContent(e.target.value)}></textarea>
       <button onClick={saveBookReview}>저장</button>
     </>
