@@ -1,12 +1,20 @@
 import React, { useState } from 'react';
 import styles from '../../styles/Card.module.css';
+import { useDispatch } from 'react-redux';
+import { selectCard } from '../../store/slices/selectedCardSlice';
 
 export default function UserCardImageLists() {
   const [images, setImages] = useState([]);
 
+  const dispatch = useDispatch();
+
+  function handleClickImage(e) {
+    dispatch(selectCard({ imageId : 0, imageUrl: e.target.src }));
+  }
+
   function addImage(e) {
     const addImages = Array.from(e.target.files);
-    const imageUrlLists = [...images];
+    let imageUrlLists = [...images];
 
     addImages.forEach((image) => {
       const imageUrl = URL.createObjectURL(image);
@@ -25,7 +33,7 @@ export default function UserCardImageLists() {
     <div className={styles.selectCardImageSection}>
       {images.map((image, index) => (
         <div className={styles.cardImageStyle}>
-          <img key={index} src={image} alt="" />
+          <img key={index} src={image} alt="" onClick={handleClickImage}/>
         </div>
       ))}
       <label htmlFor="image-file" className={styles.cardImageStyle}>
