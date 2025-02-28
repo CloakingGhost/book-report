@@ -1,32 +1,27 @@
 package org.example.book_report.controller;
 
 
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.example.book_report.common.ApiResponse;
 import org.example.book_report.dto.request.CreateReviewRequestDto;
 import org.example.book_report.dto.request.UpdateBookReviewRequestDto;
 import org.example.book_report.dto.response.BookReviewDetailResponseDto;
 import org.example.book_report.dto.response.BookReviewToggleApprovedResponseDto;
-import org.example.book_report.dto.response.BookReviewsResponseDto;
 import org.example.book_report.dto.response.CreateReviewResponseDto;
 import org.example.book_report.dto.response.UserCardImageResponseDto;
+import org.example.book_report.entity.BookReview;
 import org.example.book_report.entity.ImageType;
 import org.example.book_report.entity.User;
+import org.example.book_report.repository.BookReviewRepository;
 import org.example.book_report.service.BookReviewService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 
 @RestController
@@ -35,7 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class BookReviewController {
 
     private final BookReviewService bookReviewService;
-
+    private final BookReviewRepository bookReviewRepository;
 
     // 감상문 상세 조회
     @GetMapping("/{reviewId}")
@@ -43,18 +38,33 @@ public class BookReviewController {
             @PathVariable("reviewId") Long reviewId) {
         return ResponseEntity.ok(ApiResponse.ok(bookReviewService.findByBookReviewId(reviewId)));
     }
+//
+//    // 감상문 목록 조회
+//    @GetMapping
+//    public ResponseEntity<Map<String, Object>> getBookReviews(@RequestParam String bookTitle, Pageable pageable) {
+//
 
-
-
-    // 감상문 목록 조회
+    /// /        return ResponseEntity.ok(
+    /// /                ApiResponse.ok(bookReviewService.findAll())
+    /// /        );
+//        Page<BookReview> data = bookReviewService.getBookReviews(bookTitle, pageable);
+//
+//        Map<String, Object> response = new HashMap<>();
+//        response.put("items", data);
+//
+//        return ResponseEntity.ok(response);
+//
+//    }
     @GetMapping
-    public ResponseEntity<ApiResponse<List<BookReviewsResponseDto>>> getBookReviews() {
-        return ResponseEntity.ok(
-                ApiResponse.ok(bookReviewService.findAll())
-        );
+    public void getBookReviews(Pageable pageable, @RequestParam String bookTitle) {
+
+        Page<BookReview> bookReviews = bookReviewRepository.getBookReviews(bookTitle, pageable);
+        System.out.println(bookReviews.stream().count());
+        for (BookReview bookReview : bookReviews) {
+            System.out.println(bookReview.getBook().getTitle());
+            System.out.println(bookReview.getTitle());
+        }
     }
-
-
 
     // 감상문 공개/비공개 전환
     @PatchMapping("/{reviewId}")
@@ -67,7 +77,6 @@ public class BookReviewController {
                 )
         );
     }
-
 
 
     // 감상문 수정
@@ -95,7 +104,6 @@ public class BookReviewController {
     }
 
 
-
     // 감상문 삭제
     @DeleteMapping("/{reviewId}")
     public ResponseEntity.HeadersBuilder<?> deleteReview(@PathVariable("reviewId") Long reviewId) {
@@ -108,7 +116,7 @@ public class BookReviewController {
     public ResponseEntity<ApiResponse<UserCardImageResponseDto>> getUserCardImages(
             @RequestParam ImageType type,
             @AuthenticationPrincipal User user
-    ){
+    ) {
         return ResponseEntity.ok(ApiResponse.ok(bookReviewService.getUserCardImages(type, user)));
     }
 
