@@ -1,6 +1,9 @@
 package org.example.book_report.controller;
 
+<<<<<<< HEAD
 import java.util.List;
+=======
+>>>>>>> c6effd1d218e9d470836ebb57c3a8ba2e8d3d6f7
 import lombok.RequiredArgsConstructor;
 import org.example.book_report.common.ApiResponse;
 import org.example.book_report.dto.request.CreateReviewRequestDto;
@@ -8,6 +11,7 @@ import org.example.book_report.dto.request.UpdateBookReviewRequestDto;
 import org.example.book_report.dto.response.BookReviewDetailResponseDto;
 import org.example.book_report.dto.response.BookReviewToggleApprovedResponseDto;
 import org.example.book_report.dto.response.BookReviewsResponseDto;
+<<<<<<< HEAD
 import org.example.book_report.dto.response.CreateReviewResponseDto;
 import org.example.book_report.service.BookReviewService;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +26,21 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+=======
+import org.example.book_report.dto.response.UserCardImageResponseDto;
+import org.example.book_report.entity.ImageType;
+import org.example.book_report.entity.User;
+import org.example.book_report.dto.response.CreateReviewResponseDto;
+import org.example.book_report.entity.BookReview;
+import org.example.book_report.service.BookReviewService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
+
+>>>>>>> c6effd1d218e9d470836ebb57c3a8ba2e8d3d6f7
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/reviews")
@@ -131,6 +150,10 @@ public class BookReviewController {
             @RequestPart("data") CreateReviewRequestDto createReviewRequestDto,
             @RequestPart(value = "imageFile") MultipartFile imageFile) {
 
+<<<<<<< HEAD
         return bookReviewService.createReview(createReviewRequestDto, imageFile);
     }
+=======
+    // 감상문 생성: 슬찬님
+>>>>>>> c6effd1d218e9d470836ebb57c3a8ba2e8d3d6f7
 }

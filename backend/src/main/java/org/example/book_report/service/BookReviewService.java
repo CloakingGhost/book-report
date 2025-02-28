@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 public class BookReviewService {
 
+
     private final BookReviewRepository bookReviewRepository;
     private final BookRepository bookRepository;
     private final ImageService imageService;
@@ -57,7 +58,6 @@ public class BookReviewService {
         BookReview bookReview = createReviewRequestDto.toEntity(image);
 
         return CreateReviewResponseDto.from(bookReviewRepository.save(bookReview));
-
     }
 
     // 사용자가 업로드한 카드 이미지 조회
