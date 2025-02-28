@@ -5,10 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.book_report.common.ApiResponse;
 import org.example.book_report.dto.request.CreateReviewRequestDto;
 import org.example.book_report.dto.request.UpdateBookReviewRequestDto;
-import org.example.book_report.dto.response.BookReviewDetailResponseDto;
-import org.example.book_report.dto.response.BookReviewToggleApprovedResponseDto;
-import org.example.book_report.dto.response.CreateReviewResponseDto;
-import org.example.book_report.dto.response.UserCardImageResponseDto;
+import org.example.book_report.dto.response.*;
 import org.example.book_report.entity.BookReview;
 import org.example.book_report.entity.ImageType;
 import org.example.book_report.entity.User;
@@ -32,18 +29,6 @@ public class BookReviewController {
     private final BookReviewService bookReviewService;
     private final BookReviewRepository bookReviewRepository;
 
-    // 감상문 상세 조회
-    @GetMapping("/{reviewId}")
-    public ResponseEntity<ApiResponse<BookReviewDetailResponseDto>> bookReviewDetail(
-            @PathVariable("reviewId") Long reviewId) {
-        return ResponseEntity.ok(ApiResponse.ok(bookReviewService.findByBookReviewId(reviewId)));
-    }
-//
-//    // 감상문 목록 조회
-//    @GetMapping
-//    public ResponseEntity<Map<String, Object>> getBookReviews(@RequestParam String bookTitle, Pageable pageable) {
-//
-
     /// /        return ResponseEntity.ok(
     /// /                ApiResponse.ok(bookReviewService.findAll())
     /// /        );
@@ -55,15 +40,33 @@ public class BookReviewController {
 //        return ResponseEntity.ok(response);
 //
 //    }
+//
+//    // 감상문 목록 조회
+//    @GetMapping
+//    public ResponseEntity<Map<String, Object>> getBookReviews(@RequestParam String bookTitle, Pageable pageable) {
+//
+
+    // 감상문 상세 조회
+    @GetMapping("/{reviewId}")
+    public ResponseEntity<ApiResponse<BookReviewDetailResponseDto>> bookReviewDetail(
+            @PathVariable("reviewId") Long reviewId) {
+        return ResponseEntity.ok(ApiResponse.ok(bookReviewService.findByBookReviewId(reviewId)));
+    }
+
     @GetMapping
-    public void getBookReviews(Pageable pageable, @RequestParam String bookTitle) {
+    public BookReviewsWithPageResponseDto getBookReviews(Pageable pageable, @RequestParam("title") String bookTitle) {
 
         Page<BookReview> bookReviews = bookReviewRepository.getBookReviews(bookTitle, pageable);
-        System.out.println(bookReviews.stream().count());
-        for (BookReview bookReview : bookReviews) {
-            System.out.println(bookReview.getBook().getTitle());
-            System.out.println(bookReview.getTitle());
-        }
+        return BookReviewsWithPageResponseDto.from(bookReviews);
+
+//        System.out.println(bookReviews.stream().count());
+//        for (BookReview bookReview : bookReviews) {
+//
+//            System.out.println(bookReview.getImage().getImageUrl());
+//            System.out.println(bookReview.getTitle());
+//
+////            System.out.println(bookReview);
+//        }
     }
 
     // 감상문 공개/비공개 전환
