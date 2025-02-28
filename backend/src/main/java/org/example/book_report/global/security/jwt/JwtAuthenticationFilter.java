@@ -19,6 +19,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 @Component
 @RequiredArgsConstructor
@@ -32,9 +34,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
 
-        List<Cookie> cookies = Arrays.stream(request.getCookies()).filter(cookie -> cookie.getName().equals(TokenResponseDto.ACCESS_TOKEN)).toList();
-        String token = getTokenFromRequest(cookies);
+//        List<Cookie> cookies = Arrays.stream(request.getCookies()).filter(cookie -> cookie.getName().equals(TokenResponseDto.ACCESS_TOKEN)).toList();
 
+        List<Cookie> cookies = Optional.ofNullable(request.getCookies())
+                .map(Arrays::stream)
+                .orElseGet(Stream::empty)
+                .filter(cookie -> cookie.getName().equals(TokenResponseDto.ACCESS_TOKEN))
+                .toList();
+        String token = getTokenFromRequest(cookies);
         if (StringUtils.hasText(token) && jwtTokenProvider.validateToken(token)) {
             String username = jwtTokenProvider.getUsername(token);
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
@@ -51,6 +58,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         filterChain.doFilter(request, response);
     }
+
 
     /**
      * 요청 헤더의 토큰 값 리턴
