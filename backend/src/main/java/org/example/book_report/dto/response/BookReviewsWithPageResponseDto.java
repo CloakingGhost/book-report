@@ -5,8 +5,6 @@ import lombok.Getter;
 import org.example.book_report.entity.BookReview;
 import org.springframework.data.domain.Page;
 
-
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -16,13 +14,13 @@ import java.util.List;
 @Getter
 @Builder
 public class BookReviewsWithPageResponseDto {
-    private List<BookReviewsResponseDto> bookReviews;
+    private List<BookReviewsResponseDto> items;
 
     private boolean hasNext;
 
     public static BookReviewsWithPageResponseDto from(Page<BookReview> bookReviews) {
         return BookReviewsWithPageResponseDto.builder()
-                .bookReviews(
+                .items(
                         bookReviews.getContent().stream().map(
                                 BookReviewsResponseDto::from
                         ).toList()

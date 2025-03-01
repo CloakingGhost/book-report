@@ -6,12 +6,9 @@ import org.example.book_report.common.ApiResponse;
 import org.example.book_report.dto.request.CreateReviewRequestDto;
 import org.example.book_report.dto.request.UpdateBookReviewRequestDto;
 import org.example.book_report.dto.response.*;
-import org.example.book_report.entity.BookReview;
 import org.example.book_report.entity.ImageType;
 import org.example.book_report.entity.User;
-import org.example.book_report.repository.BookReviewRepository;
 import org.example.book_report.service.BookReviewService;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -27,24 +24,6 @@ import java.util.List;
 public class BookReviewController {
 
     private final BookReviewService bookReviewService;
-    private final BookReviewRepository bookReviewRepository;
-
-    /// /        return ResponseEntity.ok(
-    /// /                ApiResponse.ok(bookReviewService.findAll())
-    /// /        );
-//        Page<BookReview> data = bookReviewService.getBookReviews(bookTitle, pageable);
-//
-//        Map<String, Object> response = new HashMap<>();
-//        response.put("items", data);
-//
-//        return ResponseEntity.ok(response);
-//
-//    }
-//
-//    // 감상문 목록 조회
-//    @GetMapping
-//    public ResponseEntity<Map<String, Object>> getBookReviews(@RequestParam String bookTitle, Pageable pageable) {
-//
 
     // 감상문 상세 조회
     @GetMapping("/{reviewId}")
@@ -53,20 +32,10 @@ public class BookReviewController {
         return ResponseEntity.ok(ApiResponse.ok(bookReviewService.findByBookReviewId(reviewId)));
     }
 
+    // 메인 페이지
     @GetMapping
-    public BookReviewsWithPageResponseDto getBookReviews(Pageable pageable, @RequestParam("title") String bookTitle) {
-
-        Page<BookReview> bookReviews = bookReviewRepository.getBookReviews(bookTitle, pageable);
-        return BookReviewsWithPageResponseDto.from(bookReviews);
-
-//        System.out.println(bookReviews.stream().count());
-//        for (BookReview bookReview : bookReviews) {
-//
-//            System.out.println(bookReview.getImage().getImageUrl());
-//            System.out.println(bookReview.getTitle());
-//
-////            System.out.println(bookReview);
-//        }
+    public BookReviewsWithPageResponseDto getBookReviews(@RequestParam("title") String bookTitle, Pageable pageable) {
+        return bookReviewService.getBookReviews(bookTitle, pageable);
     }
 
     // 감상문 공개/비공개 전환
