@@ -7,47 +7,37 @@ export default function CardPreview() {
   const selectedCard = useSelector((state) => state.selectedCard);
   const dispatch = useDispatch();
   
-  const [isEditing, setIsEditing] = useState(false);
   const [inputValue, setInputValue] = useState(selectedCard.title || '');
 
   useEffect(() => {
     setInputValue(selectedCard.title || '');
   }, [selectedCard.title]);
 
-  const startEditing = () => {
-    setIsEditing(true);
-  };
-
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
   };
 
   const handleBlur = () => {
-    setIsEditing(false);
     if (inputValue.trim() !== selectedCard.title) {
       dispatch(addTitleInCard({ title: inputValue.trim() }));
     }
   };
 
   return (
-    <div className={styles.cardPreviewSection}>
+    <div className={styles.cardPreviewSection} onClick={() => document.getElementById("hiddenTextarea").focus()}>
       {selectedCard && <img src={selectedCard.imageUrl} alt="" className={styles.cardImage} />}
 
-      {isEditing ? (
-        <input
-          type="text"
-          value={inputValue}
-          onChange={handleInputChange}
-          onBlur={handleBlur}
-          placeholder="한줄평을 작성해주세요."
-          className={styles.inputText}
-          autoFocus
-        />
-      ) : (
-        <div className={styles.placeholderText} onClick={startEditing}>
-          {selectedCard.title ? selectedCard.title : '한줄평을 작성해주세요.'}
-        </div>
-      )}
+      <div className={styles.displayText}>
+        {inputValue || "한줄평 작성하기"}
+      </div>
+
+      <textarea
+        id="hiddenTextarea"
+        value={inputValue}
+        onChange={handleInputChange}
+        onBlur={handleBlur}
+        className={styles.hiddenInput}
+      />
     </div>
   );
 }

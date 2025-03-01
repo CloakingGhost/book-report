@@ -26,20 +26,34 @@
   object-fit: cover;
 }
 
-.placeholderText {
+.displayText {
   position: absolute;
   font-size: 30px;
   text-align: center;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  cursor: text;
   width: 80%;
-  min-height: 30px;
-  text-align: center;
+  min-height: 50px;
+  white-space: pre-wrap;
   word-wrap: break-word;
-  white-space: normal;
   overflow-wrap: break-word;
+  cursor: text;
+}
+
+.hiddenInput {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  height: 0;
+  opacity: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  resize: none;
+  overflow: hidden;
 }
 
 .inputText {
@@ -47,13 +61,21 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 50px;
+  font-size: 30px;
   width: 80%;
+  height: auto;
+  min-height: 50px;
   padding: 5px;
   border: none;
+  outline: none;
+  box-shadow: none;
   border-radius: 10px;
   text-align: center;
   background: transparent;
+  resize: none;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  white-space: pre-wrap;
 }
 
 h3 {
