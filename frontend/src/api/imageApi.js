@@ -23,9 +23,23 @@ const imageApi = {
    * @param {Object} data 생성할 이미지 정보를 포함하는 객체입니다.
    * @returns {Promise} 생성된 이미지 응답 데이터를 반환합니다.
    */
-  createImage: async (data) => {
+  createImage: async (type, addImages) => {
     try {
-      const response = await axios.post('/images', data);
+      const formData = new FormData();
+
+      // data 객체를 추가
+      formData.append('data', new Blob([JSON.stringify({ type })], { type: 'application/json' }));
+
+      // 이미지 파일들을 하나씩 formData에 추가
+      addImages.forEach((image) => {
+        formData.append('images', image); // 'images'는 서버에서 받을 때의 파라미터명과 일치해야 합니다.
+      });
+
+      const response = await axios.post('/images', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data', // 반드시 설정해야 합니다.
+        },
+      });
       return response.data;
     } catch (error) {
       console.error('이미지 생성 오류:', error); // 오류 로깅

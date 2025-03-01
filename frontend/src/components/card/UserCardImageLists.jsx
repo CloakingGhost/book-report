@@ -26,30 +26,41 @@ export default function UserCardImageLists() {
     dispatch(selectCard({ imageId: imageId, imageUrl: e.target.src }));
   }
 
-  async function createImages(image) {
+  async function createImages(addImages) {
     try {
-      const response = await imageApi.createImage(image);
+      const response = await imageApi.createImage('CARD', addImages);
     } catch (e) {
       console.error('이미지 생성에 실패했습니다.');
     }
   }
 
   function addImage(e) {
-    const addImages = Array.from(e.target.files);
+    let addImages = Array.from(e.target.files);
     let imageUrlLists = [...images];
 
-    addImages.forEach((image) => {
-      createImages();
-      const imageUrl = URL.createObjectURL(image);
-      imageUrlLists.push(imageUrl);
-    });
+    const remainingSlots = 8 - imageUrlLists.length;
 
-    if (imageUrlLists.length > 8) {
+    if (remainingSlots === 0) {
       alert('커스텀 이미지는 최대 8개까지 생성 가능합니다.');
-      imageUrlLists = imageUrlLists.slice(0, 8);
+      return;
     }
 
-    setImages(imageUrlLists);
+    if (addImages.length > remainingSlots) {
+      addImages = addImages.slice(0, remainingSlots);
+    }
+
+    const newImages = addImages.map((image) => {
+      const imageUrl = URL.createObjectURL(image);
+      return { imageUrl, id: image.name };
+    });
+
+    setImages((prevImages) => {
+      const updatedImages = [...prevImages, ...newImages];
+
+      return updatedImages.length > 8 ? updatedImages.slice(0, 8) : updatedImages;
+    });
+
+    createImages(addImages);
   }
 
   return (
