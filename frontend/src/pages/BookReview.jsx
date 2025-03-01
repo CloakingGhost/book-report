@@ -64,7 +64,7 @@ export default function BookReview() {
     if (searchTitle) {
       try {
         const response = await bookApi.searchBooks(searchTitle);
-        setBookItems(response.bookList.slice(0, 7));
+        setBookItems(response.bookList.slice(0, 3));
       } catch (error) {
         console.error(error);
       }
@@ -103,7 +103,7 @@ export default function BookReview() {
    * 상태에서 도서 정보를 제거합니다.
    */
   const removeBookInfo = () => {
-    setBookImage(null);
+    setBookImage('https://placehold.co/400X600');
     setBookImageFile(null);
     setAuthor(null);
     setPublisher(null);
@@ -178,22 +178,36 @@ export default function BookReview() {
         />
         <div className={styles.bookListWrapper}>
           {searchBook !== '' && (
-            <div className={styles.bookList}>
-              {tempBookItems.map((book) => (
-                <div
-                  className={styles.bookItem}
-                  key={book.bookId}
-                  onClick={() => setBookInfo(book)}
-                >
-                  <img className={styles.bookImage} src={book.imageUrl} alt="" />
-                  <div className={styles.bookInfo}>
-                    <div className={styles.bookInfoItem}>{book.title}</div>
-                    <div className={styles.bookInfoItem}>{book.author}</div>
-                    <div className={styles.bookInfoItem}>{book.publisher}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
+            <>
+              <ul className={styles.bookList}>
+                {bookItems.length ? (
+                  <>
+                    {bookItems.map((book) => (
+                      <li
+                        className={styles.bookItem}
+                        key={book.bookId}
+                        onClick={() => setBookInfo(book)}
+                      >
+                        <img className={styles.bookImage} src={book.imageUrl} alt="" />
+                        <ul className={styles.bookInfo}>
+                          <li className={styles.bookInfoItem}>{book.title}</li>
+                          <li className={styles.bookInfoItem}>{book.author}</li>
+                          <li className={styles.bookInfoItem}>{book.publisher}</li>
+                        </ul>
+                      </li>
+                    ))}
+                  </>
+                ) : (
+                  <>
+                    <li className={styles.bookItem} onClick={onUserInput}>
+                      <ul className={styles.bookInfo}>
+                        <li className={styles.bookInfoItem}>"{searchBook}" 직접 입력</li>
+                      </ul>
+                    </li>
+                  </>
+                )}
+              </ul>
+            </>
           )}
         </div>
       </div>
