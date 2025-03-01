@@ -25,7 +25,7 @@ export default function CardPreview() {
 
   return (
     <div className={styles.cardPreviewSection} onClick={() => document.getElementById("hiddenTextarea").focus()}>
-      {selectedCard && <img src={selectedCard.imageUrl} alt="" className={styles.cardImage} />}
+      {selectedCard && <img src={selectedCard.imageUrl || null} alt="" className={styles.cardImage} />}
 
       <div className={styles.displayText}>
         {inputValue || "한줄평 작성하기"}

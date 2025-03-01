@@ -5,7 +5,7 @@ import BaseCardImageLists from './BaseCardImageLists';
 import CardPreview from './CardPreview';
 
 export default function CardCreateSection() {
-  const [isUserImage, setIsUserImage] = useState(false);
+  const [isUserImage, setIsUserImage] = useState(false || null);
 
   function handleOnClick() {
     setIsUserImage(!isUserImage);

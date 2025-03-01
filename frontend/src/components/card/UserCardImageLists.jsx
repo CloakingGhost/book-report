@@ -64,16 +64,11 @@ export default function UserCardImageLists() {
   }
 
   return (
-    <div className={styles.selectCardImageSection}>
+    <ul className={styles.selectCardImageSection}>
       {images.map((image, index) => (
-        <div className={styles.cardImageStyle}>
-          <img
-            key={index}
-            src={image.imageUrl}
-            alt=""
-            onClick={(e) => handleClickImage(e, image.id)}
-          />
-        </div>
+        <li key={index} className={styles.cardImageStyle}>
+          <img src={image.imageUrl} alt="" onClick={(e) => handleClickImage(e, image.id)} />
+        </li>
       ))}
       <label htmlFor="image-file" className={styles.cardImageStyle}>
         <input
@@ -86,6 +81,6 @@ export default function UserCardImageLists() {
         />
         <span>+</span>
       </label>
-    </div>
+    </ul>
   );
 }
