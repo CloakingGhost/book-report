@@ -16,7 +16,7 @@ export default function UserCardImageLists() {
 
         setImages(data.images.items);
       } catch (e) {
-        console.error('이미지 불러오기 실패패');
+        console.error('이미지 불러오기 실패');
       }
     }
     fetchUserCardImages();

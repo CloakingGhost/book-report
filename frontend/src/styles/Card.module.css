@@ -4,6 +4,7 @@
   box-sizing: border-box;
   padding: 1rem;
   margin: 1rem;
+  width: 100%;
 }
 
 .cardPreviewSection {
@@ -33,15 +34,12 @@
   left: 50%;
   transform: translate(-50%, -50%);
   cursor: text;
-  width: 90%; /* 기존 width: 100%에서 줄여서 여백 확보 */
+  width: 80%;
   min-height: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   text-align: center;
-  word-wrap: break-word; /* 긴 단어 줄바꿈 */
-  white-space: normal; /* 여러 줄 표시 */
-  overflow-wrap: break-word; /* 컨테이너 너비 초과 시 자동 줄바꿈 */
+  word-wrap: break-word;
+  white-space: normal;
+  overflow-wrap: break-word;
 }
 
 .inputText {
