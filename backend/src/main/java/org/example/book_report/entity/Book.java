@@ -37,7 +37,10 @@ public class Book extends BaseTimeEntity {
     private String publisher;
 
     protected Book() {
-        // titleNormalized 서버에서 하면 여기서 함
+        if (title == null) {
+            return;
+        }
+        titleNormalized = title.replace(" ", "");
     }
 
 }
