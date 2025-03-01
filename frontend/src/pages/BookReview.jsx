@@ -33,21 +33,23 @@ export default function BookReview() {
     {
       bookId: 1,
       imageUrl: 'https://placehold.co/400X600',
-      title: '책 제목1',
+      title: '개구리1',
       author: '작가1',
       publisher: '출판사1',
+      imageUrl:
+        'https://shopping-phinf.pstatic.net/main_5118281/51182815714.20241105090357.jpg?type=w300',
     },
     {
       bookId: 2,
       imageUrl: 'https://placehold.co/400X600',
-      title: '책 제목2',
+      title: '고양이2',
       author: '작가2',
       publisher: '출판사2',
     },
     {
       bookId: 3,
       imageUrl: 'https://placehold.co/400X600',
-      title: '책 제목3',
+      title: '강아지3',
       author: '작가3',
       publisher: '출판사3',
     },
@@ -64,10 +66,13 @@ export default function BookReview() {
 
     if (searchTitle !== '') {
       try {
-        const response = await bookApi.searchBooks(searchTitle);
-        let { hasNext, bookList } = response;
-        bookList = bookList.slice(0, 3);
-        setBookItems(bookList);
+        // const response = await bookApi.searchBooks(searchTitle);
+        // console.log(response);
+        // let { hasNext, bookList } = response;
+        // bookList = bookList.slice(0, 3);
+        // setBookItems(bookList);
+
+        setBookItems(tempBookItems);
       } catch (error) {
         console.error(error);
       }
@@ -97,7 +102,9 @@ export default function BookReview() {
   const onUserInput = () => {
     cleanSearchTitle.current.value = '';
     setTitle(searchBook);
+
     setSearchBook('');
+
     removeBookInfo();
     setIsReadOnly(false);
   };
@@ -126,6 +133,12 @@ export default function BookReview() {
    * 도서 리뷰를 API에 제출합니다.
    */
   const postBookReview = async () => {
+    // 임시로 카드 이미지랑 한줄평 set
+    setCardImage(
+      'https://shopping-phinf.pstatic.net/main_5118281/51182815714.20241105090357.jpg?type=w300',
+    );
+    setOnelineTitle('짱이다');
+
     let bookReview;
     if (bookId) {
       bookReview = {
@@ -153,7 +166,7 @@ export default function BookReview() {
           },
           review: {
             imageId: cardImage, // 카드 커버
-            title: '한줄평',
+            title: onelineTitle,
             content: content,
           },
         },
