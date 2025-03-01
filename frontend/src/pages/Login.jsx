@@ -61,7 +61,7 @@ export default function Login() {
   };
 
   return (
-    <div className={styles.loginContainer}>
+    <div className={styles.container}>
       <Link to="/">
         <h1>로고</h1>
       </Link>
