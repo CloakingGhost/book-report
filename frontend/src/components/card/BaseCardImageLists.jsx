@@ -10,16 +10,16 @@ export default function BaseCardImageLists() {
   const dispatch = useDispatch();
 
   function handleClickImage(e) {
-    dispatch(selectCard({ imageId : 0, imageUrl: e.target.src }));
+    dispatch(selectCard({ imageId : -1, imageUrl: e.target.src }));
   }
 
   return (
-    <div className={styles.selectCardImageSection}>
+    <ul className={styles.selectCardImageSection}>
       {imageFiles.map((image) => (
-        <div key={image} className={styles.cardImageStyle}>
+        <li key={image} className={styles.cardImageStyle}>
           <img src={getImageUrl(image)} alt="" onClick={handleClickImage} />
-        </div>
+        </li>
       ))}
-    </div>
+    </ul>
   );
 }

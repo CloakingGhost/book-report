@@ -1,6 +1,7 @@
 .cardCreateSectionContainer {
   display: flex;
-  justify-content: space-around;
+  gap: 5%;
+  justify-content: center;
   box-sizing: border-box;
   padding: 1rem;
   margin: 1rem;
