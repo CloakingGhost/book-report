@@ -9,9 +9,23 @@ const reviewApi = {
    * @param {Object} data 생성할 리뷰 정보를 포함하는 객체입니다.
    * @returns {Promise} 생성된 리뷰 응답 데이터를 반환합니다.
    */
-  createReview: async (data) => {
+  createReview: async (bookReview) => {
     try {
-      const response = await axios.post('/reviews', data);
+      const formData = new FormData();
+
+      // JSON 데이터를 문자열로 변환해서 추가
+      formData.append(
+        'data',
+        new Blob([JSON.stringify(bookReview.data)], { type: 'application/json' }),
+      );
+
+      // 이미지 파일 추가 (책 표지)
+      formData.append('imageFile', bookReview.imageFile[0]);
+
+      const response = await axios.post('/reviews', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+
       return response.data;
     } catch (error) {
       console.error('감상문 생성 오류:', error); // 오류 로깅
