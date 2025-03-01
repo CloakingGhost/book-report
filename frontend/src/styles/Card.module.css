@@ -40,6 +40,8 @@
   word-wrap: break-word;
   overflow-wrap: break-word;
   cursor: text;
+  font-weight: bold;
+  line-height: 1.5;
 }
 
 .hiddenInput {
@@ -55,6 +57,8 @@
   background: transparent;
   resize: none;
   overflow: hidden;
+  font-weight: bold;
+  line-height: 1.5;
 }
 
 .inputText {

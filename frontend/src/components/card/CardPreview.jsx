@@ -6,7 +6,7 @@ import { addTitleInCard } from '../../store/slices/selectedCardSlice';
 export default function CardPreview() {
   const selectedCard = useSelector((state) => state.selectedCard);
   const dispatch = useDispatch();
-  
+
   const [inputValue, setInputValue] = useState(selectedCard.title || '');
 
   useEffect(() => {
@@ -14,7 +14,12 @@ export default function CardPreview() {
   }, [selectedCard.title]);
 
   const handleInputChange = (e) => {
-    setInputValue(e.target.value);
+    const inputText = e.target.value;
+
+    if (inputText.length > 50) {
+      inputText = inputText.slice(0, 50);
+    }
+    setInputValue(inputText);
   };
 
   const handleBlur = () => {
@@ -24,12 +29,15 @@ export default function CardPreview() {
   };
 
   return (
-    <div className={styles.cardPreviewSection} onClick={() => document.getElementById("hiddenTextarea").focus()}>
-      {selectedCard && <img src={selectedCard.imageUrl || null} alt="" className={styles.cardImage} />}
+    <div
+      className={styles.cardPreviewSection}
+      onClick={() => document.getElementById('hiddenTextarea').focus()}
+    >
+      {selectedCard && (
+        <img src={selectedCard.imageUrl || null} alt="" className={styles.cardImage} />
+      )}
 
-      <div className={styles.displayText}>
-        {inputValue || "한줄평 작성하기"}
-      </div>
+      <div className={styles.displayText}>{inputValue || '한줄평 작성하기'}</div>
 
       <textarea
         id="hiddenTextarea"
