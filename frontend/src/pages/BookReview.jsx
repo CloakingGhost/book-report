@@ -3,8 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import bookApi from '../api/bookApi';
 import reviewApi from '../api/reviewApi';
 import styles from '../styles/BookReview.module.css';
-import { tips } from '../assets/tips';
 
+/**
+ * BookReview 컴포넌트는 도서 리뷰를 표시하고 제출하는 기능을 제공합니다.
+ * @returns {JSX.Element} 렌더링된 컴포넌트.
+ */
 export default function BookReview() {
   const navigate = useNavigate();
 
@@ -14,7 +17,7 @@ export default function BookReview() {
   const cleanSearchTitle = useRef();
 
   const [bookId, setBookId] = useState(null);
-  const [bookImage, setBookImage] = useState(null);
+  const [bookImage, setBookImage] = useState('https://placehold.co/400X600');
   const [bookImageFile, setBookImageFile] = useState(null);
   const [title, setTitle] = useState(null);
   const [author, setAuthor] = useState(null);
@@ -50,7 +53,10 @@ export default function BookReview() {
     },
   ];
 
-  // 도서 검색Api
+  /**
+   * 입력 값에 따라 도서를 검색합니다.
+   * @param {React.ChangeEvent<HTMLInputElement>} e - 입력 이벤트.
+   */
   const handleSearchBookTitle = async (e) => {
     const searchTitle = e.target.value;
     setSearchBook(searchTitle);
@@ -67,7 +73,10 @@ export default function BookReview() {
     }
   };
 
-  // 자동 입력
+  /**
+   * 목록에서 도서를 선택할 때 도서 정보를 설정합니다.
+   * @param {Object} book - 선택된 도서 객체.
+   */
   const setBookInfo = (book) => {
     cleanSearchTitle.current.value = '';
     setSearchBook('');
@@ -79,15 +88,20 @@ export default function BookReview() {
     setPublisher(book.publisher);
   };
 
-  // 사용자 수동 입력
+  /**
+   * 사용자가 수동으로 도서 정보를 입력할 때 호출됩니다.
+   */
   const onUserInput = () => {
-    setTitle(searchBook);
     cleanSearchTitle.current.value = '';
+    setTitle(searchBook);
     setSearchBook('');
     removeBookInfo();
     setIsReadOnly(false);
   };
 
+  /**
+   * 상태에서 도서 정보를 제거합니다.
+   */
   const removeBookInfo = () => {
     setBookImage(null);
     setBookImageFile(null);
@@ -95,14 +109,19 @@ export default function BookReview() {
     setPublisher(null);
   };
 
-  // 수동 입력 이미지 넣기
+  /**
+   * 도서의 이미지 파일을 추가합니다.
+   * @param {React.ChangeEvent<HTMLInputElement>} e - 파일 입력의 변경 이벤트.
+   */
   const addImage = (e) => {
     const addImage = e.target.files[0];
     setBookImageFile(addImage);
     setBookImage(URL.createObjectURL(addImage));
   };
 
-  // 감상문 저장
+  /**
+   * 도서 리뷰를 API에 제출합니다.
+   */
   const postBookReview = async () => {
     let bookReview;
     if (bookId) {
@@ -113,7 +132,6 @@ export default function BookReview() {
             author: null,
             publisher: null,
           },
-
           review: {
             imageId: cardImage, // 카드 커버
             title: onelineTitle,
@@ -130,7 +148,6 @@ export default function BookReview() {
             author: author,
             publisher: publisher,
           },
-
           review: {
             imageId: cardImage, // 카드 커버
             title: '한줄평',
