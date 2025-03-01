@@ -10,16 +10,16 @@ export default function UserCardImageLists() {
 
   useEffect(() => {
     async function fetchUserCardImages() {
-      const response = await imageApi.getUserImages('card');
+      const response = await imageApi.getUserImages("CARD");
       const data = response.data;
 
       setImages(data.images.items);
     }
     fetchUserCardImages();
-  });
+  },[]);
 
-  function handleClickImage(e) {
-    dispatch(selectCard({ imageId: 0, imageUrl: e.target.src }));
+  function handleClickImage(e, imageId) {
+    dispatch(selectCard({ imageId: imageId, imageUrl: e.target.src }));
   }
 
   function addImage(e) {
@@ -43,7 +43,7 @@ export default function UserCardImageLists() {
     <div className={styles.selectCardImageSection}>
       {images.map((image, index) => (
         <div className={styles.cardImageStyle}>
-          <img key={index} src={image} alt="" onClick={handleClickImage} />
+          <img key={index} src={image.imageUrl} alt="" onClick={()=>handleClickImage(e, image.id)} />
         </div>
       ))}
       <label htmlFor="image-file" className={styles.cardImageStyle}>

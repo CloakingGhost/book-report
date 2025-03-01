@@ -7,38 +7,45 @@ export default function CardPreview() {
   const selectedCard = useSelector((state) => state.selectedCard);
   const dispatch = useDispatch();
 
-  const [title, setTitle] = useState('');
   const [isEditing, setIsEditing] = useState(false);
+  const [inputValue, setInputValue] = useState(selectedCard.title || '');
+
+  useEffect(() => {
+    setInputValue(selectedCard.title || '');
+  }, [selectedCard.title]);
 
   const startEditing = () => {
     setIsEditing(true);
   };
 
   const handleInputChange = (e) => {
-    setTitle(e.target.value);
+    setInputValue(e.target.value);
   };
 
   const handleBlur = () => {
     setIsEditing(false);
-    const cardTitle = title;
-    dispatch(addTitleInCard({ title: cardTitle }));
+    if (inputValue.trim() !== selectedCard.title) {
+      dispatch(addTitleInCard({ title: inputValue.trim() }));
+    }
   };
 
   return (
     <div className={styles.cardPreviewSection}>
-      <img src={selectedCard.imageUrl} alt="" className={styles.cardImage} />
+      {selectedCard && <img src={selectedCard.imageUrl} alt="" className={styles.cardImage} />}
+
       {isEditing ? (
         <input
           type="text"
-          value={title}
+          value={inputValue}
           onChange={handleInputChange}
           onBlur={handleBlur}
           placeholder="한줄평을 작성해주세요."
           className={styles.inputText}
+          autoFocus
         />
       ) : (
         <div className={styles.placeholderText} onClick={startEditing}>
-          {title || '한줄평을 작성해주세요.'}
+          {selectedCard.title ? selectedCard.title : '한줄평을 작성해주세요.'}
         </div>
       )}
     </div>

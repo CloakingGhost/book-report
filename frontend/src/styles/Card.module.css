@@ -33,11 +33,15 @@
   left: 50%;
   transform: translate(-50%, -50%);
   cursor: text;
-  width: 100%;
+  width: 90%; /* 기존 width: 100%에서 줄여서 여백 확보 */
   min-height: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
+  text-align: center;
+  word-wrap: break-word; /* 긴 단어 줄바꿈 */
+  white-space: normal; /* 여러 줄 표시 */
+  overflow-wrap: break-word; /* 컨테이너 너비 초과 시 자동 줄바꿈 */
 }
 
 .inputText {
@@ -51,7 +55,7 @@
   border: none;
   border-radius: 10px;
   text-align: center;
-  outline: none;
+  background: transparent;
 }
 
 h3 {
