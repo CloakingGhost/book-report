@@ -80,7 +80,7 @@ public class BookReviewService {
         List<UserImage> userImages = userImageRepository.findAllByUserId(user.getId());
 
         List<ImageResponseDto> imageResponseDtos = userImages.stream().map((userImage) -> {
-            Image image = imageRepository.findByImageType(type).orElseThrow(IllegalArgumentException::new);
+            Image image = imageRepository.findByImageType(type, userImage.getImage().getId()).orElseThrow(IllegalArgumentException::new);
             return ImageResponseDto.from(image);
         }).toList();
 
