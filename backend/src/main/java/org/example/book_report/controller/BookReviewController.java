@@ -32,11 +32,12 @@ public class BookReviewController {
         return ResponseEntity.ok(ApiResponse.ok(bookReviewService.findByBookReviewId(reviewId)));
     }
 
-    // 메인 페이지
+  
     @GetMapping
     public BookReviewsWithPageResponseDto getBookReviews(@RequestParam("title") String bookTitle, Pageable pageable) {
         return bookReviewService.getBookReviews(bookTitle, pageable);
     }
+
 
     // 감상문 공개/비공개 전환
     @PatchMapping("/{reviewId}")
@@ -95,9 +96,9 @@ public class BookReviewController {
     // 감상문 생성
     @PostMapping
     public ResponseEntity<ApiResponse<CreateReviewResponseDto>> createReview(
-            @RequestPart("data") CreateReviewRequestDto createReviewRequestDto,
+            @RequestPart(value = "data") CreateReviewRequestDto requestDto,
             @RequestPart(value = "imageFile") MultipartFile imageFile) {
 
-        return ResponseEntity.ok(ApiResponse.ok(bookReviewService.createReview(createReviewRequestDto, imageFile)));
+        return ResponseEntity.ok(ApiResponse.ok(bookReviewService.createReview(requestDto, imageFile)));
     }
 }

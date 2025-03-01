@@ -1,10 +1,25 @@
-import { useState } from 'react';
+import {  useState } from 'react';
 import styles from '../styles/Header.module.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../store/slices/authSlice";
+import authApi from '../api/authApi';
 
 export default function Header() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태 관리
+  const dispatch = useDispatch()
+  const navigate = useNavigate();
+  const auth = useSelector(state => state.auth)
+  const [isLoggedIn, setIsLoggedIn] = useState(auth.isLoggedIn); // 로그인 상태 관리
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+
+
+  const handleLogout = async () => {
+    dispatch(logout());
+    setIsLoggedIn(false)
+    await authApi.logout()
+    navigate('/')
+  }
+
   return (
     <div className={styles.header}>
       {isLoggedIn ? (
@@ -19,16 +34,16 @@ export default function Header() {
                 className={styles.profileButton}
                 onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
               >
-                OOO님
+                {auth.username}님
               </button>
               {isProfileMenuOpen && (
                 <div className={styles.profileMenu}>
                   <Link className={styles.profileMenuLink} to="/profile">
                     마이페이지
                   </Link>
-                  <Link className={styles.profileMenuLink} to="/logout">
+                  <div className={styles.profileMenuLink} onClick={handleLogout}>
                     로그아웃
-                  </Link>
+                  </div>
                 </div>
               )}
             </div>

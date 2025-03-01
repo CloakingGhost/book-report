@@ -1,0 +1,218 @@
+.container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 2rem;
+  box-sizing: border-box;
+  border-radius: 8px;
+}
+
+.bookSearchInputWrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.bookSearchInput {
+  width: 30%;
+  margin-bottom: 1rem;
+  padding: 0.625rem;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  box-sizing: border-box;
+  transition: border-color 0.3s;
+}
+
+.bookSearchInput:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.bookListWrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.bookList {
+  position: absolute;
+  z-index: 100;
+  width: 50%;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  background-color: #fff;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.bookList > .bookItem {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  width: 100%;
+  cursor: pointer;
+  margin-bottom: 0.5rem;
+  padding: 1rem;
+  border-radius: 8px;
+  background-color: #fff;
+  box-sizing: border-box;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+  opacity: 0;
+  animation: slideDown 0.5s forwards;
+}
+
+.bookList > .bookItem:nth-child(1) {
+  animation-delay: 0s;
+}
+.bookList > .bookItem:nth-child(2) {
+  animation-delay: 0.1s;
+}
+.bookList > .bookItem:nth-child(3) {
+  animation-delay: 0.2s;
+}
+.bookList > .bookItem:nth-child(4) {
+  animation-delay: 0.3s;
+}
+
+.bookList > .bookItem:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.bookList > .bookItem > .bookImage {
+  width: 15%;
+  height: auto;
+  border-radius: 1rem;
+}
+
+.bookList > .bookItem > .bookInfo {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.bookInfoItem {
+  width: 100%;
+  text-align: center;
+  font-size: 0.9rem;
+  font-weight: bold;
+  border: 0.5px solid #ccc;
+  padding: 0.7rem;
+  background-color: #f0f0f0;
+  color: #333;
+  box-sizing: border-box;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+.bookReviewInputWrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  box-sizing: border-box;
+}
+
+.bookInfoInputFormWrapper {
+  width: 70%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.bookReviewInputWrapper .bookImage {
+  width: 15%;
+  height: auto;
+  align-self: flex-start;
+  border-radius: 1rem;
+}
+
+.bookInfoInputForm {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.inputFormLabel {
+  font-size: 1.1rem;
+}
+
+.reviewInputFormWrapper {
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.reviewInputFormWrapper .reviewInputTextarea {
+  width: 100%;
+  height: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 0.5rem;
+  font-size: 1rem;
+}
+
+.reviewInputFormWrapper .reviewInputSubmit {
+  width: 20%;
+  align-self: flex-end;
+  padding: 0.5rem;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  border-radius: 4px;
+}
+
+.reviewInputTips {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.reviewInputTipTitle {
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.reviewInputTipContent {
+  font-size: 1rem;
+  font-weight: bold;
+}

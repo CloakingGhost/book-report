@@ -47,12 +47,31 @@ public class BookReviewService {
     }
 
     @Transactional
-    public CreateReviewResponseDto createReview(CreateReviewRequestDto createReviewRequestDto, MultipartFile imageFile) {
+    public CreateReviewResponseDto createReview(CreateReviewRequestDto createReviewRequestDto,
+                                                MultipartFile imageFile) {
 
         Image image = imageService.uploadImage(imageFile);
-        BookReview bookReview = createReviewRequestDto.toEntity(image);
+        Book book;
 
-        return CreateReviewResponseDto.from(bookReviewRepository.save(bookReview));
+        if (createReviewRequestDto.getBook().getBookId() == null) {
+            book = bookRepository.save(createReviewRequestDto.getBook().toEntity(image));
+        } else {
+            book = bookRepository.findById(createReviewRequestDto.getBook().getBookId())
+                    .orElseThrow(IllegalArgumentException::new);
+        }
+
+        BookReview bookReview = BookReview.builder()
+                .book(book)
+                .title(createReviewRequestDto.getReview().getTitle())
+                .image(image)
+                .content(createReviewRequestDto.getReview().getContent())
+                .build();
+
+        return CreateReviewResponseDto.from(
+                bookReviewRepository.save(
+                        (bookReview)
+                )
+        );
     }
 
     // 사용자가 업로드한 카드 이미지 조회

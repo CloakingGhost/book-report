@@ -1,5 +1,6 @@
 package org.example.book_report.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -12,13 +13,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.example.book_report.common.BaseTimeEntity;
 
 @Getter
 @Setter
 @Entity
 @Builder
 @AllArgsConstructor
-public class Book {
+public class Book extends BaseTimeEntity {
     // TODO: 제약조건 추가
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +28,8 @@ public class Book {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private User user;
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "image_id")
     private Image image;
     private String title;
     private String titleNormalized;

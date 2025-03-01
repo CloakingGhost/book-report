@@ -17,7 +17,7 @@ public class BookService {
 
     public SearchBooksPageResponseDto findAllByTitle(String title, Pageable pageable) {
 
-        Page<Book> books = bookRepository.findAllByTitleContaining(title, pageable);
+        Page<Book> books = bookRepository.findAllByTitleNormalizedContaining(title, pageable);
 
         return SearchBooksPageResponseDto.from(books);
     }
