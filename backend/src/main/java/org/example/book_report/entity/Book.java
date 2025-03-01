@@ -44,7 +44,7 @@ public class Book extends BaseTimeEntity {
     @PrePersist
     @PreUpdate
     public void normalizeTitle() {
-        this.titleNormalized = (this.title != null) ? this.title.replace(" ", "") : null;
+        this.titleNormalized = (this.title != null) ? this.title.replace(" ", "").toLowerCase() : null;
     }
 
 
