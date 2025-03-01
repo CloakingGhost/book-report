@@ -10,16 +10,28 @@ export default function UserCardImageLists() {
 
   useEffect(() => {
     async function fetchUserCardImages() {
-      const response = await imageApi.getUserImages("CARD");
-      const data = response.data;
+      try {
+        const response = await imageApi.getUserImages('CARD');
+        const data = response.data;
 
-      setImages(data.images.items);
+        setImages(data.images.items);
+      } catch (e) {
+        console.error('이미지 불러오기 실패패');
+      }
     }
     fetchUserCardImages();
-  },[]);
+  }, []);
 
   function handleClickImage(e, imageId) {
     dispatch(selectCard({ imageId: imageId, imageUrl: e.target.src }));
+  }
+
+  async function createImages(image) {
+    try {
+      const response = await imageApi.createImage(image);
+    } catch (e) {
+      console.error('이미지 생성에 실패했습니다.');
+    }
   }
 
   function addImage(e) {
@@ -27,6 +39,7 @@ export default function UserCardImageLists() {
     let imageUrlLists = [...images];
 
     addImages.forEach((image) => {
+      createImages();
       const imageUrl = URL.createObjectURL(image);
       imageUrlLists.push(imageUrl);
     });
@@ -43,7 +56,12 @@ export default function UserCardImageLists() {
     <div className={styles.selectCardImageSection}>
       {images.map((image, index) => (
         <div className={styles.cardImageStyle}>
-          <img key={index} src={image.imageUrl} alt="" onClick={(e)=>handleClickImage(e, image.id)} />
+          <img
+            key={index}
+            src={image.imageUrl}
+            alt=""
+            onClick={(e) => handleClickImage(e, image.id)}
+          />
         </div>
       ))}
       <label htmlFor="image-file" className={styles.cardImageStyle}>
