@@ -68,7 +68,7 @@ public class ImageService {
      * @return Image 엔티티
      */
     @Transactional
-    public Image uploadImage(MultipartFile image) {
+    public Image uploadImage(MultipartFile image, User user) {
 
         ImageType type = ImageType.BOOK;
 
@@ -79,6 +79,14 @@ public class ImageService {
                 .imageUrl(uploadImage.get("imageUrl"))
                 .build();
         Image savedImage = imageRepository.save(imageEntity);
+
+        UserImage userImage = UserImage.builder()
+                .originalFileName(image.getOriginalFilename())
+                .s3Key(uploadImage.get("s3Key"))
+                .image(savedImage)
+                .user(user)
+                .build();
+        userImageRepository.save(userImage);
 
         return savedImage;
     }

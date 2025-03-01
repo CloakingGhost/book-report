@@ -48,13 +48,13 @@ public class BookReviewService {
 
     @Transactional
     public CreateReviewResponseDto createReview(CreateReviewRequestDto createReviewRequestDto,
-                                                MultipartFile imageFile) {
+                                                MultipartFile imageFile, User user) {
 
-        Image image = imageService.uploadImage(imageFile);
+        Image image = imageService.uploadImage(imageFile, user);
         Book book;
 
         if (createReviewRequestDto.getBook().getBookId() == null) {
-            book = bookRepository.save(createReviewRequestDto.getBook().toEntity(image));
+            book = bookRepository.save(createReviewRequestDto.getBook().toEntity(image, user));
         } else {
             book = bookRepository.findById(createReviewRequestDto.getBook().getBookId())
                     .orElseThrow(IllegalArgumentException::new);
@@ -65,6 +65,7 @@ public class BookReviewService {
                 .title(createReviewRequestDto.getReview().getTitle())
                 .image(image)
                 .content(createReviewRequestDto.getReview().getContent())
+                .user(user)
                 .build();
 
         return CreateReviewResponseDto.from(
