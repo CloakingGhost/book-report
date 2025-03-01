@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface BookRepository extends JpaRepository<Book, Long> {
 
-    Page<Book> findAllByTitleContaining(String title, Pageable pageable);
+    Page<Book> findAllByTitleNormalizedContaining(String title, Pageable pageable);
 }

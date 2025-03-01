@@ -4,11 +4,18 @@ import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.example.book_report.dto.request.CreateReviewRequestDto;
-import lombok.RequiredArgsConstructor;
-import org.example.book_report.dto.response.*;
+import org.example.book_report.dto.response.BookReviewDetailResponseDto;
+import org.example.book_report.dto.response.BookReviewToggleApprovedResponseDto;
+import org.example.book_report.dto.response.BookReviewsResponseDto;
 import org.example.book_report.dto.response.CreateReviewResponseDto;
-import org.example.book_report.entity.*;
+import org.example.book_report.dto.response.ImageResponseDto;
+import org.example.book_report.dto.response.UserCardImageResponseDto;
+import org.example.book_report.entity.Book;
+import org.example.book_report.entity.BookReview;
 import org.example.book_report.entity.Image;
+import org.example.book_report.entity.ImageType;
+import org.example.book_report.entity.User;
+import org.example.book_report.entity.UserImage;
 import org.example.book_report.repository.BookRepository;
 import org.example.book_report.repository.BookReviewRepository;
 import org.example.book_report.repository.ImageRepository;
@@ -52,20 +59,39 @@ public class BookReviewService {
     }
 
     @Transactional
-    public CreateReviewResponseDto createReview(CreateReviewRequestDto createReviewRequestDto, MultipartFile imageFile) {
+    public CreateReviewResponseDto createReview(CreateReviewRequestDto createReviewRequestDto,
+                                                MultipartFile imageFile) {
 
         Image image = imageService.uploadImage(imageFile);
-        BookReview bookReview = createReviewRequestDto.toEntity(image);
+        Book book;
 
-        return CreateReviewResponseDto.from(bookReviewRepository.save(bookReview));
+        if (createReviewRequestDto.getBook().getBookId() == null) {
+            book = bookRepository.save(createReviewRequestDto.getBook().toEntity(image));
+        } else {
+            book = bookRepository.findById(createReviewRequestDto.getBook().getBookId())
+                    .orElseThrow(IllegalArgumentException::new);
+        }
+
+        BookReview bookReview = BookReview.builder()
+                .book(book)
+                .title(createReviewRequestDto.getReview().getTitle())
+                .image(image)
+                .content(createReviewRequestDto.getReview().getContent())
+                .build();
+
+        return CreateReviewResponseDto.from(
+                bookReviewRepository.save(
+                        (bookReview)
+                )
+        );
     }
 
     // 사용자가 업로드한 카드 이미지 조회
-    public UserCardImageResponseDto getUserCardImages(ImageType type, User user){
+    public UserCardImageResponseDto getUserCardImages(ImageType type, User user) {
 
         List<UserImage> userImages = userImageRepository.findAllByUserId(user.getId());
 
-        List<ImageResponseDto> imageResponseDtos = userImages.stream().map((userImage)->{
+        List<ImageResponseDto> imageResponseDtos = userImages.stream().map((userImage) -> {
             Image image = imageRepository.findByImageType(type).orElseThrow(IllegalArgumentException::new);
             return ImageResponseDto.from(image);
         }).toList();
