@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from '../../styles/Card.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { addTitleInCard } from '../../store/slices/selectedCardSlice';
@@ -6,7 +6,7 @@ import { addTitleInCard } from '../../store/slices/selectedCardSlice';
 export default function CardPreview() {
   const selectedCard = useSelector((state) => state.selectedCard);
   const dispatch = useDispatch();
-
+  
   const [isEditing, setIsEditing] = useState(false);
   const [inputValue, setInputValue] = useState(selectedCard.title || '');
 

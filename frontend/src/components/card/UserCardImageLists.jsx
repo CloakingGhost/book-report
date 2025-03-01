@@ -43,7 +43,7 @@ export default function UserCardImageLists() {
     <div className={styles.selectCardImageSection}>
       {images.map((image, index) => (
         <div className={styles.cardImageStyle}>
-          <img key={index} src={image.imageUrl} alt="" onClick={()=>handleClickImage(e, image.id)} />
+          <img key={index} src={image.imageUrl} alt="" onClick={(e)=>handleClickImage(e, image.id)} />
         </div>
       ))}
       <label htmlFor="image-file" className={styles.cardImageStyle}>
