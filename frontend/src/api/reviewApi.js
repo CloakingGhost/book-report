@@ -1,5 +1,6 @@
 import axios from './axios';
 
+const REVIEWS_API = `/reviews`;
 /**
  * 리뷰 API를 관리하는 객체입니다.
  */
@@ -22,7 +23,7 @@ const reviewApi = {
       // 이미지 파일 추가 (책 표지)
       formData.append('imageFile', bookReview.imageFile[0]);
 
-      const response = await axios.post('/reviews', formData, {
+      const response = await axios.post(`${REVIEWS_API}`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
 
@@ -36,9 +37,9 @@ const reviewApi = {
    * 리뷰 목록을 조회하는 함수입니다.
    * @returns {Promise} 리뷰 목록 응답 데이터를 반환합니다.
    */
-  getReviews: async () => {
+  getReviews: async (page, title) => {
     try {
-      const response = await axios.get('/reviews');
+      const response = await axios.get(`${REVIEWS_API}?page=${page}&title=${title}`);
       return response.data;
     } catch (error) {
       console.error('감상문 목록 조회 오류:', error); // 오류 로깅
@@ -52,7 +53,7 @@ const reviewApi = {
    */
   getReviewDetail: async (reviewId) => {
     try {
-      const response = await axios.get(`/reviews/${reviewId}`);
+      const response = await axios.get(`${REVIEWS_API}/${reviewId}`);
       return response.data;
     } catch (error) {
       console.error('감상문 상세 조회 오류:', error); // 오류 로깅
@@ -67,7 +68,7 @@ const reviewApi = {
    */
   updateReview: async (reviewId, data) => {
     try {
-      const response = await axios.put(`/reviews/${reviewId}`, data);
+      const response = await axios.put(`${REVIEWS_API}/${reviewId}`, data);
       return response.data;
     } catch (error) {
       console.error('감상문 수정 오류:', error); // 오류 로깅
@@ -81,7 +82,7 @@ const reviewApi = {
    */
   deleteReview: async (reviewId) => {
     try {
-      const response = await axios.delete(`/reviews/${reviewId}`);
+      const response = await axios.delete(`${REVIEWS_API}/${reviewId}`);
       return response.data;
     } catch (error) {
       console.error('감상문 삭제 오류:', error); // 오류 로깅
@@ -96,7 +97,7 @@ const reviewApi = {
    */
   patchReviewPrivateStatus: async (reviewId, data) => {
     try {
-      const response = await axios.patch(`/reviews/${reviewId}`, data);
+      const response = await axios.patch(`${REVIEWS_API}/${reviewId}`, data);
       return response.data;
     } catch (error) {
       console.error('감상문 공개범위 변경 오류:', error); // 오류 로깅

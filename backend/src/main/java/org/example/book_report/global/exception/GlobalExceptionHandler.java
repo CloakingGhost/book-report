@@ -12,7 +12,6 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ResourceConflictException.class)
     public ResponseEntity<ApiResponse<Void>> handleGeneralException(Exception ex) {
-
         return ResponseEntity
                 .status(HttpStatus.CONFLICT)
                 .body(ApiResponse.error(ex.getMessage(), "CONFLICT"));
