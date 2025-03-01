@@ -1,9 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import bookApi from '../api/bookApi';
-import { useRef } from 'react';
-import reviewApi from '../api/reviewApi';
+import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import bookApi from '../api/bookApi';
+import reviewApi from '../api/reviewApi';
+import styles from '../styles/BookReview.module.css';
 
+/**
+ * BookReview 컴포넌트는 도서 리뷰를 표시하고 제출하는 기능을 제공합니다.
+ * @returns {JSX.Element} 렌더링된 컴포넌트.
+ */
 export default function BookReview() {
   const navigate = useNavigate();
 
@@ -12,53 +16,71 @@ export default function BookReview() {
   const [bookItems, setBookItems] = useState([]);
   const cleanSearchTitle = useRef();
 
-  //////////////// 자동 입력 도서 정보 입력칸 관련///////////////////////
   const [bookId, setBookId] = useState(null);
-
-  // 도서 이미지 미리보기 변수
-  const [bookImage, setBookImage] = useState(null);
-  // axios에 넘겨줄 도서 이미지 변수
+  const [bookImage, setBookImage] = useState('https://placehold.co/400X600');
   const [bookImageFile, setBookImageFile] = useState(null);
-
   const [title, setTitle] = useState(null);
   const [author, setAuthor] = useState(null);
   const [publisher, setPublisher] = useState(null);
   const [isReadOnly, setIsReadOnly] = useState(true);
 
-  ////////////////카드 이미지//////////////////////////////
   const [cardImage, setCardImage] = useState();
   const [onelineTitle, setOnelineTitle] = useState();
 
-  // 감상문 내용
   const [content, setContent] = useState();
 
-  // 도서 검색Api
+  const tempBookItems = [
+    {
+      bookId: 1,
+      imageUrl: 'https://placehold.co/400X600',
+      title: '책 제목1',
+      author: '작가1',
+      publisher: '출판사1',
+    },
+    {
+      bookId: 2,
+      imageUrl: 'https://placehold.co/400X600',
+      title: '책 제목2',
+      author: '작가2',
+      publisher: '출판사2',
+    },
+    {
+      bookId: 3,
+      imageUrl: 'https://placehold.co/400X600',
+      title: '책 제목3',
+      author: '작가3',
+      publisher: '출판사3',
+    },
+  ];
+
+  /**
+   * 입력 값에 따라 도서를 검색합니다.
+   * @param {React.ChangeEvent<HTMLInputElement>} e - 입력 이벤트.
+   */
   const handleSearchBookTitle = async (e) => {
     const searchTitle = e.target.value;
-
     setSearchBook(searchTitle);
 
-    if (searchTitle !== '') {
+    if (searchTitle) {
       try {
         const response = await bookApi.searchBooks(searchTitle);
-        let { hasNext, bookList } = response;
-        bookList = bookList.slice(0, 7);
-        setBookItems(bookList);
-      } catch {
-        console.error();
+        setBookItems(response.bookList.slice(0, 7));
+      } catch (error) {
+        console.error(error);
       }
     } else {
       setBookItems([]);
     }
   };
 
-  // 자동 입력
-  const setBookInfo = async (book) => {
+  /**
+   * 목록에서 도서를 선택할 때 도서 정보를 설정합니다.
+   * @param {Object} book - 선택된 도서 객체.
+   */
+  const setBookInfo = (book) => {
     cleanSearchTitle.current.value = '';
-    setSearchBook(cleanSearchTitle.current.value);
-
+    setSearchBook('');
     setIsReadOnly(true);
-
     setBookId(book.bookId);
     setBookImage(book.imageUrl);
     setTitle(book.title);
@@ -66,36 +88,41 @@ export default function BookReview() {
     setPublisher(book.publisher);
   };
 
-  // 사용자 수동 입력
+  /**
+   * 사용자가 수동으로 도서 정보를 입력할 때 호출됩니다.
+   */
   const onUserInput = () => {
-    setTitle(searchBook);
-
     cleanSearchTitle.current.value = '';
-    setSearchBook(cleanSearchTitle.current.value);
-
+    setTitle(searchBook);
+    setSearchBook('');
     removeBookInfo();
     setIsReadOnly(false);
   };
 
-  function removeBookInfo() {
+  /**
+   * 상태에서 도서 정보를 제거합니다.
+   */
+  const removeBookInfo = () => {
     setBookImage(null);
     setBookImageFile(null);
     setAuthor(null);
     setPublisher(null);
-  }
+  };
 
-  // 수동 입력 이미지 넣기
-  function addImage(e) {
-    const addImage = e.target.files;
+  /**
+   * 도서의 이미지 파일을 추가합니다.
+   * @param {React.ChangeEvent<HTMLInputElement>} e - 파일 입력의 변경 이벤트.
+   */
+  const addImage = (e) => {
+    const addImage = e.target.files[0];
     setBookImageFile(addImage);
+    setBookImage(URL.createObjectURL(addImage));
+  };
 
-    const imageurl = URL.createObjectURL(addImage[0]);
-
-    setBookImage(imageurl);
-  }
-
-  // 감상문 저장
-  const saveBookReview = async () => {
+  /**
+   * 도서 리뷰를 API에 제출합니다.
+   */
+  const postBookReview = async () => {
     let bookReview;
     if (bookId) {
       bookReview = {
@@ -105,7 +132,6 @@ export default function BookReview() {
             author: null,
             publisher: null,
           },
-
           review: {
             imageId: cardImage, // 카드 커버
             title: onelineTitle,
@@ -122,7 +148,6 @@ export default function BookReview() {
             author: author,
             publisher: publisher,
           },
-
           review: {
             imageId: cardImage, // 카드 커버
             title: '한줄평',
@@ -135,76 +160,91 @@ export default function BookReview() {
 
     try {
       const response = await reviewApi.createReview(bookReview);
-      const { status, bookReviewId } = response;
-      console.log(response);
-
-      // const bookReviewId = 1; // 백엔드 완성 전이라 임의로 설정
-      navigate(`/reviews/${bookReviewId}`);
-    } catch (e) {
-      console.error(e);
+      navigate(`/reviews/${response.bookReviewId}`);
+    } catch (error) {
+      console.error(error);
     }
   };
 
   return (
-    <>
-      검색:
-      <input
-        type="text"
-        defaultValue={searchBook}
-        ref={cleanSearchTitle}
-        onChange={handleSearchBookTitle}
-      />
-      {searchBook != '' && (
-        <ul>
-          {bookItems.length != 0 ? (
-            <>
-              {bookItems.map((book) => (
-                <li key={book.bookId} onClick={() => setBookInfo(book)}>
-                  <img src={book.imageUrl} alt="" />
-                  <img src="" alt="" />
-                  <div>{book.title}</div>
-                  <div>{book.author}</div>
-                  <div>{book.publisher}</div>
-                </li>
+    <div className={styles.container}>
+      <div className={styles.bookSearchInputWrapper}>
+        <input
+          className={styles.bookSearchInput}
+          type="text"
+          defaultValue={searchBook}
+          ref={cleanSearchTitle}
+          onChange={handleSearchBookTitle}
+        />
+        <div className={styles.bookListWrapper}>
+          {searchBook !== '' && (
+            <div className={styles.bookList}>
+              {tempBookItems.map((book) => (
+                <div
+                  className={styles.bookItem}
+                  key={book.bookId}
+                  onClick={() => setBookInfo(book)}
+                >
+                  <img className={styles.bookImage} src={book.imageUrl} alt="" />
+                  <div className={styles.bookInfo}>
+                    <div className={styles.bookInfoItem}>{book.title}</div>
+                    <div className={styles.bookInfoItem}>{book.author}</div>
+                    <div className={styles.bookInfoItem}>{book.publisher}</div>
+                  </div>
+                </div>
               ))}
-            </>
-          ) : (
-            <>
-              <li onClick={onUserInput}>"{searchBook}" 직접 입력</li>
-            </>
+            </div>
           )}
-        </ul>
-      )}
-      <img
-        name="bookImage"
-        src={bookImage}
-        alt=""
-        style={{ border: 'black, solid ,1px', width: '500px', height: '500px' }}
-      />
-      {!isReadOnly && (
-        <input type="file" accept="image/png, image/jpeg, image/jpg" onChange={addImage} />
-      )}
+        </div>
+      </div>
       <div>검색을 먼저 해야 입력이 가능합니다</div>
-      책 제목: <input name="title" defaultValue={title} type="text" readOnly />
-      작가:
-      <input
-        name="author"
-        defaultValue={author}
-        type="text"
-        readOnly={isReadOnly}
-        onChange={(e) => setAuthor(e.target.value)}
-      />
-      출판사:
-      <input
-        name="publisher"
-        defaultValue={publisher}
-        type="text"
-        readOnly={isReadOnly}
-        onChange={(e) => setPublisher(e.target.value)}
-      />
-      <div>나중에 카드 컴포넌트 들어갈 자리</div>
-      <textarea name="content" onChange={(e) => setContent(e.target.value)}></textarea>
-      <button onClick={saveBookReview}>저장</button>
-    </>
+      <div className={styles.bookReviewInputWrapper}>
+        <div className={styles.bookInfoInputFormWrapper}>
+          <img className={styles.bookImage} name="bookImage" src={bookImage} alt="" />
+          {!isReadOnly && (
+            <input type="file" accept="image/png, image/jpeg, image/jpg" onChange={addImage} />
+          )}
+          <div className={styles.bookInfoInputForm}>
+            <label className={styles.inputFormLabel}>제목</label>
+            <input
+              className={styles.bookInfoItem}
+              name="title"
+              defaultValue={title}
+              type="text"
+              readOnly
+            />
+            <label className={styles.inputFormLabel}>작가</label>
+            <input
+              className={styles.bookInfoItem}
+              name="author"
+              defaultValue={author}
+              type="text"
+              readOnly={isReadOnly}
+              onChange={(e) => setAuthor(e.target.value)}
+            />
+            <label className={styles.inputFormLabel}>출판사</label>
+            <input
+              className={styles.bookInfoItem}
+              name="publisher"
+              defaultValue={publisher}
+              type="text"
+              readOnly={isReadOnly}
+              onChange={(e) => setPublisher(e.target.value)}
+            />
+          </div>
+        </div>
+        <div className={styles.reviewInputFormWrapper}>
+          <textarea
+            name="content"
+            onChange={(e) => setContent(e.target.value)}
+            className={styles.reviewInputTextarea}
+            rows={5}
+          ></textarea>
+          <button className={styles.reviewInputSubmit} onClick={postBookReview}>
+            감상문 제출하기
+          </button>
+        </div>
+      </div>
+    </div>
   );
 }

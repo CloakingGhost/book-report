@@ -141,7 +141,7 @@ export default function Signup() {
   }, [formData.username]);
 
   return (
-    <div className={styles.container}>
+    <div className={styles.signupContainer}>
       <Link to="/">
         <h1>로고</h1>
       </Link>
