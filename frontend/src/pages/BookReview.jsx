@@ -59,12 +59,15 @@ export default function BookReview() {
    */
   const handleSearchBookTitle = async (e) => {
     const searchTitle = e.target.value;
+    console.log(searchTitle);
     setSearchBook(searchTitle);
 
-    if (searchTitle) {
+    if (searchTitle !== '') {
       try {
         const response = await bookApi.searchBooks(searchTitle);
-        setBookItems(response.bookList.slice(0, 3));
+        let { hasNext, bookList } = response;
+        bookList = bookList.slice(0, 3);
+        setBookItems(bookList);
       } catch (error) {
         console.error(error);
       }
@@ -177,10 +180,10 @@ export default function BookReview() {
           onChange={handleSearchBookTitle}
         />
         <div className={styles.bookListWrapper}>
-          {searchBook !== '' && (
+          {searchBook && (
             <>
               <ul className={styles.bookList}>
-                {bookItems.length ? (
+                {bookItems.length !== 0 ? (
                   <>
                     {bookItems.map((book) => (
                       <li
@@ -215,9 +218,7 @@ export default function BookReview() {
       <div className={styles.bookReviewInputWrapper}>
         <div className={styles.bookInfoInputFormWrapper}>
           <img className={styles.bookImage} name="bookImage" src={bookImage} alt="" />
-          {!isReadOnly && (
-            <input type="file" accept="image/png, image/jpeg, image/jpg" onChange={addImage} />
-          )}
+
           <div className={styles.bookInfoInputForm}>
             <label className={styles.inputFormLabel}>제목</label>
             <input
@@ -247,6 +248,16 @@ export default function BookReview() {
             />
           </div>
         </div>
+        {!isReadOnly && (
+          <div className={styles.imageButtonWrapper}>
+            <input
+              className={styles.addImageButton}
+              type="file"
+              accept="image/png, image/jpeg, image/jpg"
+              onChange={addImage}
+            />
+          </div>
+        )}
         <div className={styles.reviewInputFormWrapper}>
           <textarea
             name="content"
