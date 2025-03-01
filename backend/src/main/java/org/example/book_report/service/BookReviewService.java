@@ -53,6 +53,7 @@ public class BookReviewService {
         Image image = imageService.uploadImage(imageFile, user);
         Book book;
 
+
         if (createReviewRequestDto.getBook().getBookId() == null) {
             book = bookRepository.save(createReviewRequestDto.getBook().toEntity(image, user));
         } else {
@@ -81,7 +82,8 @@ public class BookReviewService {
         List<UserImage> userImages = userImageRepository.findAllByUserId(user.getId());
 
         List<ImageResponseDto> imageResponseDtos = userImages.stream().map((userImage) -> {
-            Image image = imageRepository.findByImageType(type, userImage.getImage().getId()).orElseThrow(IllegalArgumentException::new);
+            Image image = imageRepository.findByImageType(type, userImage.getImage().getId())
+                    .orElseThrow(IllegalArgumentException::new);
             return ImageResponseDto.from(image);
         }).toList();
 

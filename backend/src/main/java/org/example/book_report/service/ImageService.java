@@ -80,13 +80,15 @@ public class ImageService {
                 .build();
         Image savedImage = imageRepository.save(imageEntity);
 
-        UserImage userImage = UserImage.builder()
-                .originalFileName(image.getOriginalFilename())
-                .s3Key(uploadImage.get("s3Key"))
-                .image(savedImage)
-                .user(user)
-                .build();
-        userImageRepository.save(userImage);
+        if (!image.isEmpty()) {
+            UserImage userImage = UserImage.builder()
+                    .originalFileName(image.getOriginalFilename())
+                    .s3Key(uploadImage.get("s3Key"))
+                    .image(savedImage)
+                    .user(user)
+                    .build();
+            userImageRepository.save(userImage);
+        }
 
         return savedImage;
     }
