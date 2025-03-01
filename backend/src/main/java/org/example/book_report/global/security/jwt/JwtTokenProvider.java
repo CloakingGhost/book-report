@@ -20,7 +20,7 @@ public class JwtTokenProvider {
 
     private final String secretKey;
 
-    private final long tokenValidityInMilliseconds = 1000L * 60 * 60; // 1시간
+    private final long tokenValidityInMilliseconds = 1000L * 60 * 60 * 24 * 30; // 30일
 
     public JwtTokenProvider(@Value("${jwt.secret}") String secretKey) {
         this.secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());

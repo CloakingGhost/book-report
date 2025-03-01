@@ -17,6 +17,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -26,10 +31,12 @@ public class SecurityConfig {
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -37,34 +44,45 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/api/**",
                                 "/error"
-                                ).permitAll()
+                        ).permitAll()
                         .anyRequest().authenticated()
                 )
 
 
-
-
                 // 유효한 jwt인지 확인
-//                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-//
-//                .exceptionHandling(exception -> exception
-//                        // 권한이 없는 리소스 접근 시
-//                        .accessDeniedHandler(accessDeniedHandler)
-//                        // 인증되지 않은 사용자가 보호된 리소스에 접근 시
-//                        .authenticationEntryPoint(jwtAuthenticationEntryPoint)
-//                )
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+
+                .exceptionHandling(exception -> exception
+                        // 권한이 없는 리소스 접근 시
+                        .accessDeniedHandler(accessDeniedHandler)
+                        // 인증되지 않은 사용자가 보호된 리소스에 접근 시
+                        .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                )
 
         ;
-
-
 
 
         return http.build();
     }
 
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173", "https://3.38.253.152.sslip.io", "http://localhost"));
+
+        configuration.addAllowedMethod("*");
+        configuration.addAllowedHeader("*");
+        configuration.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+
+        return source;
+    }
+
     /**
      * 비밀번호 암호화
-     * */
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -75,7 +93,7 @@ public class SecurityConfig {
      * JWT 생성 전 로그인 입력값 확인 절차 수행
      *
      * @param userDetailsService 사용자 확인 비즈니스 로직 수행
-     * @param passwordEncoder 암호화 방식 지정
+     * @param passwordEncoder    암호화 방식 지정
      */
     @Bean
     public AuthenticationManager authenticationManager(

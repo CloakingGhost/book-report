@@ -19,6 +19,7 @@ public class UpdateBookReviewRequestDto {
         private String author;
         private String publisher;
     }
+
     @Getter
     public class UpdateReviewDto{
         private Long cardId;

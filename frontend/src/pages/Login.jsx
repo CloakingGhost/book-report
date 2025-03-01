@@ -2,8 +2,12 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import authApi from '../api/authApi';
 import styles from '../styles/Login.module.css';
+import { jwtDecode } from 'jwt-decode'
+import { useDispatch } from "react-redux";
+import { login } from "../store/slices/authSlice";
 
 export default function Login() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: '',
@@ -43,7 +47,12 @@ export default function Login() {
       if (response.error) {
         setErrors((prev) => ({ ...prev, login: true }));
       } else {
+        const payload = jwtDecode(response.data.accessToken)
+        dispatch(login(payload.sub));
+
+
         navigate('/');
+
       }
     } catch (error) {
       console.error('로그인 실패:', error);

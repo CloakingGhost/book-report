@@ -1,9 +1,11 @@
-import { configureStore } from "@reduxjs/toolkit";
-import selectedCardReducer from './slices/selectedCardSlice';
+import { configureStore } from '@reduxjs/toolkit';
+import authSlice from './slices/authSlice';
+import selectedCard from './slices/selectedCardSlice';
 
 const store = configureStore({
   reducer: {
-    selectedCard: selectedCardReducer,
+    auth: authSlice,
+    selectedCard: selectedCardSlice
   },
 });
 

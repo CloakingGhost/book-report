@@ -43,11 +43,13 @@ export default function Signup() {
     try {
       const response = await authApi.verifyUsername(formData.username);
       const data = response.data;
+      console.log(response);
+      
       setIsUsed(data.used);
       alert('사용 가능한 아이디입니다.');
       setIsChecked(!data.used);
-    } catch {
-      console.error('입력값을 확인해주세요');
+    } catch (e){
+      console.error('입력값을 확인해주세요', e);
       setIsUsed(true);
     }
   };
@@ -139,7 +141,7 @@ export default function Signup() {
   }, [formData.username]);
 
   return (
-    <div className={styles.container}>
+    <div className={styles.signupContainer}>
       <Link to="/">
         <h1>로고</h1>
       </Link>
