@@ -13,20 +13,21 @@ public class UserCardImageResponseDto {
     private final ImageType type;
     private final UserImageResponseDto images;
 
-    public static UserCardImageResponseDto from(ImageType type, List<ImageResponseDto> images){
+    public static UserCardImageResponseDto from(ImageType type, List<ImageResponseDto> images) {
         return UserCardImageResponseDto.builder()
                 .type(type)
                 .images(UserImageResponseDto.from(images))
                 .build();
     }
 
+    @Getter
     @Builder
-    private static class UserImageResponseDto{
+    private static class UserImageResponseDto {
 
         private int size;
         private List<ImageResponseDto> items;
 
-        private static UserImageResponseDto from(List<ImageResponseDto> images){
+        private static UserImageResponseDto from(List<ImageResponseDto> images) {
             return UserImageResponseDto.builder()
                     .size(images.size())
                     .items(images)

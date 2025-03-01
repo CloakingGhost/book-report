@@ -7,6 +7,7 @@ import org.example.book_report.dto.response.ImageResponseDto;
 import org.example.book_report.dto.response.ImageUploadResponseDto;
 import org.example.book_report.entity.Image;
 import org.example.book_report.entity.ImageType;
+import org.example.book_report.entity.User;
 import org.example.book_report.entity.UserImage;
 import org.example.book_report.repository.ImageRepository;
 import org.example.book_report.repository.UserImageRepository;
@@ -28,7 +29,7 @@ public class ImageService {
     private final S3Service s3Service;
 
     @Transactional
-    public ImageUploadResponseDto uploadImage(ImageUploadRequestDto imageUploadRequestDto, List<MultipartFile> images) {
+    public ImageUploadResponseDto uploadImage(ImageUploadRequestDto imageUploadRequestDto, List<MultipartFile> images, User user) {
 
         ImageType type = imageUploadRequestDto.getType();
         List<Map<String, String>> uploadResults = images.stream().map(s3Service::uploadImage).toList();
@@ -49,6 +50,7 @@ public class ImageService {
                     .originalFileName(originalFileName)
                     .s3Key(s3Key)
                     .image(image)
+                    .user(user)
                     .build();
 
             userImageRepository.save(userImage);
@@ -61,24 +63,25 @@ public class ImageService {
 
     /**
      * bookReviewService에서 사용
+     *
      * @param image 파일
      * @return Image 엔티티
      */
     @Transactional
     public Image uploadImage(MultipartFile image) {
 
-    ImageType type = ImageType.BOOK;
+        ImageType type = ImageType.BOOK;
 
-    Map<String, String> uploadImage = s3Service.uploadImage(image);
+        Map<String, String> uploadImage = s3Service.uploadImage(image);
 
-    Image imageEntity = Image.builder()
-            .type(type)
-            .imageUrl(uploadImage.get("imageUrl"))
-            .build();
-    Image savedImage = imageRepository.save(imageEntity);
+        Image imageEntity = Image.builder()
+                .type(type)
+                .imageUrl(uploadImage.get("imageUrl"))
+                .build();
+        Image savedImage = imageRepository.save(imageEntity);
 
-    return savedImage;
-}
+        return savedImage;
+    }
 
     @Transactional
     public void deleteImage(Long imageId) {
