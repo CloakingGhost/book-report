@@ -22,24 +22,52 @@ export default function BookReviewDetail() {
       <section className={styles.bookReviewSection}>
         <section>
           <Link to={'/userpage/:username'}>
-            <h1>apricity2u</h1>
+            <h1>Review by "apricity2u"</h1>
           </Link>
           <div className={styles.postUserDetail}>
-            <div>최초 작성일 2025.04.04</div>
+            <div>2025.04.04</div>
             <div>🔒🔓</div>
             <div>•••</div>
-            {/* <div className={styles.manageReviewSection}>
-              <div>수정</div>
+            <div className={styles.manageReviewSection}>
+              <Link to={'/reviews/modify/:reviewId'}>
+                <div>수정</div>
+              </Link>
               <hr />
               <div>삭제</div>
               <hr />
               <div>비공개 | 공개</div>
-            </div> */}
+            </div>
           </div>
         </section>
+        <hr />
         <article className={styles.bookReview}>
           <h3>한줄평</h3>
-          <p>내용</p>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae suscipit ipsa aspernatur
+            nemo blanditiis voluptates cupiditate natus molestiae quisquam consequatur qui voluptas
+            optio sed nulla, ratione, minima quae et sit? Lorem ipsum dolor sit amet consectetur
+            adipisicing elit. Beatae suscipit ipsa aspernatur nemo blanditiis voluptates cupiditate
+            natus molestiae quisquam consequatur qui voluptas optio sed nulla, ratione, minima quae
+            et sit? Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae suscipit ipsa
+            aspernatur nemo blanditiis voluptates cupiditate natus molestiae quisquam consequatur
+            qui voluptas optio sed nulla, ratione, minima quae et sit? Lorem ipsum dolor sit amet
+            consectetur adipisicing elit. Beatae suscipit ipsa aspernatur nemo blanditiis voluptates
+            cupiditate natus molestiae quisquam consequatur qui voluptas optio sed nulla, ratione,
+            minima quae et sit? Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae
+            suscipit ipsa aspernatur nemo blanditiis voluptates cupiditate natus molestiae quisquam
+            consequatur qui voluptas optio sed nulla, ratione, minima quae et sit? Lorem ipsum dolor
+            sit amet consectetur adipisicing elit. Beatae suscipit ipsa aspernatur nemo blanditiis
+            voluptates cupiditate natus molestiae quisquam consequatur qui voluptas optio sed nulla,
+            ratione, minima quae et sit? Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            Beatae suscipit ipsa aspernatur nemo blanditiis voluptates cupiditate natus molestiae
+            quisquam consequatur qui voluptas optio sed nulla, ratione, minima quae et sit? Lorem
+            ipsum dolor sit amet consectetur adipisicing elit. Beatae suscipit ipsa aspernatur nemo
+            blanditiis voluptates cupiditate natus molestiae quisquam consequatur qui voluptas optio
+            sed nulla, ratione, minima quae et sit? Lorem ipsum dolor sit amet consectetur
+            adipisicing elit. Beatae suscipit ipsa aspernatur nemo blanditiis voluptates cupiditate
+            natus molestiae quisquam consequatur qui voluptas optio sed nulla, ratione, minima quae
+            et sit?
+          </p>
         </article>
       </section>
     </main>
