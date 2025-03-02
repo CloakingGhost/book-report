@@ -1,20 +1,24 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import styles from '../styles/BookReviewDetail.module.css';
 
-export default function BookReivewDetatil() {
+export default function BookReviewDetail() {
   return (
-    <main>
-      <section>
-        <h1>책 정보</h1>
-        <div>
-          <img src="" alt="" />
-          <div>인증마크</div>
+    <main className={styles.bookReviewDetailContainer}>
+      <section className={styles.bookSection}>
+        <h2>Book Information</h2>
+        <div className={styles.bookCoverImageSection}>
+          <div className={styles.bookCoverImage}>
+            <div className={styles.mark}>⭐</div>
+            <img src="임시" alt="없음" />
+          </div>
         </div>
-        <h2>제목</h2>
-        <div>작가</div>
-        <div>출판사</div>
+        <div className={styles.bookDetailSection}>
+          <h3>해리포터 불의 잔</h3>
+          <div>작가 | 출판사</div>
+        </div>
       </section>
-      <section>
+      <section className={styles.bookReviewSection}>
         <section>
           <Link to={'/userpage/:username'}>
             <h1>유저 아이디</h1>

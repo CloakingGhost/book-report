@@ -1,0 +1,79 @@
+.bookReviewDetailContainer {
+  display: flex;
+  gap: 10%;
+  width: 90%;
+  box-sizing: border-box;
+  padding: 5%;
+}
+
+.bookSection {
+  display: flex;
+  flex-direction: column;
+  border: solid 1px lightgray;
+  border-radius: 15%;
+  box-sizing: border-box;
+  padding: 3%;
+  gap: 8%;
+  width: 300px;
+  height: auto;
+  min-height: 400px;
+  text-align: center;
+}
+
+.bookSection > h2 {
+  font-size: 1.5rem;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  margin-top: 1rem;
+}
+
+.bookCoverImageSection {
+  display: flex;
+  width: 100%;
+  height: 50%;
+  justify-content: center;
+}
+
+.bookCoverImage {
+  display: block;
+  border: solid 2px lightgray;
+  border-radius: 10%;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  width: 50%;
+  height: 100%;
+  position: relative;
+}
+
+.bookCoverImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.mark {
+  position: absolute;
+  width: 20%;
+  top: 5px;
+  right: 5px;
+  z-index: 10;
+}
+
+.bookDetailSection {
+  display: flex;
+  flex-direction: column;
+  line-height: 50px;
+  width: 100%;
+}
+
+.bookDetailSection > h3 {
+  max-width: none;
+  font-size: 1.5rem;
+}
+
+.bookReviewSection {
+  display: flex;
+  flex-direction: column;
+}
