@@ -29,50 +29,20 @@ export default function BookReview() {
 
   const [content, setContent] = useState();
 
-  const tempBookItems = [
-    {
-      bookId: 1,
-      imageUrl: 'https://placehold.co/400X600',
-      title: '개구리1',
-      author: '작가1',
-      publisher: '출판사1',
-      imageUrl:
-        'https://shopping-phinf.pstatic.net/main_5118281/51182815714.20241105090357.jpg?type=w300',
-    },
-    {
-      bookId: 2,
-      imageUrl: 'https://placehold.co/400X600',
-      title: '고양이2',
-      author: '작가2',
-      publisher: '출판사2',
-    },
-    {
-      bookId: 3,
-      imageUrl: 'https://placehold.co/400X600',
-      title: '강아지3',
-      author: '작가3',
-      publisher: '출판사3',
-    },
-  ];
-
   /**
    * 입력 값에 따라 도서를 검색합니다.
    * @param {React.ChangeEvent<HTMLInputElement>} e - 입력 이벤트.
    */
   const handleSearchBookTitle = async (e) => {
     const searchTitle = e.target.value;
-    console.log(searchTitle);
     setSearchBook(searchTitle);
 
     if (searchTitle !== '') {
       try {
         const response = await bookApi.searchBooks(searchTitle);
-        console.log(response);
         let { hasNext, bookList } = response;
         bookList = bookList.slice(0, 3);
         setBookItems(bookList);
-
-        // setBookItems(tempBookItems);
       } catch (error) {
         console.error(error);
       }
@@ -175,12 +145,8 @@ export default function BookReview() {
     }
 
     try {
-      console.log('fsfasf');
       const response = await reviewApi.createReview(bookReview);
       const { status, bookReviewId } = response;
-
-      // const bookReviewId = 1; // 백엔드 완성 전이라 임의로 설정
-      // const reviewId = bookReviewId;
       navigate(`/reviews/${bookReviewId}`);
     } catch (error) {
       console.error(error);
@@ -201,7 +167,7 @@ export default function BookReview() {
           {searchBook && (
             <>
               <ul className={styles.bookList}>
-                {bookItems.length !== 0 ? (
+                {bookItems.length ? (
                   <>
                     {bookItems.map((book) => (
                       <li
