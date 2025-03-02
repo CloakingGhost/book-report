@@ -50,9 +50,12 @@ public class BookReviewService {
     public CreateReviewResponseDto createReview(CreateReviewRequestDto createReviewRequestDto,
                                                 MultipartFile imageFile, User user) {
 
-        Image image = imageService.uploadImage(imageFile, user);
+        Image image = null;
         Book book;
+        if (imageFile != null && !imageFile.isEmpty()) {
 
+            image = imageService.uploadImage(imageFile, user);
+        }
 
         if (createReviewRequestDto.getBook().getBookId() == null) {
             book = bookRepository.save(createReviewRequestDto.getBook().toEntity(image, user));
