@@ -5,10 +5,10 @@ import BaseCardImageLists from './BaseCardImageLists';
 import CardPreview from './CardPreview';
 
 export default function CardCreateSection() {
-  const [isUserImage, setIsUserImage] = useState(false || null);
+  const [imageType, setImageType] = useState('base');
 
-  function handleOnClick() {
-    setIsUserImage(!isUserImage);
+  function handleOnClick(type) {
+    setImageType(type);
   }
 
   return (
@@ -16,18 +16,15 @@ export default function CardCreateSection() {
       <CardPreview></CardPreview>
       <div>
         <div className={styles.cardImageTypeContainer}>
-          <div className={styles.cardImageType} onClick={handleOnClick}>
+          <div key={'base'} className={styles.cardImageType} onClick={() => handleOnClick('base')}>
             Basic
           </div>
-          <div className={styles.cardImageType} onClick={handleOnClick}>
+          <div key={'user'} className={styles.cardImageType} onClick={() => handleOnClick('user')}>
             My Image
           </div>
         </div>
-        {isUserImage ? (
-          <UserCardImageLists></UserCardImageLists>
-        ) : (
-          <BaseCardImageLists></BaseCardImageLists>
-        )}
+        {imageType === 'base' && <BaseCardImageLists></BaseCardImageLists>}
+        {imageType === 'user' && <UserCardImageLists></UserCardImageLists>}
       </div>
     </div>
   );
