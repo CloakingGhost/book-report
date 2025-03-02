@@ -66,13 +66,13 @@ export default function BookReview() {
 
     if (searchTitle !== '') {
       try {
-        // const response = await bookApi.searchBooks(searchTitle);
-        // console.log(response);
-        // let { hasNext, bookList } = response;
-        // bookList = bookList.slice(0, 3);
-        // setBookItems(bookList);
+        const response = await bookApi.searchBooks(searchTitle);
+        console.log(response);
+        let { hasNext, bookList } = response;
+        bookList = bookList.slice(0, 3);
+        setBookItems(bookList);
 
-        setBookItems(tempBookItems);
+        // setBookItems(tempBookItems);
       } catch (error) {
         console.error(error);
       }
@@ -175,8 +175,13 @@ export default function BookReview() {
     }
 
     try {
+      console.log('fsfasf');
       const response = await reviewApi.createReview(bookReview);
-      navigate(`/reviews/${response.bookReviewId}`);
+      const { status, bookReviewId } = response;
+
+      // const bookReviewId = 1; // 백엔드 완성 전이라 임의로 설정
+      // const reviewId = bookReviewId;
+      navigate(`/reviews/${bookReviewId}`);
     } catch (error) {
       console.error(error);
     }
