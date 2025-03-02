@@ -1,9 +1,10 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import bookApi from '../api/bookApi';
 import reviewApi from '../api/reviewApi';
 import CardCreateSection from '../components/card/CardCreateSection';
 import styles from '../styles/BookReview.module.css';
+import { useSelector } from 'react-redux';
 
 /**
  * BookReview 컴포넌트는 도서 리뷰를 표시하고 제출하는 기능을 제공합니다.
@@ -11,24 +12,29 @@ import styles from '../styles/BookReview.module.css';
  */
 export default function BookReview() {
   const navigate = useNavigate();
+  const selectedCardInfo = useSelector((state) => state.selectedCard);
 
   // 도서 검색 관련
   const [searchBook, setSearchBook] = useState('');
   const [bookItems, setBookItems] = useState([]);
   const cleanSearchTitle = useRef();
 
+  // 도서 정보 입력 관련
   const [bookId, setBookId] = useState(null);
   const [bookImage, setBookImage] = useState('https://placehold.co/400X600');
-  const [bookImageFile, setBookImageFile] = useState(null);
-  const [title, setTitle] = useState(null);
-  const [author, setAuthor] = useState(null);
-  const [publisher, setPublisher] = useState(null);
+  const [bookImageFile, setBookImageFile] = useState([]);
+  const [title, setTitle] = useState('');
+  const [author, setAuthor] = useState('');
+  const [publisher, setPublisher] = useState('');
   const [isReadOnly, setIsReadOnly] = useState(true);
 
-  const [cardImage, setCardImage] = useState();
-  const [onelineTitle, setOnelineTitle] = useState();
+  // 도서 감상문 작성 관련
+  const [cardImage, setCardImage] = useState(-1);
+  const [onelineTitle, setOnelineTitle] = useState('');
+  const [content, setContent] = useState('');
 
-  const [content, setContent] = useState();
+  // 도서 감상문 저장 관련
+  const [bookReview, setBookReview] = useState();
 
   /**
    * 입력 값에 따라 도서를 검색합니다.
@@ -85,9 +91,9 @@ export default function BookReview() {
    */
   const removeBookInfo = () => {
     setBookImage('https://placehold.co/400X600');
-    setBookImageFile(null);
-    setAuthor(null);
-    setPublisher(null);
+    setBookImageFile([]);
+    setAuthor('');
+    setPublisher('');
   };
 
   /**
@@ -103,16 +109,14 @@ export default function BookReview() {
   /**
    * 도서 리뷰를 API에 제출합니다.
    */
-  const postBookReview = async () => {
-    // 임시로 카드 이미지랑 한줄평 set
-    setCardImage(
-      'https://shopping-phinf.pstatic.net/main_5118281/51182815714.20241105090357.jpg?type=w300',
-    );
-    setOnelineTitle('짱이다');
+  const insertBookReview = async () => {
+    setCardImage(selectedCardInfo.imageId);
+    setOnelineTitle(selectedCardInfo.title);
 
-    let bookReview;
+    let review;
+
     if (bookId) {
-      bookReview = {
+      review = {
         data: {
           book: {
             title: null,
@@ -127,8 +131,10 @@ export default function BookReview() {
         },
         imageFile: bookImageFile, // (책 표지)
       };
+      console.log('123');
+      console.log(review);
     } else {
-      bookReview = {
+      review = {
         data: {
           book: {
             title: title,
@@ -145,12 +151,38 @@ export default function BookReview() {
       };
     }
 
+    // try {
+    //   if ((title && selectedCardInfo.title && content) === '' && selectedCardInfo.imageId === -1) {
+    //     alert('도서 제목, 한줄평 이미지, 한줄평, 감상문 입력은 필수입니다');
+    //     return;
+    //   }
+    //   console.log(review);
+    //   const response = await reviewApi.createReview(review);
+    //   const { status, bookReviewId } = response;
+    //   console.log('456');
+
+    //   navigate(`/reviews/${bookReviewId}`);
+    // } catch (error) {
+    //   console.error();
+    // }
+    setBookReview(review);
+    await postBookReview();
+  };
+
+  const postBookReview = async () => {
     try {
+      // if ((title && onelineTitle && content) === '' && cardImage === -1) {
+      //   alert('도서 제목, 한줄평 이미지, 한줄평, 감상문 입력은 필수입니다');
+      //   return;
+      // }
+      console.log(bookReview);
       const response = await reviewApi.createReview(bookReview);
       const { status, bookReviewId } = response;
+      console.log('456');
+
       navigate(`/reviews/${bookReviewId}`);
     } catch (error) {
-      console.error(error);
+      console.error();
     }
   };
 
@@ -254,7 +286,7 @@ export default function BookReview() {
             className={styles.reviewInputTextarea}
             rows={5}
           ></textarea>
-          <button className={styles.reviewInputSubmit} onClick={postBookReview}>
+          <button className={styles.reviewInputSubmit} onClick={insertBookReview}>
             감상문 제출하기
           </button>
         </div>

@@ -1,11 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState =
-  {
-    imageId: 0,
-    imageUrl: "",
-    title: ""
-  };
+const initialState = {
+  imageId: -1,
+  imageUrl: '',
+  title: '',
+};
 
 const selectedCardSlice = createSlice({
   name: "selectedCard",
