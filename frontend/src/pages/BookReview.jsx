@@ -4,6 +4,7 @@ import bookApi from '../api/bookApi';
 import reviewApi from '../api/reviewApi';
 import CardCreateSection from '../components/card/CardCreateSection';
 import styles from '../styles/BookReview.module.css';
+import { useSelector } from 'react-redux';
 
 /**
  * BookReview 컴포넌트는 도서 리뷰를 표시하고 제출하는 기능을 제공합니다.
@@ -11,12 +12,14 @@ import styles from '../styles/BookReview.module.css';
  */
 export default function BookReview() {
   const navigate = useNavigate();
+  const selectedCardInfo = useSelector((state) => state.selectedCard);
 
   // 도서 검색 관련
   const [searchBook, setSearchBook] = useState('');
   const [bookItems, setBookItems] = useState([]);
   const cleanSearchTitle = useRef();
 
+  // 도서 정보 입력 관련
   const [bookId, setBookId] = useState(null);
   const [bookImage, setBookImage] = useState('https://placehold.co/400X600');
   const [bookImageFile, setBookImageFile] = useState(null);
@@ -25,10 +28,8 @@ export default function BookReview() {
   const [publisher, setPublisher] = useState(null);
   const [isReadOnly, setIsReadOnly] = useState(true);
 
-  const [cardImage, setCardImage] = useState();
-  const [onelineTitle, setOnelineTitle] = useState();
-
-  const [content, setContent] = useState();
+  // 도서 감상문 작성 관련
+  const [content, setContent] = useState(null);
 
   /**
    * 입력 값에 따라 도서를 검색합니다.
@@ -38,7 +39,7 @@ export default function BookReview() {
     const searchTitle = e.target.value;
     setSearchBook(searchTitle);
 
-    if (searchTitle !== '') {
+    if (searchTitle !== '' && searchBook.trim() !== '') {
       try {
         const response = await bookApi.searchBooks(searchTitle);
         let { hasNext, bookList } = response;
@@ -104,13 +105,22 @@ export default function BookReview() {
    * 도서 리뷰를 API에 제출합니다.
    */
   const postBookReview = async () => {
-    // 임시로 카드 이미지랑 한줄평 set
-    setCardImage(
-      'https://shopping-phinf.pstatic.net/main_5118281/51182815714.20241105090357.jpg?type=w300',
-    );
-    setOnelineTitle('짱이다');
-
+    console.log(title);
+    console.log(selectedCardInfo.imageId);
+    console.log(selectedCardInfo.title);
+    console.log(content);
+    if (
+      !title ||
+      title.trim() == '' ||
+      selectedCardInfo.title?.trim() == '' ||
+      !content ||
+      content?.trim() == ''
+    ) {
+      alert('도서 제목, 한줄평 이미지, 한줄평, 감상문 입력은 필수입니다');
+      return;
+    }
     let bookReview;
+
     if (bookId) {
       bookReview = {
         data: {
@@ -120,8 +130,8 @@ export default function BookReview() {
             publisher: null,
           },
           review: {
-            imageId: cardImage, // 카드 커버
-            title: onelineTitle,
+            imageId: selectedCardInfo.imageId, // 카드 커버
+            title: selectedCardInfo.title, // 한줄평
             content: content,
           },
         },
@@ -136,15 +146,19 @@ export default function BookReview() {
             publisher: publisher,
           },
           review: {
-            imageId: cardImage, // 카드 커버
-            title: onelineTitle,
+            imageId: selectedCardInfo.imageId, // 카드 커버
+            title: selectedCardInfo.title, // 한줄평
             content: content,
           },
         },
-        imageFile: bookImageFile, // (책 표지) => 임의로 지정함
+        imageFile: bookImageFile, // (책 표지)
       };
     }
+    console.log(bookReview);
+    await saveBookreview(bookReview);
+  };
 
+  const saveBookreview = async (bookReview) => {
     try {
       const response = await reviewApi.createReview(bookReview);
       const { status, bookReviewId } = response;
