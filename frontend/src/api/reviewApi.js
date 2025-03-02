@@ -15,13 +15,14 @@ const reviewApi = {
       const formData = new FormData();
 
       // JSON 데이터를 문자열로 변환해서 추가
-      formData.append(
-        'data',
-        new Blob([JSON.stringify(bookReview.data)], { type: 'application/json' }),
-      );
+      formData.append('data', JSON.stringify(bookReview.data));
 
-      // 이미지 파일 추가 (책 표지)
-      formData.append('imageFile', bookReview.imageFile[0]);
+      // 이미지 파일이 있을 경우에만 추가
+      if (bookReview.imageFile && bookReview.imageFile.length > 0) {
+        formData.append('imageFile', bookReview.imageFile[0]);
+      } else {
+        formData.append('imageFile', null);
+      }
 
       const response = await axios.post(`${REVIEWS_API}`, formData, {
         // headers: { 'Content-Type': 'multipart/form-data' }, // formData는 Content-Type을 설정하지 않아도 됩니다.
