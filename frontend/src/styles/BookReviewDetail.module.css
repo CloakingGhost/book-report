@@ -1,9 +1,10 @@
 .bookReviewDetailContainer {
   display: flex;
-  gap: 10%;
-  width: 90%;
+  gap: 5%;
+  width: 100%;
   box-sizing: border-box;
   padding: 5%;
+  height: 100vh;
 }
 
 .bookSection {
@@ -15,9 +16,9 @@
   padding: 3%;
   gap: 8%;
   width: 300px;
-  height: auto;
-  min-height: 400px;
+  height: 400px;
   text-align: center;
+  margin-right: 1rem;
 }
 
 .bookSection > h2 {
@@ -73,7 +74,56 @@
   font-size: 1.5rem;
 }
 
+.dividedLine {
+  border-left: solid 1px lightgray;
+}
+
 .bookReviewSection {
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
+  padding: 2rem;
+  width: 70%;
+  height: auto;
+
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+.postUserDetail {
+  display: flex;
+  gap: 5%;
+}
+
+.manageReviewSection {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 150px;
+  height: 150px;
+  border: solid 1px lightgray;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 1rem;
+  text-align: center;
+}
+
+.manageReviewSection > hr {
+  color: lightgray;
+  width: 90%;
+}
+
+.bookReview {
+    box-sizing: border-box;
+    margin-top: 5%;
+    display: flex;
+    flex-direction: column;
+    gap: 100%;
+}
+
+.bookReview > h3 {
+    font-size: 2rem;
 }
