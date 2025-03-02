@@ -70,6 +70,7 @@ public class BookReviewService {
                 .image(image)
                 .content(createReviewRequestDto.getReview().getContent())
                 .user(user)
+                .approved(true)
                 .build();
 
         return CreateReviewResponseDto.from(

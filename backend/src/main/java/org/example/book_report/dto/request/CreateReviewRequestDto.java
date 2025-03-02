@@ -20,6 +20,7 @@ public class CreateReviewRequestDto {
                 .title(review.getTitle())
                 .image(image)
                 .content(review.getContent())
+                .user(user)
                 .build();
     }
 
@@ -50,5 +51,6 @@ public class CreateReviewRequestDto {
         private Long imageId;
         private String title;
         private String content;
+        private boolean approved;
     }
 }
