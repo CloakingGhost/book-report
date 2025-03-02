@@ -39,6 +39,7 @@ const imageApi = {
         headers: {
           'Content-Type': 'multipart/form-data', // 반드시 설정해야 합니다.
         },
+        withCredentials: true,
       });
       return response.data;
     } catch (error) {
@@ -54,7 +55,7 @@ const imageApi = {
    */
   deleteImage: async (imageId) => {
     try {
-      const response = await axios.delete(`/images/${imageId}`);
+      const response = await axios.delete(`/images/${imageId}`, { withCredentials: true });
       return response.data;
     } catch (error) {
       console.error('이미지 삭제 오류:', error); // 오류 로깅

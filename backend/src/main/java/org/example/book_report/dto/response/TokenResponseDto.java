@@ -38,7 +38,7 @@ public class TokenResponseDto {
                 .from(ACCESS_TOKEN, null)
                 .httpOnly(true) // XSS(Cross site scripting) attack 방지, 스크립트 코드 삽입 방지
                 .secure(secure) // https 에서 암호화된 요청
-                .sameSite("None") // 서로 다른 도메인 간의 쿠키 전송에 대한 보안
+                .sameSite("Lax") // 서로 다른 도메인 간의 쿠키 전송에 대한 보안
                 .path("/")
                 .maxAge(tokenValidityToLogout)
                 .build();
