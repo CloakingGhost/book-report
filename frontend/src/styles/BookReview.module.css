@@ -152,7 +152,7 @@
 }
 
 .bookReviewInputWrapper .bookImage {
-  width: 15%;
+  width: 50%;
   height: auto;
   align-self: flex-start;
   border-radius: 1rem;
