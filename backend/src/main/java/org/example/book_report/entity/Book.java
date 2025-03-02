@@ -9,9 +9,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.example.book_report.common.BaseTimeEntity;
 
@@ -19,7 +23,8 @@ import org.example.book_report.common.BaseTimeEntity;
 @Setter
 @Entity
 @Builder
-@AllArgsConstructor
+@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class Book extends BaseTimeEntity {
     // TODO: 제약조건 추가
     @Id
@@ -36,8 +41,11 @@ public class Book extends BaseTimeEntity {
     private String author;
     private String publisher;
 
-    protected Book() {
-        // titleNormalized 서버에서 하면 여기서 함
+    @PrePersist
+    @PreUpdate
+    public void normalizeTitle() {
+        this.titleNormalized = (this.title != null) ? this.title.replace(" ", "").toLowerCase() : null;
     }
+
 
 }

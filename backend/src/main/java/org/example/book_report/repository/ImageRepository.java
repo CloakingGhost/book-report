@@ -12,8 +12,8 @@ import java.util.Optional;
 public interface ImageRepository extends JpaRepository<Image, Long> {
 
     @Query("""
-        SELECT i FROM Image i
-        WHERE i.type = :type
-    """)
-    Optional<Image> findByImageType(ImageType type);
+                SELECT i FROM Image i
+                WHERE i.type = :type AND i.id = :imageId
+            """)
+    Optional<Image> findByImageType(ImageType type, Long imageId);
 }

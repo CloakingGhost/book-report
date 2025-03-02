@@ -17,6 +17,7 @@ public class BookService {
 
     public SearchBooksPageResponseDto findAllByTitle(String title, Pageable pageable) {
 
+        title = title.replace(" ", "").toLowerCase();
         Page<Book> books = bookRepository.findAllByTitleNormalizedContaining(title, pageable);
 
         return SearchBooksPageResponseDto.from(books);

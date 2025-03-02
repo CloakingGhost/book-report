@@ -12,16 +12,16 @@ import java.util.Optional;
 public interface UserImageRepository extends JpaRepository<UserImage, Long> {
 
     @Query("""
-        SELECT ui FROM UserImage ui
-        LEFT JOIN ui.image i
-        WHERE i.id = :imageId
-    """)
+                SELECT ui FROM UserImage ui
+                LEFT JOIN ui.image i
+                WHERE i.id = :imageId
+            """)
     Optional<UserImage> findByImageId(Long imageId);
 
     @Query("""
-        SELECT ui FROM UserImage ui
-        LEFT JOIN FETCH ui.image i
-        WHERE ui.id = :userId
-    """)
+                SELECT ui FROM UserImage ui
+                LEFT JOIN FETCH ui.image i
+                WHERE ui.user.id = :userId
+            """)
     List<UserImage> findAllByUserId(Long userId);
 }
