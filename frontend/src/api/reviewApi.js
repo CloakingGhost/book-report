@@ -30,8 +30,6 @@ const reviewApi = {
         withCredentials: true,
       });
 
-      console.log(response.data);
-
       return response.data;
     } catch (error) {
       console.error('감상문 생성 오류:', error); // 오류 로깅

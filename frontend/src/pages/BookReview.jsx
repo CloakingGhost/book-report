@@ -105,10 +105,6 @@ export default function BookReview() {
    * 도서 리뷰를 API에 제출합니다.
    */
   const postBookReview = async () => {
-    console.log(title);
-    console.log(selectedCardInfo.imageId);
-    console.log(selectedCardInfo.title);
-    console.log(content);
     if (
       !title ||
       title.trim() == '' ||
@@ -154,14 +150,15 @@ export default function BookReview() {
         imageFile: bookImageFile, // (책 표지)
       };
     }
-    console.log(bookReview);
     await saveBookreview(bookReview);
   };
 
   const saveBookreview = async (bookReview) => {
     try {
       const response = await reviewApi.createReview(bookReview);
-      const { status, bookReviewId } = response;
+      const { status, data } = response;
+      const bookReviewId = data.bookReviewId;
+
       navigate(`/reviews/${bookReviewId}`, { replace: true });
     } catch (error) {
       console.error(error);
