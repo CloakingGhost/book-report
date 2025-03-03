@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import BookReviewCard from '../components/BookReviewCard';
+import BookReviewCard from '../components/card/BookReviewCard';
 import styles from '../styles/Home.module.css';
 import reviewApi from '../api/reviewApi';
 
