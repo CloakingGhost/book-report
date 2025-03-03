@@ -19,7 +19,8 @@ export default function CardPreview() {
 
   const handleBlur = () => {
     if (inputValue.trim() !== selectedCard.title) {
-      dispatch(addTitleInCard({ title: inputValue.trim() }));
+      setInputValue(inputValue.trim())
+      dispatch(addTitleInCard({ title: inputValue}));
     }
   };
 
