@@ -65,7 +65,7 @@ public class BookReviewService {
         }
 
         Long imageId = createReviewRequestDto.getReview().getImageId();
-        Image cardImage = imageRepository.findById(imageId).orElseThrow(IllegalArgumentException::new);
+        Image cardImage = imageRepository.findById(imageId).orElseThrow(()-> new IllegalArgumentException("카드 이미지가 없습니다."));
 
 
         BookReview bookReview = BookReview.builder()
