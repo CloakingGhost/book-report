@@ -9,6 +9,7 @@ import org.example.book_report.dto.response.*;
 import org.example.book_report.entity.ImageType;
 import org.example.book_report.entity.User;
 import org.example.book_report.service.BookReviewService;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +25,6 @@ public class BookReviewController {
 
     private final BookReviewService bookReviewService;
 
-
     // 감상문 상세 조회
     @GetMapping("/{reviewId}")
     public ResponseEntity<ApiResponse<BookReviewDetailResponseDto>> bookReviewDetail(
@@ -32,13 +32,10 @@ public class BookReviewController {
         return ResponseEntity.ok(ApiResponse.ok(bookReviewService.findByBookReviewId(reviewId)));
     }
 
-
-    // 감상문 목록 조회
+  
     @GetMapping
-    public ResponseEntity<ApiResponse<List<BookReviewsResponseDto>>> getBookReviews() {
-        return ResponseEntity.ok(
-                ApiResponse.ok(bookReviewService.findAll())
-        );
+    public BookReviewsWithPageResponseDto getBookReviews(@RequestParam("title") String bookTitle, Pageable pageable) {
+        return bookReviewService.getBookReviews(bookTitle, pageable);
     }
 
 
@@ -100,8 +97,9 @@ public class BookReviewController {
     @PostMapping
     public ResponseEntity<ApiResponse<CreateReviewResponseDto>> createReview(
             @RequestPart(value = "data") CreateReviewRequestDto requestDto,
-            @RequestPart(value = "imageFile") MultipartFile imageFile) {
+            @RequestPart(value = "imageFile", required = false) MultipartFile imageFile,
+            @AuthenticationPrincipal User user) {
 
-        return ResponseEntity.ok(ApiResponse.ok(bookReviewService.createReview(requestDto, imageFile)));
+        return ResponseEntity.ok(ApiResponse.ok(bookReviewService.createReview(requestDto, imageFile, user)));
     }
 }

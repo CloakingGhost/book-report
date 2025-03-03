@@ -4,17 +4,11 @@ import styles from '../styles/Home.module.css';
 import reviewApi from '../api/reviewApi';
 
 export default function Home() {
-  /**
-   * 감상문 목록
-   */
+  /** 감상문 목록 */
   const [items, setItems] = useState([]);
-  /**
-   * 검색어
-   */
+  /** 검색어 */
   const [title, setTitle] = useState('');
-  /**
-   * 현재 페이지
-   */
+  /** 현재 페이지 */
   const [page, setPage] = useState(1);
 
   useEffect(() => {
@@ -30,9 +24,15 @@ export default function Home() {
     // API 호출을 통해 데이터를 가져옵니다.
     const response = await reviewApi.getReviews(page, title);
     const data = response.items; // 원래 코드
-    console.log(data);
+    // 공개 데이터만 필터링
+    const filteredData = data.filter((item) => item.approved === true);
+    // 랜덤 정렬
+    const suffledData = filteredData.sort(() => Math.random() - 0.5);
 
-    setItems((prevItems) => [...prevItems, ...data]);
+    // 데이터 확인
+    // console.log(suffledData);
+
+    setItems((prevItems) => [...prevItems, ...suffledData]);
   };
 
   const handleScroll = () => {
@@ -59,12 +59,13 @@ export default function Home() {
           타이틀이 존재 하면서 응답 값이 없을 때 => 검색 결과가 없습니다.
           타이틀이 없을 때 => ''이 포함된 카드 렌더링(모든 카드 렌더링)
         */}
-
-        {title && items.length ?
-          items.filter(item => item.approved).map((item, index) => (
+        {title && !items.length ? (
+          <p>검색 결과가 없습니다.</p>
+        ) : (
+          items.map((item, index) => (
             <BookReviewCard key={`card-${index}`} info={item} />
           ))
-          : <p>검색 결과가 없습니다.</p>}
+        )}
       </div>
     </div>
   );

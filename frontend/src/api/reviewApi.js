@@ -20,11 +20,14 @@ const reviewApi = {
         new Blob([JSON.stringify(bookReview.data)], { type: 'application/json' }),
       );
 
-      // 이미지 파일 추가 (책 표지)
-      formData.append('imageFile', bookReview.imageFile[0]);
+      // 이미지 파일이 있을 경우에만 추가
+      if (bookReview.imageFile) {
+        formData.append('imageFile', bookReview.imageFile[0]);
+      }
 
       const response = await axios.post(`${REVIEWS_API}`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
+        withCredentials: true,
       });
 
       return response.data;
@@ -68,7 +71,9 @@ const reviewApi = {
    */
   updateReview: async (reviewId, data) => {
     try {
-      const response = await axios.put(`${REVIEWS_API}/${reviewId}`, data);
+      const response = await axios.put(`${REVIEWS_API}/${reviewId}`, data, {
+        withCredentials: true,
+      });
       return response.data;
     } catch (error) {
       console.error('감상문 수정 오류:', error); // 오류 로깅
@@ -82,7 +87,7 @@ const reviewApi = {
    */
   deleteReview: async (reviewId) => {
     try {
-      const response = await axios.delete(`${REVIEWS_API}/${reviewId}`);
+      const response = await axios.delete(`${REVIEWS_API}/${reviewId}`, { withCredentials: true });
       return response.data;
     } catch (error) {
       console.error('감상문 삭제 오류:', error); // 오류 로깅
@@ -97,7 +102,9 @@ const reviewApi = {
    */
   patchReviewPrivateStatus: async (reviewId, data) => {
     try {
-      const response = await axios.patch(`${REVIEWS_API}/${reviewId}`, data);
+      const response = await axios.patch(`${REVIEWS_API}/${reviewId}`, data, {
+        withCredentials: true,
+      });
       return response.data;
     } catch (error) {
       console.error('감상문 공개범위 변경 오류:', error); // 오류 로깅

@@ -1,0 +1,135 @@
+.bookReviewDetailContainer {
+  display: flex;
+  gap: 5%;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 5%;
+  margin-bottom: 30px;
+}
+
+.bookSection {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 3%;
+  gap: 8%;
+  text-align: center;
+  margin-right: 1rem;
+}
+
+.bookSection > h2 {
+  font-size: 2rem;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.bookCoverImageSection {
+  display: flex;
+  width: 100%;
+  height: auto;
+  justify-content: center;
+}
+
+.bookCoverImage {
+  display: block;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  width: 50%;
+  height: auto; 
+  position: relative;
+}
+
+.bookCoverImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.mark {
+  position: absolute;
+  width: 20%;
+  top: 5px;
+  right: 5px;
+  z-index: 10;
+}
+
+.bookDetailSection {
+  display: flex;
+  flex-direction: column;
+  line-height: 50px;
+  width: 100%;
+}
+
+.bookDetailSection > h3 {
+  font-size: 1.5rem;
+}
+
+.dividedLine {
+  border-left: solid 1px lightgray;
+}
+
+.bookReviewSection {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 2rem;
+  width: 70%;
+  height: auto;
+  gap: 20px;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+.bookReviewSection h1 {
+  font-size: 1.5rem;
+}
+
+.postUserDetail {
+  display: flex;
+  gap: 5%;
+}
+
+.manageReviewSection {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 150px;
+  height: 150px;
+  border: solid 1px lightgray;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 1rem;
+  text-align: center;
+}
+
+.manageReviewSection > hr {
+  color: lightgray;
+  width: 90%;
+}
+
+.bookReview {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  margin-top: 10px;
+}
+
+.bookReview > h3 {
+  font-size: 2rem;
+}
+
+hr {
+    width: 100%;
+    color: lightgray;
+    
+}
+
+.bookReview > p {
+    line-height: 200%;
+}
