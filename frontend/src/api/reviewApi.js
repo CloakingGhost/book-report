@@ -21,17 +21,16 @@ const reviewApi = {
       );
 
       // 이미지 파일이 있을 경우에만 추가
-      if (bookReview.imageFile && bookReview.imageFile.length > 0) {
-        formData.append('imageFile', new File([blob], { type: 'image/*' }));
+      if (bookReview.imageFile) {
+        formData.append('imageFile', bookReview.imageFile[0]);
       }
 
-      for (let x of formData.entries()) {
-        console.log(x);
-      }
       const response = await axios.post(`${REVIEWS_API}`, formData, {
-        // headers: { 'Content-Type': 'multipart/form-data' }, // formData는 Content-Type을 설정하지 않아도 됩니다.
+        headers: { 'Content-Type': undefined }, // 기본 설정을 덮어쓰지 않음
         withCredentials: true,
       });
+
+      console.log(response.data);
 
       return response.data;
     } catch (error) {
