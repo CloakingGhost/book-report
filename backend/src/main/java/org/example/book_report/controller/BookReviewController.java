@@ -105,7 +105,7 @@ public class BookReviewController {
 
     // 유저별 감상문 모음 조회
     @GetMapping("/userpage/{username}")
-    public type getUserBookReviews(@PathVariable("username") String username, Pageable pageable){
+    public ResponseEntity<ApiResponse<UserBookReviewsResponseDto>> getUserBookReviews(@PathVariable("username") String username, Pageable pageable){
         return ResponseEntity.ok(
                 ApiResponse.ok(
                         bookReviewService.getUserBookReviews(username, pageable)
