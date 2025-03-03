@@ -1,5 +1,5 @@
 import React from 'react';
-import style from '../styles/BookReviewCard.module.css';
+import style from '../../styles/BookReviewCard.module.css';
 import { Link } from 'react-router-dom';
 
 function BookReviewCard({ info }) {
