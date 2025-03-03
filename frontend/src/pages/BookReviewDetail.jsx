@@ -3,7 +3,6 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import styles from '../styles/BookReviewDetail.module.css';
 import reviewApi from '../api/reviewApi';
 import { useSelector } from 'react-redux';
-import dayjs from 'dayjs';
 
 export default function BookReviewDetail() {
   const { reviewId } = useParams();
