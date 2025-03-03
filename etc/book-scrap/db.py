@@ -24,6 +24,7 @@ pool = MySQLConnectionPool(
     password=DATABASE_PASSWORD,
 )
 
+
 @contextmanager
 def get_connection():
 
@@ -33,15 +34,20 @@ def get_connection():
     finally:
         conn.close()
 
-def execute_query(query):
-    
+
+def execute_query(query, params=None):
     try:
         with get_connection() as conn:
-            with conn.cursor() as cursor:
-                cursor.execute(query)
-                result = cursor.fetchall()
-                return result
+            with conn.cursor(buffered=True, dictionary=True) as cursor:
+                if params:
+                    cursor.execute(query, params)
+                else:
+                    cursor.execute(query)
+
+                conn.commit()
+
+                return cursor.lastrowid
+
     except Error as e:
         print("쿼리 실행 오류:", e)
-        return []
-
+        return None
