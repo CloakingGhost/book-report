@@ -21,9 +21,11 @@ export default function BookReviewDetail() {
     fetchBookReviewDetail();
   }, [reviewId]);
 
-  console.log(reviewDetail);
-
-  /* TODO : 메인으로 이동 시 책 제목으로 감상문 검색되게 하기 */
+  /* 
+  TODO
+  - 메인으로 이동 시 책 제목으로 감상문 검색되게 하기
+  - 감상문 관리버튼은 작성자만 사용 가능하게  
+  */
 
   return (
     <main className={styles.bookReviewDetailContainer}>
@@ -52,7 +54,7 @@ export default function BookReviewDetail() {
           </Link>
           <div className={styles.postUserDetail}>
             <div>{reviewDetail?.createdAt}</div>
-            {'공개여부' ? <div>🔒</div> : <div>🔓</div>}
+            {reviewDetail?.approved ? <div>🔒</div> : <div>🔓</div>}
             <div>•••</div>
             <div className={styles.manageReviewSection}>
               <Link to={`/reviews/modify/${reviewId}`}>
