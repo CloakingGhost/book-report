@@ -32,6 +32,7 @@ public class BookReviewController {
         return ResponseEntity.ok(ApiResponse.ok(bookReviewService.findByBookReviewId(reviewId)));
     }
 
+  
     // 메인 페이지 감상문 조회
     @GetMapping("/reviews")
     public BookReviewsWithPageResponseDto getBookReviews(@RequestParam("title") String bookTitle, Pageable pageable) {
