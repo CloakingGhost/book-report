@@ -1,14 +1,11 @@
 package org.example.book_report.dto.response;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import org.example.book_report.entity.Book;
 import org.example.book_report.entity.BookReview;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 /**
  * 감상문 상세페이지
@@ -25,7 +22,6 @@ public class BookReviewDetailResponseDto {
     private final LocalDateTime createdAt;
 
 
-
     public static BookReviewDetailResponseDto from(BookReview entity) {
         return BookReviewDetailResponseDto.builder()
                 .username(entity.getUser().getUsername())
@@ -38,8 +34,9 @@ public class BookReviewDetailResponseDto {
     }
 
 
+    @Getter
     @Builder
-    private static class BookResponseDto{
+    private static class BookResponseDto {
         private String title;
         private String author;
         private String publisher;

@@ -79,10 +79,11 @@ public class BookReviewService {
     // 사용자가 업로드한 카드 이미지 조회
     public UserCardImageResponseDto getUserCardImages(ImageType type, User user) {
 
-        List<UserImage> userImages = userImageRepository.findAllByUserId(user.getId());
+        List<UserImage> userImages = userImageRepository.findAllByUserIdWithType(type, user.getId());
 
         List<ImageResponseDto> imageResponseDtos = userImages.stream().map((userImage) -> {
-            Image image = imageRepository.findByImageType(type, userImage.getImage().getId())
+
+            Image image = imageRepository.findById(userImage.getImage().getId())
                     .orElseThrow(IllegalArgumentException::new);
             return ImageResponseDto.from(image);
         }).toList();
