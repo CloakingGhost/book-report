@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import styles from '../styles/BookReviewDetail.module.css';
 import reviewApi from '../api/reviewApi';
+import { useSelector } from 'react-redux';
 
 export default function BookReviewDetail() {
   const { reviewId } = useParams();
+  const navigate = useNavigate();
+  const auth = useSelector((state) => state.auth.username);
 
   const [reviewDetail, setReviewDetail] = useState({});
+  const [isAuthor, setIsAuthor] = useState(false);
 
   useEffect(() => {
     async function fetchBookReviewDetail() {
@@ -14,6 +18,10 @@ export default function BookReviewDetail() {
         const response = await reviewApi.getReviewDetail(reviewId);
         const data = response.data;
         setReviewDetail(data);
+
+        if (data.username == auth) {
+          setIsAuthor(true);
+        }
       } catch (e) {
         console.error('감상문 조회에 실패했습니다.');
       }
@@ -21,11 +29,22 @@ export default function BookReviewDetail() {
     fetchBookReviewDetail();
   }, [reviewId]);
 
-  /* 
-  TODO
-  - 메인으로 이동 시 책 제목으로 감상문 검색되게 하기
-  - 감상문 관리버튼은 작성자만 사용 가능하게  
-  */
+  async function handleApprovalStatus() {
+    try {
+      const response = await reviewApi.patchReviewPrivateStatus(reviewId);
+      const data = response.data;
+
+      setReviewDetail((prev) => ({ ...prev, ...data }));
+
+      alert('감상문 공개범위를 변경했습니다.');
+    } catch {
+      console.error('감상문 공개범위 변경 실패');
+    }
+  }
+
+  if (!reviewDetail.approved && !isAuthor) {
+    return <div>비공개글입니다</div>;
+  }
 
   return (
     <main className={styles.bookReviewDetailContainer}>
@@ -38,12 +57,11 @@ export default function BookReviewDetail() {
           </div>
         </div>
         <div className={styles.bookDetailSection}>
-          <Link to={`?title=${reviewDetail?.items?.title}`}>
+          <Link to={'/'} state={{ title: reviewDetail?.items?.title }}>
             <h3>{reviewDetail?.items?.title}</h3>
           </Link>
-          <div>
-            {reviewDetail?.items?.author} | {reviewDetail?.items?.publisher}
-          </div>
+          <div>{reviewDetail?.items?.author}</div>
+          <div>{reviewDetail?.items?.publisher}</div>
         </div>
       </section>
       <div className={styles.dividedLine}></div>
@@ -54,17 +72,23 @@ export default function BookReviewDetail() {
           </Link>
           <div className={styles.postUserDetail}>
             <div>{reviewDetail?.createdAt}</div>
-            {reviewDetail?.approved ? <div>🔒</div> : <div>🔓</div>}
-            <div>•••</div>
-            <div className={styles.manageReviewSection}>
-              <Link to={`/reviews/modify/${reviewId}`}>
-                <div>수정</div>
-              </Link>
-              <hr />
-              <div>삭제</div>
-              <hr />
-              <div>비공개 | 공개</div>
-            </div>
+            {isAuthor && reviewDetail?.approved ? <div>🔓</div> : <div>🔒</div>}
+            {isAuthor && (
+              <>
+                <div>•••</div>
+                <div className={styles.manageReviewSection}>
+                  <Link to={`/reviews/modify/${reviewId}`}>
+                    <div>수정</div>
+                  </Link>
+                  <hr />
+                  <div>삭제</div>
+                  <hr />
+                  <div onClick={handleApprovalStatus}>
+                    {reviewDetail?.approved ? '비공개' : '공개'}
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         </section>
         <hr />
