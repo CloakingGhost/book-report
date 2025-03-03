@@ -1,8 +1,30 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
 import styles from '../styles/BookReviewDetail.module.css';
+import reviewApi from '../api/reviewApi';
 
 export default function BookReviewDetail() {
+  const { reviewId } = useParams();
+
+  const [reviewDetail, setReviewDetail] = useState({});
+
+  useEffect(() => {
+    async function fetchBookReviewDetail() {
+      try {
+        const response = await reviewApi.getReviewDetail(reviewId);
+        const data = response.data;
+        setReviewDetail(data);
+      } catch (e) {
+        console.error('감상문 조회에 실패했습니다.');
+      }
+    }
+    fetchBookReviewDetail();
+  }, [reviewId]);
+
+  console.log(reviewDetail);
+
+  /* TODO : 메인으로 이동 시 책 제목으로 감상문 검색되게 하기 */
+
   return (
     <main className={styles.bookReviewDetailContainer}>
       <section className={styles.bookSection}>
@@ -10,26 +32,30 @@ export default function BookReviewDetail() {
         <div className={styles.bookCoverImageSection}>
           <div className={styles.bookCoverImage}>
             <div className={styles.mark}>⭐</div>
-            <img src="임시" alt="없음" />
+            <img src={reviewDetail?.items?.imageUrl} alt="없음" />
           </div>
         </div>
         <div className={styles.bookDetailSection}>
-          <h3>해리포터 불의 잔</h3>
-          <div>작가 | 출판사</div>
+          <Link to={`?title=${reviewDetail?.items?.title}`}>
+            <h3>{reviewDetail?.items?.title}</h3>
+          </Link>
+          <div>
+            {reviewDetail?.items?.author} | {reviewDetail?.items?.publisher}
+          </div>
         </div>
       </section>
       <div className={styles.dividedLine}></div>
       <section className={styles.bookReviewSection}>
         <section>
-          <Link to={'/userpage/:username'}>
-            <h1>Review by "apricity2u"</h1>
+          <Link to={`/userpage/${reviewDetail?.username}`}>
+            <h1>Review by "{reviewDetail?.username}"</h1>
           </Link>
           <div className={styles.postUserDetail}>
-            <div>2025.04.04</div>
-            <div>🔒🔓</div>
+            <div>{reviewDetail?.createdAt}</div>
+            {'공개여부' ? <div>🔒</div> : <div>🔓</div>}
             <div>•••</div>
             <div className={styles.manageReviewSection}>
-              <Link to={'/reviews/modify/:reviewId'}>
+              <Link to={`/reviews/modify/${reviewId}`}>
                 <div>수정</div>
               </Link>
               <hr />
@@ -41,33 +67,8 @@ export default function BookReviewDetail() {
         </section>
         <hr />
         <article className={styles.bookReview}>
-          <h3>한줄평</h3>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae suscipit ipsa aspernatur
-            nemo blanditiis voluptates cupiditate natus molestiae quisquam consequatur qui voluptas
-            optio sed nulla, ratione, minima quae et sit? Lorem ipsum dolor sit amet consectetur
-            adipisicing elit. Beatae suscipit ipsa aspernatur nemo blanditiis voluptates cupiditate
-            natus molestiae quisquam consequatur qui voluptas optio sed nulla, ratione, minima quae
-            et sit? Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae suscipit ipsa
-            aspernatur nemo blanditiis voluptates cupiditate natus molestiae quisquam consequatur
-            qui voluptas optio sed nulla, ratione, minima quae et sit? Lorem ipsum dolor sit amet
-            consectetur adipisicing elit. Beatae suscipit ipsa aspernatur nemo blanditiis voluptates
-            cupiditate natus molestiae quisquam consequatur qui voluptas optio sed nulla, ratione,
-            minima quae et sit? Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae
-            suscipit ipsa aspernatur nemo blanditiis voluptates cupiditate natus molestiae quisquam
-            consequatur qui voluptas optio sed nulla, ratione, minima quae et sit? Lorem ipsum dolor
-            sit amet consectetur adipisicing elit. Beatae suscipit ipsa aspernatur nemo blanditiis
-            voluptates cupiditate natus molestiae quisquam consequatur qui voluptas optio sed nulla,
-            ratione, minima quae et sit? Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Beatae suscipit ipsa aspernatur nemo blanditiis voluptates cupiditate natus molestiae
-            quisquam consequatur qui voluptas optio sed nulla, ratione, minima quae et sit? Lorem
-            ipsum dolor sit amet consectetur adipisicing elit. Beatae suscipit ipsa aspernatur nemo
-            blanditiis voluptates cupiditate natus molestiae quisquam consequatur qui voluptas optio
-            sed nulla, ratione, minima quae et sit? Lorem ipsum dolor sit amet consectetur
-            adipisicing elit. Beatae suscipit ipsa aspernatur nemo blanditiis voluptates cupiditate
-            natus molestiae quisquam consequatur qui voluptas optio sed nulla, ratione, minima quae
-            et sit?
-          </p>
+          <h3>{reviewDetail?.title}</h3>
+          <p>{reviewDetail?.content}</p>
         </article>
       </section>
     </main>
