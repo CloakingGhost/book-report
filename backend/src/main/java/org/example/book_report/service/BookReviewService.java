@@ -64,10 +64,14 @@ public class BookReviewService {
                     .orElseThrow(IllegalArgumentException::new);
         }
 
+        Long imageId = createReviewRequestDto.getReview().getImageId();
+        Image cardImage = imageRepository.findById(imageId).orElseThrow(IllegalArgumentException::new);
+
+
         BookReview bookReview = BookReview.builder()
                 .book(book)
                 .title(createReviewRequestDto.getReview().getTitle())
-                .image(image)
+                .image(cardImage)
                 .content(createReviewRequestDto.getReview().getContent())
                 .user(user)
                 .approved(true)

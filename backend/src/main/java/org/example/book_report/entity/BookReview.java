@@ -28,7 +28,8 @@ public class BookReview extends BaseTimeEntity {
     private Book book;
 
     // 카드 배경
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "image_id")
     private Image image;
 
     // 제목

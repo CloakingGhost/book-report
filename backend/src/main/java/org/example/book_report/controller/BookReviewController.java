@@ -32,7 +32,7 @@ public class BookReviewController {
         return ResponseEntity.ok(ApiResponse.ok(bookReviewService.findByBookReviewId(reviewId)));
     }
 
-  
+
     @GetMapping
     public BookReviewsWithPageResponseDto getBookReviews(@RequestParam("title") String bookTitle, Pageable pageable) {
         return bookReviewService.getBookReviews(bookTitle, pageable);

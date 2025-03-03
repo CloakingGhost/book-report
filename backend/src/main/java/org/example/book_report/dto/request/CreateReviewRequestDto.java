@@ -12,7 +12,7 @@ import org.example.book_report.entity.User;
 @NoArgsConstructor
 public class CreateReviewRequestDto {
     private BookDto book;
-    private ReviewDto review;
+private ReviewDto review;
 
     public BookReview toEntity(Image image, User user) {
         return BookReview.builder()
