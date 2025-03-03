@@ -29,6 +29,17 @@ export default function BookReviewDetail() {
     fetchBookReviewDetail();
   }, [reviewId]);
 
+  async function handleDeleteReview() {
+    try {
+      alert('정말 삭제하시겠습니까?');
+      const response = await reviewApi.deleteReview(reviewId);
+      alert('감상문 삭제 성공');
+      navigate('/');
+    } catch (e) {
+      console.error('감상문 삭제 실패');
+    }
+  }
+
   async function handleApprovalStatus() {
     try {
       const response = await reviewApi.patchReviewPrivateStatus(reviewId);
@@ -81,7 +92,7 @@ export default function BookReviewDetail() {
                     <div>수정</div>
                   </Link>
                   <hr />
-                  <div>삭제</div>
+                  <div onClick={handleDeleteReview}>삭제</div>
                   <hr />
                   <div onClick={handleApprovalStatus}>
                     {reviewDetail?.approved ? '비공개' : '공개'}
