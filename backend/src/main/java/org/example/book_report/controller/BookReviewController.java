@@ -20,27 +20,27 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/reviews")
+@RequestMapping("/api")
 public class BookReviewController {
 
     private final BookReviewService bookReviewService;
 
     // 감상문 상세 조회
-    @GetMapping("/{reviewId}")
+    @GetMapping("/reviews/{reviewId}")
     public ResponseEntity<ApiResponse<BookReviewDetailResponseDto>> bookReviewDetail(
             @PathVariable("reviewId") Long reviewId) {
         return ResponseEntity.ok(ApiResponse.ok(bookReviewService.findByBookReviewId(reviewId)));
     }
 
-  
-    @GetMapping
+    // 메인 페이지 감상문 조회
+    @GetMapping("/reviews")
     public BookReviewsWithPageResponseDto getBookReviews(@RequestParam("title") String bookTitle, Pageable pageable) {
         return bookReviewService.getBookReviews(bookTitle, pageable);
     }
 
 
     // 감상문 공개/비공개 전환
-    @PatchMapping("/{reviewId}")
+    @PatchMapping("/reviews/{reviewId}")
     public ResponseEntity<ApiResponse<BookReviewToggleApprovedResponseDto>> updateApproved(
             @PathVariable("reviewId") Long reviewId
     ) {
@@ -53,7 +53,7 @@ public class BookReviewController {
 
 
     // 감상문 수정
-    @PutMapping("/{reviewId}")
+    @PutMapping("/reviews/{reviewId}")
     public void putBookReview(@PathVariable("reviewId") Long reviewId,
                               @RequestPart(value = "imageFile", required = false) List<MultipartFile> images,
                               @RequestPart(value = "data") UpdateBookReviewRequestDto requestDto
@@ -78,14 +78,14 @@ public class BookReviewController {
 
 
     // 감상문 삭제
-    @DeleteMapping("/{reviewId}")
+    @DeleteMapping("/reviews/{reviewId}")
     public ResponseEntity.HeadersBuilder<?> deleteReview(@PathVariable("reviewId") Long reviewId) {
         bookReviewService.remove(reviewId);
         return ResponseEntity.noContent();
     }
 
     // 사용자가 업로드한 이미지 조회
-    @GetMapping("/images")
+    @GetMapping("/reviews/images")
     public ResponseEntity<ApiResponse<UserCardImageResponseDto>> getUserCardImages(
             @RequestParam ImageType type,
             @AuthenticationPrincipal User user
@@ -94,12 +94,22 @@ public class BookReviewController {
     }
 
     // 감상문 생성
-    @PostMapping
+    @PostMapping("/reviews")
     public ResponseEntity<ApiResponse<CreateReviewResponseDto>> createReview(
             @RequestPart(value = "data") CreateReviewRequestDto requestDto,
             @RequestPart(value = "imageFile", required = false) MultipartFile imageFile,
             @AuthenticationPrincipal User user) {
 
         return ResponseEntity.ok(ApiResponse.ok(bookReviewService.createReview(requestDto, imageFile, user)));
+    }
+
+    // 유저별 감상문 모음 조회
+    @GetMapping("/userpage/{username}")
+    public type getUserBookReviews(@PathVariable("username") String username, Pageable pageable){
+        return ResponseEntity.ok(
+                ApiResponse.ok(
+                        bookReviewService.getUserBookReviews(username, pageable)
+                )
+        );
     }
 }

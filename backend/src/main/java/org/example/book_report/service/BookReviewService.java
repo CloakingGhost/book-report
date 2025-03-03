@@ -95,8 +95,15 @@ public class BookReviewService {
         return UserCardImageResponseDto.from(type, imageResponseDtos);
     }
 
+    // 메인페이지 감상문 조회
     public BookReviewsWithPageResponseDto getBookReviews(String bookTitle, Pageable pageable) {
         Page<BookReview> items = bookReviewRepository.getBookReviews(bookTitle, pageable);
         return BookReviewsWithPageResponseDto.from(items);
+    }
+
+    // 유저별 감상문 모음 조회
+    public type getUserBookReviews(String username, Pageable pageable) {
+        Page<BookReview>  = bookReviewRepository.getUserBookReviews(username, pageable);
+        return
     }
 }
