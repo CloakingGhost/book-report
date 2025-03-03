@@ -35,12 +35,14 @@ public class UserBookReviewsResponseDto {
     @Getter
     @Builder
     static class UserBookReviewsDto {
+        private final Long bookId;
         private final String cardTitle;
         private final String cardImageUrl;
         private final boolean approved;
 
         public static UserBookReviewsDto from(BookReview entity) {
             return UserBookReviewsDto.builder()
+                    .bookId(entity.getId())
                     .cardTitle(entity.getTitle())
                     .cardImageUrl(entity.getImage().getImageUrl())
                     .approved(entity.isApproved())
