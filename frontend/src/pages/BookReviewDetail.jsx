@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import styles from '../styles/BookReviewDetail.module.css';
 import reviewApi from '../api/reviewApi';
 import { useSelector } from 'react-redux';
+import dayjs from 'dayjs';
 
 export default function BookReviewDetail() {
   const { reviewId } = useParams();
@@ -11,6 +12,7 @@ export default function BookReviewDetail() {
 
   const [reviewDetail, setReviewDetail] = useState({});
   const [isAuthor, setIsAuthor] = useState(false);
+  const [clickManageButton, setClickManageButton] = useState(false);
 
   useEffect(() => {
     async function fetchBookReviewDetail() {
@@ -53,6 +55,10 @@ export default function BookReviewDetail() {
     }
   }
 
+  function handleClickManageButton() {
+    setClickManageButton(!clickManageButton);
+  }
+
   if (!reviewDetail.approved && !isAuthor) {
     return <div>비공개글입니다</div>;
   }
@@ -82,23 +88,25 @@ export default function BookReviewDetail() {
             <h1>Review by "{reviewDetail?.username}"</h1>
           </Link>
           <div className={styles.postUserDetail}>
-            <div>{reviewDetail?.createdAt}</div>
+            <div>{reviewDetail?.createdAt.slice(0, 10)}</div>
             {isAuthor && reviewDetail?.approved ? <div>🔓</div> : <div>🔒</div>}
             {isAuthor && (
-              <>
-                <div>•••</div>
-                <div className={styles.manageReviewSection}>
-                  <Link to={`/reviews/modify/${reviewId}`}>
-                    <div>수정</div>
-                  </Link>
-                  <hr />
-                  <div onClick={handleDeleteReview}>삭제</div>
-                  <hr />
-                  <div onClick={handleApprovalStatus}>
-                    {reviewDetail?.approved ? '비공개' : '공개'}
+              <div>
+                <div onClick={handleClickManageButton}>•••</div>
+                {clickManageButton && (
+                  <div className={styles.manageReviewSection}>
+                    <Link to={`/reviews/modify/${reviewId}`}>
+                      <div>수정</div>
+                    </Link>
+                    <hr />
+                    <div onClick={handleDeleteReview}>삭제</div>
+                    <hr />
+                    <div onClick={handleApprovalStatus}>
+                      {reviewDetail?.approved ? '비공개' : '공개'}
+                    </div>
                   </div>
-                </div>
-              </>
+                )}
+              </div>
             )}
           </div>
         </section>
