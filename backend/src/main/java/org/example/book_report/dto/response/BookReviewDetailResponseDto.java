@@ -40,12 +40,14 @@ public class BookReviewDetailResponseDto {
         private String title;
         private String author;
         private String publisher;
+        private String imageUrl;
 
         private static BookResponseDto from(Book entity) {
             return BookResponseDto.builder()
                     .title(entity.getTitle())
                     .author(entity.getAuthor())
                     .publisher(entity.getPublisher())
+                    .imageUrl(entity.getImage().getImageUrl())
                     .build();
         }
     }
