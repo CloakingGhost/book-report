@@ -162,7 +162,7 @@ export default function BookReview() {
     try {
       const response = await reviewApi.createReview(bookReview);
       const { status, bookReviewId } = response;
-      navigate(`/reviews/${bookReviewId}`);
+      navigate(`/reviews/${bookReviewId}`, { replace: true });
     } catch (error) {
       console.error(error);
     }
