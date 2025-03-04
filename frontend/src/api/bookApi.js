@@ -14,8 +14,9 @@ const bookApi = {
       const response = await axios.get(`/books?title=${title}`);
       return response.data;
     } catch (error) {
-      console.error('도서 검색 오류:', error); // 오류 로깅
-      throw new Error('도서 검색에 실패했습니다.'); // 사용자에게 알림
+      // 없는 도서 검색 시 아래의 에러 메세지 떠서 주석 처리함(사용자가 없는 도서 검색하여 감상문 쓸 수 있음)
+      // console.error('도서 검색 오류:', error); // 오류 로깅
+      // throw new Error('도서 검색에 실패했습니다.'); // 사용자에게 알림
     }
   },
 };

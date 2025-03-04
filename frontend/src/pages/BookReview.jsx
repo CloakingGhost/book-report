@@ -121,6 +121,7 @@ export default function BookReview() {
       bookReview = {
         data: {
           book: {
+            bookId: bookId,
             title: null,
             author: null,
             publisher: null,
@@ -137,6 +138,7 @@ export default function BookReview() {
       bookReview = {
         data: {
           book: {
+            bookId: bookId,
             title: title,
             author: author,
             publisher: publisher,
@@ -155,6 +157,7 @@ export default function BookReview() {
 
   const saveBookreview = async (bookReview) => {
     try {
+      console.log(bookReview);
       const response = await reviewApi.createReview(bookReview);
       const { status, data } = response;
       const bookReviewId = data.bookReviewId;
