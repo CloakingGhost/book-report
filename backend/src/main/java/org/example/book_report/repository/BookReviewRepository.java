@@ -22,12 +22,12 @@ public interface BookReviewRepository extends JpaRepository<BookReview, Long> {
     Page<BookReview> getBookReviews(@Param("bookTitle") String bookTitle, Pageable pageable);
 
     @Query("""
-        SELECT br FROM book_review br
-        JOIN FETCH br.image i
-        LEFT JOIN FETCH i.userImage ui
-        JOIN br.user u
-        WHERE u.name =:username   
-        ORDER BY br.createdAt DESC
-        """)
+            SELECT br FROM BookReview br
+            JOIN FETCH br.image i
+            LEFT JOIN FETCH i.userImage ui
+            JOIN br.user u
+            WHERE u.name =:username   
+            ORDER BY br.createdAt DESC
+            """)
     Page<BookReview> getUserBookReviews(@Param("username") String username, Pageable pageable);
 }
