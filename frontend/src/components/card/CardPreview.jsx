@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styles from '../../styles/Card.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { addTitleInCard } from '../../store/slices/selectedCardSlice';
+import base9 from '../../assets/base9.png';
 
 export default function CardPreview() {
   const selectedCard = useSelector((state) => state.selectedCard);
@@ -14,10 +15,10 @@ export default function CardPreview() {
   }, [selectedCard.title]);
 
   const handleInputChange = (e) => {
-    const inputText = e.target.value;
+    let inputText = e.target.value;
 
     if (inputText.length > 50) {
-      setInputValue(inputText.slice(0, 50));
+      inputText = inputText.slice(0, 50);
     }
     setInputValue(inputText);
   };
@@ -26,7 +27,7 @@ export default function CardPreview() {
     if (inputValue.trim() !== selectedCard.title) {
       setInputValue(inputValue.trim());
       dispatch(addTitleInCard({ title: inputValue }));
-    }
+    } 
   };
 
   return (
@@ -35,7 +36,11 @@ export default function CardPreview() {
       onClick={() => document.getElementById('hiddenTextarea').focus()}
     >
       {selectedCard && (
-        <img src={selectedCard.imageUrl || null} alt="" className={styles.cardImage} />
+        <img
+          src={selectedCard.imageUrl || base9}
+          alt=""
+          className={styles.cardImage}
+        />
       )}
 
       <div className={styles.displayText}>{inputValue || '한줄평 작성하기'}</div>
