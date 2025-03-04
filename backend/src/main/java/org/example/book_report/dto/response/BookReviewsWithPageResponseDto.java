@@ -8,8 +8,7 @@ import org.springframework.data.domain.Page;
 import java.util.List;
 
 /**
- * 메인 화면 감상문 목록에서 사용 됨
- * approved == true 인 경우 사용되는 Dto
+ * 메인 화면 감상문 목록에서 사용되는 Dto
  */
 @Getter
 @Builder
@@ -35,6 +34,7 @@ public class BookReviewsWithPageResponseDto {
         private final Long id;
         private final String title;
         private final String imageUrl;
+        private final boolean approved;
 
 
         public static BookReviewsResponseDto from(BookReview entity) {
@@ -42,6 +42,7 @@ public class BookReviewsWithPageResponseDto {
                     .id(entity.getId())
                     .title(entity.getTitle())
                     .imageUrl(entity.getImage().getImageUrl())
+                    .approved(entity.isApproved())
                     .build();
         }
     }
