@@ -32,7 +32,7 @@ public class BookReviewController {
         return ResponseEntity.ok(ApiResponse.ok(bookReviewService.findByBookReviewId(reviewId)));
     }
 
-  
+
     // 메인 페이지 감상문 조회
     @GetMapping("/reviews")
     public BookReviewsWithPageResponseDto getBookReviews(@RequestParam("title") String bookTitle, Pageable pageable) {
@@ -80,9 +80,9 @@ public class BookReviewController {
 
     // 감상문 삭제
     @DeleteMapping("/reviews/{reviewId}")
-    public ResponseEntity.HeadersBuilder<?> deleteReview(@PathVariable("reviewId") Long reviewId) {
+    public ResponseEntity<Void> deleteReview(@PathVariable("reviewId") Long reviewId) {
         bookReviewService.remove(reviewId);
-        return ResponseEntity.noContent();
+        return ResponseEntity.noContent().build();
     }
 
     // 사용자가 업로드한 이미지 조회
@@ -106,7 +106,7 @@ public class BookReviewController {
 
     // 유저별 감상문 모음 조회
     @GetMapping("/userpage/{username}")
-    public ResponseEntity<ApiResponse<UserBookReviewsResponseDto>> getUserBookReviews(@PathVariable("username") String username, Pageable pageable){
+    public ResponseEntity<ApiResponse<UserBookReviewsResponseDto>> getUserBookReviews(@PathVariable("username") String username, Pageable pageable) {
         return ResponseEntity.ok(
                 ApiResponse.ok(
                         bookReviewService.getUserBookReviews(username, pageable)
