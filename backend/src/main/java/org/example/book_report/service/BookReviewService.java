@@ -78,9 +78,7 @@ public class BookReviewService {
                 .build();
 
         return CreateReviewResponseDto.from(
-                bookReviewRepository.save(
-                        (bookReview)
-                )
+                bookReviewRepository.save(bookReview)
         );
     }
 
