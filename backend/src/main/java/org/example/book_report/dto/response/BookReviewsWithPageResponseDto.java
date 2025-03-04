@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  * 메인 화면 감상문 목록에서 사용 됨
- * approved == true 인 경우 사용되는 Dto
+ * approved == true 인 경우 사용되는 Dto <- 정적 필터링 안되어 있었음 오히려 좋아
  */
 @Getter
 @Builder
@@ -35,14 +35,18 @@ public class BookReviewsWithPageResponseDto {
         private final Long id;
         private final String title;
         private final String imageUrl;
+        private final boolean approved;
 
 
         public static BookReviewsResponseDto from(BookReview entity) {
-            return BookReviewsResponseDto.builder()
-                    .id(entity.getId())
+            BookReviewsResponseDtoBuilder builder = BookReviewsResponseDto.builder();
+            builder.id(entity.getId())
                     .title(entity.getTitle())
-                    .imageUrl(entity.getImage().getImageUrl())
-                    .build();
+                    .approved(entity.isApproved()); // 추가함
+            if (entity.getImage() != null) { // 추가함
+                builder.imageUrl(entity.getImage().getImageUrl());
+            }
+            return builder.build();
         }
     }
 }

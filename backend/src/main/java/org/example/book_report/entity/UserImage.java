@@ -26,5 +26,6 @@ public class UserImage {
     private User user;
 
     @OneToOne
+    @JoinColumn(name = "image_id")
     private Image image;
 }

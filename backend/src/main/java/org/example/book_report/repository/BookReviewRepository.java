@@ -11,12 +11,18 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface BookReviewRepository extends JpaRepository<BookReview, Long> {
 
+    //    @Query("""
+//            SELECT DISTINCT br FROM BookReview br
+//            JOIN FETCH br.image i
+//            LEFT JOIN FETCH i.userImage ui
+//            JOIN br.book b
+//            WHERE b.titleNormalized LIKE CONCAT('%', :bookTitle, '%')
+//            """)
     @Query("""
-            SELECT br FROM book_review br
-            JOIN FETCH br.image i
-            LEFT JOIN FETCH UserImage ui ON i.id = ui.image.id
+            SELECT DISTINCT br FROM BookReview br
             JOIN br.book b
-            WHERE b.title LIKE %:bookTitle%
+            JOIN br.image i
+            WHERE b.titleNormalized LIKE CONCAT('%', :bookTitle, '%')
             """)
     Page<BookReview> getBookReviews(@Param("bookTitle") String bookTitle, Pageable pageable);
 

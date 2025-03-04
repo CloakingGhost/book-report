@@ -23,4 +23,7 @@ public class Image extends BaseTimeEntity {
     @Column(nullable = true)
     private String imageUrl;
 
+    @OneToOne(mappedBy = "image")
+    private UserImage userImage;
+
 }

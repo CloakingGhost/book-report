@@ -8,9 +8,15 @@
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 2rem;
-  justify-items: center; 
-  align-items: center; 
+  justify-items: center;
+  align-items: center;
   width: 80%;
+}
+
+.main p {
+  white-space: nowrap;
+  font-size: 1.2rem;
+  text-align: center;
 }
 
 .searchBox input {

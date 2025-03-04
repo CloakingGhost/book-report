@@ -1,14 +1,11 @@
 package org.example.book_report.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.example.book_report.common.BaseTimeEntity;
 
-@Entity(name = "book_review")
+@Table(name = "book_review")
+@Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -21,14 +18,17 @@ public class BookReview extends BaseTimeEntity {
 
     // 작성자
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private User user;
 
     // 책
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "book_id")
     private Book book;
 
     // 카드 배경
     @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "image_id")
     private Image image;
 
     // 제목
@@ -39,7 +39,6 @@ public class BookReview extends BaseTimeEntity {
 
     // 공개 비공개 : boolean
     private boolean approved;
-
 
 
     public BookReview toggleApproved() {
