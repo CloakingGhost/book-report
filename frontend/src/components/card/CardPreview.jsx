@@ -17,15 +17,15 @@ export default function CardPreview() {
     const inputText = e.target.value;
 
     if (inputText.length > 50) {
-      inputText = inputText.slice(0, 50);
+      setInputValue(inputText.slice(0, 50));
     }
     setInputValue(inputText);
   };
 
   const handleBlur = () => {
     if (inputValue.trim() !== selectedCard.title) {
-      setInputValue(inputValue.trim())
-      dispatch(addTitleInCard({ title: inputValue}));
+      setInputValue(inputValue.trim());
+      dispatch(addTitleInCard({ title: inputValue }));
     }
   };
 

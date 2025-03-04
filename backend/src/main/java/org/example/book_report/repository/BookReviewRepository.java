@@ -13,10 +13,11 @@ public interface BookReviewRepository extends JpaRepository<BookReview, Long> {
 
     @Query("""
             SELECT br FROM BookReview br
-            JOIN FETCH br.image i
-            LEFT JOIN FETCH UserImage ui ON i.id = ui.image.id
+            LEFT JOIN br.image i
+            LEFT JOIN i.userImage ui
             JOIN br.book b
-            WHERE b.title LIKE %:bookTitle%
+            WHERE b.titleNormalized LIKE concat('%',:bookTitle,'%')
+            order by br.createdAt DESC
             """)
     Page<BookReview> getBookReviews(@Param("bookTitle") String bookTitle, Pageable pageable);
 
