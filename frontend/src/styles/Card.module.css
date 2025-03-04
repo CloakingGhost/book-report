@@ -136,3 +136,8 @@ h3 {
   border-bottom: none;
   font-family: Georgia, 'Times New Roman', Times, serif;
 }
+
+.selected {
+  border: 3px solid black;
+  border-radius: 8p,
+}
