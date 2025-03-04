@@ -1,14 +1,10 @@
 package org.example.book_report.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.example.book_report.common.BaseTimeEntity;
 
-@Entity(name = "book_review")
+@Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -39,7 +35,6 @@ public class BookReview extends BaseTimeEntity {
 
     // 공개 비공개 : boolean
     private boolean approved;
-
 
 
     public BookReview toggleApproved() {
