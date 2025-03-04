@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface BookRepository extends JpaRepository<Book, Long> {
 
-    @Query("SELECT b FROM Book b WHERE b.titleNormalized LIKE %:title% AND b.user.id = -1")
+    @Query("SELECT b FROM Book b WHERE b.titleNormalized LIKE concat('%', :title, '%') AND b.user.id = -1")
     Page<Book> findAllByTitleNormalizedContaining(String title, Pageable pageable);
 }

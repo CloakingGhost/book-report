@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface BookReviewRepository extends JpaRepository<BookReview, Long> {
 
@@ -30,4 +32,13 @@ public interface BookReviewRepository extends JpaRepository<BookReview, Long> {
             ORDER BY br.createdAt DESC
             """)
     Page<BookReview> getUserBookReviews(@Param("username") String username, Pageable pageable);
+
+    @Query("""
+            SELECT br FROM BookReview br
+            JOIN br.book b
+            JOIN b.user u
+            WHERE br.id=:reviewId
+            """)
+    Optional<BookReview> findByIdWithUser(@Param("reviewId") Long reviewId);
+
 }

@@ -37,6 +37,7 @@ public class BookReviewDetailResponseDto {
     @Getter
     @Builder
     private static class BookResponseDto {
+        private Long userId;
         private String title;
         private String author;
         private String publisher;
@@ -44,6 +45,7 @@ public class BookReviewDetailResponseDto {
 
         private static BookResponseDto from(Book entity) {
             return BookResponseDto.builder()
+                    .userId(entity.getUser().getId())
                     .title(entity.getTitle())
                     .author(entity.getAuthor())
                     .publisher(entity.getPublisher())

@@ -4,10 +4,9 @@ import { Link } from 'react-router-dom';
 
 function BookReviewCard({ info }) {
   console.log('BookReviewCard', info);
-  const { bookReviewId, title, imageUrl, approved } = info;
+  const { id, title, imageUrl, approved } = info;
   return (
-    <Link to={`/reviews/${bookReviewId}`}>
-
+    <Link to={`/reviews/${id}`}>
       <div className={style.bookReviewCard}>
         <div className={style.imageContainer}>
           <img src={imageUrl} alt={title} />

@@ -17,10 +17,12 @@ public class BookReview extends BaseTimeEntity {
 
     // 작성자
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private User user;
 
     // 책
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "book_id")
     private Book book;
 
     // 카드 배경
