@@ -7,6 +7,7 @@ import UserBookReview from '../pages/UserBookReview';
 import Login from '../pages/Login';
 import Signup from '../pages/Signup';
 import NotFound from '../pages/NotFound';
+import ProtectedRouter from '../components/ProtectedRouter';
 
 const router = createBrowserRouter([
   {
@@ -20,7 +21,8 @@ const router = createBrowserRouter([
       },
       {
         path: '/reviews/create',
-        element: <BookReview />,
+        element: <ProtectedRouter />,
+        children: [{ index: true, element: <BookReview /> }],
       },
       {
         path: '/reviews/modify/:reviewId',
