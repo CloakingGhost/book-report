@@ -60,6 +60,15 @@ export default function UserCardImageLists() {
     createImages(addImages);
   }
 
+  async function handleDeleteImage(imageId) {
+    await imageApi.deleteImage(imageId);
+
+    setImages((prevImages) => ({
+      size: prevImages.size - 1,
+      items: prevImages.items.filter((item) => item.id !== imageId),
+    }));
+  }
+
   return (
     <ul className={styles.selectCardImageSection}>
       {items.map((item, index) => (
@@ -68,6 +77,9 @@ export default function UserCardImageLists() {
           className={`${styles.cardImageStyle} ${selectedImageId === item.id ? styles.selected : ''}`}
         >
           <img src={item.imageUrl} alt="" onClick={(e) => handleClickImage(e, item.id)} />
+          <div className={styles.cardDeleteButton} onClick={() => handleDeleteImage(item.id)}>
+            x
+          </div>
         </li>
       ))}
       <label htmlFor="image-file" className={styles.cardImageStyle}>
@@ -79,7 +91,7 @@ export default function UserCardImageLists() {
           hidden
           onChange={addImage}
         />
-        <span>+</span>
+        <span className={styles.addButton}>+</span>
       </label>
     </ul>
   );
