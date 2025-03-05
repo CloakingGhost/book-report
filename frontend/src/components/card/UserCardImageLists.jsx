@@ -61,12 +61,16 @@ export default function UserCardImageLists() {
   }
 
   async function handleDeleteImage(imageId) {
-    await imageApi.deleteImage(imageId);
+    try {
+      await imageApi.deleteImage(imageId);
 
-    setImages((prevImages) => ({
-      size: prevImages.size - 1,
-      items: prevImages.items.filter((item) => item.id !== imageId),
-    }));
+      setImages((prevImages) => ({
+        size: prevImages.size - 1,
+        items: prevImages.items.filter((item) => item.id !== imageId),
+      }));
+    } catch (error) {
+      console.log('이미지 삭제에 실패했습니다.');
+    }
   }
 
   return (
