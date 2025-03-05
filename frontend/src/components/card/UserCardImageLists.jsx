@@ -5,7 +5,12 @@ import { selectCard } from '../../store/slices/selectedCardSlice';
 import imageApi from '../../api/imageApi';
 
 export default function UserCardImageLists() {
-  const [images, setImages] = useState([]);
+  const [selectedImageId, setSelectedImageId] = useState(null);
+  const [images, setImages] = useState({
+    size: 0,
+    items: [],
+  });
+  const { size, items } = images;
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -13,8 +18,7 @@ export default function UserCardImageLists() {
       try {
         const response = await imageApi.getUserImages('CARD');
         const data = response.data;
-
-        setImages(data.images.items);
+        setImages(data.images);
       } catch (e) {
         console.error('이미지 불러오기 실패');
       }
@@ -23,12 +27,23 @@ export default function UserCardImageLists() {
   }, []);
 
   function handleClickImage(e, imageId) {
+    setSelectedImageId(imageId);
     dispatch(selectCard({ imageId: imageId, imageUrl: e.target.src }));
   }
 
   async function createImages(addImages) {
     try {
       const response = await imageApi.createImage('CARD', addImages);
+
+      const newImages = response.data.images.map((image) => {
+        const { id, imageUrl } = image;
+        return { id, imageUrl };
+      });
+
+      setImages((prevImages) => ({
+        size: prevImages.size + newImages.length,
+        items: [...prevImages.items, ...newImages],
+      }));
     } catch (e) {
       console.error('이미지 생성에 실패했습니다.');
     }
@@ -36,38 +51,35 @@ export default function UserCardImageLists() {
 
   function addImage(e) {
     let addImages = Array.from(e.target.files);
-    let imageUrlLists = [...images];
 
-    const remainingSlots = 8 - imageUrlLists.length;
-
-    if (remainingSlots === 0) {
+    if (addImages.length + size > 8) {
       alert('커스텀 이미지는 최대 8개까지 생성 가능합니다.');
       return;
     }
 
-    if (addImages.length > remainingSlots) {
-      addImages = addImages.slice(0, remainingSlots);
-    }
-
-    const newImages = addImages.map((image) => {
-      const imageUrl = URL.createObjectURL(image);
-      return { imageUrl, id: image.name };
-    });
-
-    setImages((prevImages) => {
-      const updatedImages = [...prevImages, ...newImages];
-
-      return updatedImages.length > 8 ? updatedImages.slice(0, 8) : updatedImages;
-    });
-
     createImages(addImages);
+  }
+
+  async function handleDeleteImage(imageId) {
+    await imageApi.deleteImage(imageId);
+
+    setImages((prevImages) => ({
+      size: prevImages.size - 1,
+      items: prevImages.items.filter((item) => item.id !== imageId),
+    }));
   }
 
   return (
     <ul className={styles.selectCardImageSection}>
-      {images.map((image, index) => (
-        <li key={index} className={styles.cardImageStyle}>
-          <img src={image.imageUrl} alt="" onClick={(e) => handleClickImage(e, image.id)} />
+      {items.map((item, index) => (
+        <li
+          key={index}
+          className={`${styles.cardImageStyle} ${selectedImageId === item.id ? styles.selected : ''}`}
+        >
+          <img src={item.imageUrl} alt="" onClick={(e) => handleClickImage(e, item.id)} />
+          <div className={styles.cardDeleteButton} onClick={() => handleDeleteImage(item.id)}>
+            x
+          </div>
         </li>
       ))}
       <label htmlFor="image-file" className={styles.cardImageStyle}>
@@ -79,7 +91,7 @@ export default function UserCardImageLists() {
           hidden
           onChange={addImage}
         />
-        <span>+</span>
+        <span className={styles.addButton}>+</span>
       </label>
     </ul>
   );

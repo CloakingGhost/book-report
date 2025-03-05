@@ -1,9 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import styles from '../../styles/Card.module.css';
 import { useDispatch } from 'react-redux';
 import { selectCard } from '../../store/slices/selectedCardSlice';
 
+
 export default function BaseCardImageLists() {
+  const [selectedImageId, setSelectedImageId] = useState(null);
+
   const imageFiles = Array.from({ length: 9 }, (_, i) => ({
     fileName: `base${i + 1}.png`,
     imageId: i + 93781,
@@ -13,13 +16,17 @@ export default function BaseCardImageLists() {
   const dispatch = useDispatch();
 
   function handleClickImage(imageId, imageUrl) {
-    dispatch(selectCard({ imageId, imageUrl }));
+    setSelectedImageId(imageId);
+    dispatch(selectCard({ imageId, imageUrl }));    
   }
 
   return (
     <ul className={styles.selectCardImageSection}>
       {imageFiles.map(({ fileName, imageId }) => (
-        <li key={fileName} className={styles.cardImageStyle}>
+        <li
+          key={fileName}
+          className={`${styles.cardImageStyle} ${selectedImageId === imageId ? styles.selected : ''}`}
+        >
           <img
             src={getImageUrl(fileName)}
             alt=""

@@ -104,8 +104,9 @@ public class BookReviewService {
     }
 
     // 유저별 감상문 모음 조회
-    public UserBookReviewsResponseDto getUserBookReviews(String username, Pageable pageable) {
-        Page<BookReview> bookReviews = bookReviewRepository.getUserBookReviews(username, pageable);
+    public UserBookReviewsResponseDto getUserBookReviews(String username, Pageable pageable, String loginedUsername) {
+        Page<BookReview> bookReviews = bookReviewRepository.getUserBookReviews(username, pageable, loginedUsername);
+
         return UserBookReviewsResponseDto.from(bookReviews);
     }
 }
