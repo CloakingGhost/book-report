@@ -37,21 +37,24 @@ export default function BookReview() {
    * 입력 값에 따라 도서를 검색합니다.
    * @param {React.ChangeEvent<HTMLInputElement>} e - 입력 이벤트.
    */
+
   const handleSearchBookTitle = async (e) => {
     const searchTitle = e.target.value;
-    setSearchBook(searchTitle);
+    if (cleanSearchTitle.current.value != '') {
+      setSearchBook(searchTitle);
 
-    if (searchTitle !== '' && searchBook.trim() !== '') {
-      try {
-        const response = await bookApi.searchBooks(searchTitle);
-        let { hasNext, bookList } = response;
-        bookList = bookList.slice(0, 3);
-        setBookItems(bookList);
-      } catch (error) {
-        console.error(error);
+      if (cleanSearchTitle.current.value != '' && searchBook.trim() !== '') {
+        try {
+          const response = await bookApi.searchBooks(searchTitle);
+          let { hasNext, bookList } = response;
+          bookList = bookList.slice(0, 3);
+          setBookItems(bookList);
+        } catch (error) {
+          console.error(error);
+        }
+      } else {
+        setBookItems([]);
       }
-    } else {
-      setBookItems([]);
     }
   };
 
@@ -185,36 +188,32 @@ export default function BookReview() {
         />
         <div className={styles.bookListWrapper}>
           {searchBook && (
-            <>
-              <ul className={styles.bookList}>
-                {bookItems.length ? (
-                  <>
-                    {bookItems.map((book) => (
-                      <li
-                        className={styles.bookItem}
-                        key={book.bookId}
-                        onClick={() => setBookInfo(book)}
-                      >
-                        <img className={styles.bookImage} src={book.imageUrl} alt="" />
-                        <ul className={styles.bookInfo}>
-                          <li className={styles.bookInfoItem}>{book.title}</li>
-                          <li className={styles.bookInfoItem}>{book.author}</li>
-                          <li className={styles.bookInfoItem}>{book.publisher}</li>
-                        </ul>
-                      </li>
-                    ))}
-                  </>
-                ) : (
-                  <>
-                    <li className={styles.bookItem} onClick={onUserInput}>
+            <ul className={styles.bookList}>
+              {bookItems.length ? (
+                <>
+                  {bookItems.map((book) => (
+                    <li
+                      className={styles.bookItem}
+                      key={book.bookId}
+                      onClick={() => setBookInfo(book)}
+                    >
+                      <img className={styles.bookImage} src={book.imageUrl} alt="" />
                       <ul className={styles.bookInfo}>
-                        <li className={styles.bookInfoItem}>"{searchBook}" 직접 입력</li>
+                        <li className={styles.bookInfoItem}>{book.title}</li>
+                        <li className={styles.bookInfoItem}>{book.author}</li>
+                        <li className={styles.bookInfoItem}>{book.publisher}</li>
                       </ul>
                     </li>
-                  </>
-                )}
-              </ul>
-            </>
+                  ))}
+                </>
+              ) : (
+                <li className={styles.bookItem} onClick={onUserInput}>
+                  <ul className={styles.bookInfo}>
+                    <li className={styles.bookInfoItem}>"{searchBook}" 직접 입력</li>
+                  </ul>
+                </li>
+              )}
+            </ul>
           )}
         </div>
       </div>
