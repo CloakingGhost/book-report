@@ -3,13 +3,12 @@ import styles from '../../styles/Card.module.css';
 import { useDispatch } from 'react-redux';
 import { selectCard } from '../../store/slices/selectedCardSlice';
 
-
 export default function BaseCardImageLists() {
   const [selectedImageId, setSelectedImageId] = useState(null);
 
   const imageFiles = Array.from({ length: 9 }, (_, i) => ({
     fileName: `base${i + 1}.png`,
-    imageId: i + 93781,
+    imageId: -(i + 1),
   }));
   const getImageUrl = (fileName) => new URL(`../../assets/${fileName}`, import.meta.url).href;
 
@@ -17,7 +16,7 @@ export default function BaseCardImageLists() {
 
   function handleClickImage(imageId, imageUrl) {
     setSelectedImageId(imageId);
-    dispatch(selectCard({ imageId, imageUrl }));    
+    dispatch(selectCard({ imageId, imageUrl }));
   }
 
   return (

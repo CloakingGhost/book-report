@@ -116,6 +116,10 @@ a {
   width: 90%;
 }
 
+.manageReviewSection > div {
+  cursor: pointer;
+}
+
 .bookReview {
   box-sizing: border-box;
   display: flex;
@@ -136,4 +140,8 @@ hr {
 
 .bookReview > p {
     line-height: 200%;
+}
+
+.reviewManageButton {
+  cursor: pointer;
 }
