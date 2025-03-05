@@ -28,7 +28,7 @@ public interface BookReviewRepository extends JpaRepository<BookReview, Long> {
             JOIN FETCH br.image i
             LEFT JOIN FETCH i.userImage ui
             JOIN br.user u
-            WHERE u.name =:username
+            WHERE u.username =:username
             ORDER BY br.createdAt DESC
             """)
     Page<BookReview> getUserBookReviews(@Param("username") String username, Pageable pageable);
