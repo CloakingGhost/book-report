@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import styles from '../styles/BookReviewDetail.module.css';
 import reviewApi from '../api/reviewApi';
 import { useSelector } from 'react-redux';
+import base9 from '../assets/base9.png';
 
 export default function BookReviewDetail() {
   const { reviewId } = useParams();
@@ -12,6 +13,8 @@ export default function BookReviewDetail() {
   const [reviewDetail, setReviewDetail] = useState({});
   const [isAuthor, setIsAuthor] = useState(false);
   const [clickManageButton, setClickManageButton] = useState(false);
+
+  const [isError, setIsError] = useState(false);
 
   useEffect(() => {
     async function fetchBookReviewDetail() {
@@ -25,6 +28,7 @@ export default function BookReviewDetail() {
         }
       } catch (e) {
         console.error('감상문 조회에 실패했습니다.');
+        setIsError(!isError);
       }
     }
     fetchBookReviewDetail();
@@ -62,6 +66,10 @@ export default function BookReviewDetail() {
     alert('유료 결제 후 이용 가능한 서비스입니다.');
   }
 
+  if (isError) {
+    return <div>조회할 수 없는 리뷰입니다.</div>;
+  }
+
   if (!reviewDetail.approved && !isAuthor) {
     return <div>비공개글입니다.</div>;
   }
@@ -73,13 +81,11 @@ export default function BookReviewDetail() {
         <div className={styles.bookCoverImageSection}>
           <div className={styles.bookCoverImage}>
             <div className={styles.mark}>⭐</div>
-            <img src={reviewDetail?.items?.imageUrl} alt="없음" />
+            <img src={reviewDetail?.items?.imageUrl || base9} alt="없음" />
           </div>
         </div>
         <div className={styles.bookDetailSection}>
-          <Link to={'/'} state={{ title: reviewDetail?.items?.title }}>
-            <h3>{reviewDetail?.items?.title}</h3>
-          </Link>
+          <h3>{reviewDetail?.items?.title}</h3>
           <div>{reviewDetail?.items?.author}</div>
           <div>{reviewDetail?.items?.publisher}</div>
         </div>
