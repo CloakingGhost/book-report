@@ -40,9 +40,9 @@ const reviewApi = {
    * 리뷰 목록을 조회하는 함수입니다.
    * @returns {Promise} 리뷰 목록 응답 데이터를 반환합니다.
    */
-  getReviews: async (page, title) => {
+  getReviews: async (offset, title) => {
     try {
-      const response = await axios.get(`${REVIEWS_API}?page=${page}&title=${title}`);
+      const response = await axios.get(`${REVIEWS_API}?title=${title}&offset=${offset}`);
       return response.data;
     } catch (error) {
       console.error('감상문 목록 조회 오류:', error); // 오류 로깅

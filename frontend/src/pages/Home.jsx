@@ -12,9 +12,15 @@ export default function Home() {
   const [target, setTarget] = useState(null);
   /** Load 중인가를 판별하는 boolean */
   const [isLoaded, setIsLoaded] = useState(false);
-  /** 마지막 데이터까지 다 불러온 경우 더이상 요청을 보내지 않기 위해서
-      마지막 부분까지 가버릴 때 계속 요청을 보내는 것 방지 */
+
+  /**
+   * 데이터를 모두 불러왔을 때 추가 요청을 방지하는 상태
+   * 
+   * @constant {boolean} stop - 마지막 데이터를 모두 불러왔을 경우 `true`
+   * @function setStop - `stop` 상태를 업데이트하는 함수
+   */
   const [stop, setStop] = useState(false);
+
   /** 검색어 */
   const [title, setTitle] = useState('');
 
@@ -47,9 +53,13 @@ export default function Home() {
   // isLoaded가 true일 때 && 마지막 페이지가 아닌 경우 => 요청보내기
   const fetchItems = async (reset = false) => {
     if (isLoaded && !stop) {
-      const response = await reviewApi.getReviews(reset ? 0 : offset, title); // 여기에 offset을 넣어서 요청을 보내야함, 어떻게??
-    // 스프링만 바꾸면 됨 -> offset을 받아서 처리하도록
-      const data = response.items;
+      const response = await reviewApi.getReviews(reset ? 0 : offset, title); // offset이 0이면 처음부터, 아니면 offset부터
+      console.log(response);
+
+      // 응답 데이터
+      const data = response.data.items;
+      // 다음 페이지가 있는지 여부
+      const hasNext = response.data.hasNext;
 
       // 공개 데이터만 필터링
       const filteredData = data.filter((item) => item.approved === true);
@@ -62,8 +72,9 @@ export default function Home() {
       // 다음 요청 전까지 요청 그만 보내도록 false로 변경
       setIsLoaded(false);
 
-      if (data.length < 12) {
-        // 전체 데이터를 다 불러온 경우(불러온 값이 12개 보다 적다면 -> 매번 12개씩 불러오기로 했으므로 해당 값보다 작으면 마지막 페이지) 아예 로드를 중지
+      if (!hasNext) {
+        // 전체 데이터를 다 불러온 경우(불러온 값이 12개 보다 적다면
+        //  -> 매번 12개씩 불러오기로 했으므로 해당 값보다 작으면 마지막 페이지) 아예 로드를 중지
         setStop(true);
       }
     }
