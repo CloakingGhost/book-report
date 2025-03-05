@@ -58,8 +58,12 @@ export default function BookReviewDetail() {
     setClickManageButton(!clickManageButton);
   }
 
+  function handleUpdateReview() {
+    alert('유료 결제 후 이용 가능한 서비스입니다.');
+  }
+
   if (!reviewDetail.approved && !isAuthor) {
-    return <div>비공개글입니다</div>;
+    return <div>비공개글입니다.</div>;
   }
 
   return (
@@ -91,12 +95,12 @@ export default function BookReviewDetail() {
             {isAuthor && reviewDetail?.approved ? <div>🔓</div> : <div>🔒</div>}
             {isAuthor && (
               <div>
-                <div onClick={handleClickManageButton}>•••</div>
+                <div onClick={handleClickManageButton} className={styles.reviewManageButton}>
+                  •••
+                </div>
                 {clickManageButton && (
                   <div className={styles.manageReviewSection}>
-                    <Link to={`/reviews/modify/${reviewId}`}>
-                      <div>수정</div>
-                    </Link>
+                    <div onClick={handleUpdateReview}>수정</div>
                     <hr />
                     <div onClick={handleDeleteReview}>삭제</div>
                     <hr />
