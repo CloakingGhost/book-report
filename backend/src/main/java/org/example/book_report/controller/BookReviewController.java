@@ -113,7 +113,7 @@ public class BookReviewController {
     public ResponseEntity<ApiResponse<UserBookReviewsResponseDto>> getUserBookReviews(@PathVariable("username") String username, Pageable pageable, @AuthenticationPrincipal User user) {
         return ResponseEntity.ok(
                 ApiResponse.ok(
-                        bookReviewService.getUserBookReviews(username, pageable, user.getUsername())
+                        bookReviewService.getUserBookReviews(username, pageable, user)
                 )
         );
     }

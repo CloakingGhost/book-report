@@ -70,8 +70,8 @@ public class BookReviewService {
         }
 
         Long imageId = createReviewRequestDto.getReview().getImageId();
-        Image cardImage = imageRepository.findById(imageId).orElseThrow(() -> new IllegalArgumentException("카드 이미지가 없습니다."));
-
+        Image cardImage = imageRepository.findById(imageId)
+                .orElseThrow(() -> new IllegalArgumentException("카드 이미지가 없습니다."));
 
         BookReview bookReview = BookReview.builder()
                 .book(book)
@@ -109,9 +109,16 @@ public class BookReviewService {
     }
 
     // 유저별 감상문 모음 조회
-    public UserBookReviewsResponseDto getUserBookReviews(String username, Pageable pageable, String loginedUsername) {
-        Page<BookReview> bookReviews = bookReviewRepository.getUserBookReviews(username, pageable, loginedUsername);
+    public UserBookReviewsResponseDto getUserBookReviews(String username, Pageable pageable, User user) {
 
+        Page<BookReview> bookReviews = null;
+        if (user!=null && user.getUsername().equals(username)) {
+
+            bookReviews = bookReviewRepository.getOwnBookReviews(username, pageable);
+        } else {
+
+            bookReviews = bookReviewRepository.getOtherBookReviews(username, pageable);
+        }
         return UserBookReviewsResponseDto.from(bookReviews);
     }
 }

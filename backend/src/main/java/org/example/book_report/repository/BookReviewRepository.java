@@ -25,14 +25,20 @@ public interface BookReviewRepository extends JpaRepository<BookReview, Long> {
 
     @Query("""
                 SELECT br FROM BookReview br
-                JOIN FETCH br.image i
-                LEFT JOIN FETCH i.userImage ui
                 JOIN br.user u
                 WHERE u.username = :username
-                  AND ( u.username=:loginedUsername OR br.approved = true)
                 ORDER BY br.createdAt DESC
             """)
-    Page<BookReview> getUserBookReviews(@Param("username") String username, Pageable pageable, @Param("loginedUsername") String loginedUsername);
+    Page<BookReview> getOwnBookReviews(@Param("username") String username, Pageable pageable);
+
+    @Query("""
+                SELECT br FROM BookReview br
+                JOIN br.user u
+                WHERE u.username = :username
+                AND br.approved
+                ORDER BY br.createdAt DESC
+            """)
+    Page<BookReview> getOtherBookReviews(@Param("username") String username, Pageable pageable);
 
     @Query("""
             SELECT br FROM BookReview br
