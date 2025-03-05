@@ -10,9 +10,7 @@ import org.example.book_report.entity.ImageType;
 import org.example.book_report.entity.User;
 import org.example.book_report.service.BookReviewService;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -41,9 +39,7 @@ public class BookReviewController {
 
     // 메인 페이지 감상문 조회
     @GetMapping("/reviews")
-    public ResponseEntity<ApiResponse<BookReviewsWithPageResponseDto>> getBookReviews(@RequestParam(value = "title", defaultValue = "") String bookTitle, @RequestParam(value = "offset", defaultValue = "0") int offset) {
-        int page = offset / size; // offset을 page로 변환
-        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending()); // Pageable 객체 생성
+    public ResponseEntity<ApiResponse<BookReviewsWithPageResponseDto>> getBookReviews(@RequestParam(value = "title", defaultValue = "") String bookTitle, Pageable pageable) {
         return ResponseEntity.ok(ApiResponse.ok(bookReviewService.getBookReviews(bookTitle, pageable)));
     }
 
