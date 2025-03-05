@@ -1,30 +1,37 @@
-import {  useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from '../styles/Header.module.css';
-import { Link, useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from "react-redux";
-import { logout } from "../store/slices/authSlice";
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { logout } from '../store/slices/authSlice';
 import authApi from '../api/authApi';
+import logo from '../../public/book.png';
 
 export default function Header() {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const auth = useSelector(state => state.auth)
+  const location = useLocation();
+  const auth = useSelector((state) => state.auth);
   const [isLoggedIn, setIsLoggedIn] = useState(auth.isLoggedIn); // 로그인 상태 관리
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
 
+  useEffect(() => {
+    setIsProfileMenuOpen(false);
+  }, [location.pathname]);
 
   const handleLogout = async () => {
     dispatch(logout());
-    setIsLoggedIn(false)
-    await authApi.logout()
-    navigate('/')
-  }
+    setIsLoggedIn(false);
+    await authApi.logout();
+    navigate('/');
+  };
 
   return (
     <div className={styles.header}>
       {isLoggedIn ? (
         <>
-          <h1>로그인 시</h1>
+          <Link to="/">
+            <img src={logo} alt="" className={styles.logo} />
+          </Link>
           <div className={styles.headerRight}>
             <Link to="/reviews/create" className={styles.link}>
               감상문 작성하기
@@ -38,7 +45,7 @@ export default function Header() {
               </button>
               {isProfileMenuOpen && (
                 <div className={styles.profileMenu}>
-                  <Link className={styles.profileMenuLink} to="/profile">
+                  <Link className={styles.profileMenuLink} to={`/userpage/${auth.username}`}>
                     마이페이지
                   </Link>
                   <div className={styles.profileMenuLink} onClick={handleLogout}>

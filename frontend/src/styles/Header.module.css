@@ -7,6 +7,7 @@
   background-color: #f8f9fa;
   border-bottom: 0.0625rem solid #dee2e6;
   box-sizing: border-box;
+  height: 60px;
 }
 
 .headerRight {
@@ -18,10 +19,9 @@
 .link {
   padding: 0.625rem 1rem;
   text-decoration: none;
-  color: #007bff;
-  border: 0.0625rem solid #007bff;
-  border-radius: 0.25rem;
+  border: 0.0625rem solid;
   transition: background-color 0.3s;
+  font-size: 1rem;
 }
 
 .link:hover {
@@ -35,10 +35,9 @@
 .profileButton {
   box-sizing: content-box;
   border: none;
-  border-bottom: 0.0625rem solid #007bff;
+  border-bottom: 0.0625rem solid;
   padding: 0.625rem 1rem;
   background-color: transparent;
-  color: #007bff;
   cursor: pointer;
   font-size: 1rem;
   font-weight: bold;
@@ -53,21 +52,26 @@
   position: absolute;
   display: flex;
   flex-direction: column;
-  border: 0.0625rem dashed #007bff;
+  border: 0.0625rem solid;
   background-color: #f8f9fa;
   z-index: 1000;
   min-width: 9.375rem;
   margin-top: 0.625rem;
   right: 0;
+  text-align: c;
 }
 
 .profileMenuLink {
   text-decoration: none;
-  color: #007bff;
   padding: 0.625rem;
   transition: background-color 0.3s;
 }
 
 .profileMenuLink:hover {
   background-color: #e2e6ea;
+}
+
+.logo {
+  height: 40px;
+  width: 40px;
 }
