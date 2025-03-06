@@ -92,14 +92,14 @@ export default function BookReviewDetail() {
       <section className={styles.bookSection}>
         <div className={styles.bookCoverImageSection}>
           <div className={styles.bookCoverImage}>
-            {reviewDetail.items.userId == -1 && <div className={styles.mark}>⭐</div>}
-            <img src={reviewDetail?.items?.imageUrl || base9} alt="없음" />
+            {reviewDetail.item.userId == -1 && <div className={styles.mark}>⭐</div>}
+            <img src={reviewDetail?.item?.imageUrl || base9} alt="없음" />
           </div>
         </div>
         <div className={styles.bookDetailSection}>
-          <h3>{reviewDetail?.items?.title}</h3>
+          <h3>{reviewDetail?.item?.title}</h3>
           <div>
-            {reviewDetail?.items?.author} | {reviewDetail?.items?.publisher}
+            {reviewDetail?.item?.author} | {reviewDetail?.item?.publisher}
           </div>
         </div>
       </section>

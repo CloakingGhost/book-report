@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public class BookReviewDetailResponseDto {
 
     private final String username;
-    private final BookResponseDto items;
+    private final BookResponseDto item;
     private final String title;
     private final String content;
     private final boolean approved;
@@ -25,7 +25,7 @@ public class BookReviewDetailResponseDto {
     public static BookReviewDetailResponseDto from(BookReview entity) {
         return BookReviewDetailResponseDto.builder()
                 .username(entity.getUser().getUsername())
-                .items(BookResponseDto.from(entity.getBook()))
+                .item(BookResponseDto.from(entity.getBook()))
                 .title(entity.getTitle())
                 .content(entity.getContent())
                 .approved(entity.isApproved())
