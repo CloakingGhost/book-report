@@ -29,7 +29,13 @@ export default function UserBookReview() {
     };
     
     fetchReviews();
-  }, [page]);
+  }, [username, page]);
+
+  useEffect(() => {
+    setItems([]);
+    setPage(0);
+    setHasNext(true);
+  }, [username]);
 
   const handleScroll = useCallback(() => {
     if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 50) {
