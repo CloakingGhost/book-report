@@ -2,13 +2,13 @@
   position: relative;
   width: 100%;
   /* 세로로 긴 비율 (예를 들어, 3:4 비율) */
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 3 / 3;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border: solid 1px lightgray;
   cursor: default;
 }
 
@@ -31,6 +31,7 @@
   font-weight: bold;
   text-align: center;
   word-break: keep-all;
+  border-radius: 5px;
 }
 
 .cardContainer {
