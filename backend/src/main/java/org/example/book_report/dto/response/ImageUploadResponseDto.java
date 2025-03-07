@@ -13,7 +13,7 @@ public class ImageUploadResponseDto {
     private final ImageType type;
     private final List<ImageResponseDto> images;
 
-    public static ImageUploadResponseDto from(ImageType type, List<ImageResponseDto> images){
+    public static ImageUploadResponseDto from(ImageType type, List<ImageResponseDto> images) {
         return ImageUploadResponseDto.builder()
                 .type(type)
                 .images(images)

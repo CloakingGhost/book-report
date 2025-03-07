@@ -1,14 +1,14 @@
 package org.example.book_report.dto.response;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Stream;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.example.book_report.entity.Book;
 import org.springframework.data.domain.Page;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Builder

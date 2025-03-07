@@ -11,7 +11,7 @@ public class ImageResponseDto {
     private final Long id;
     private final String imageUrl;
 
-    public static ImageResponseDto from(Image image){
+    public static ImageResponseDto from(Image image) {
         return ImageResponseDto.builder()
                 .id(image.getId())
                 .imageUrl(image.getImageUrl())
