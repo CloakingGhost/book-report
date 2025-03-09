@@ -99,8 +99,6 @@
         BUCKET_NAME=your-bucket-name
         REGION=ap-northeast-2
         
-        # DB's env -> Backend' env : OK
-        # Backend's env -> DB's env : NOT OK
         # DB
         MYSQL_ROOT_PASSWORD=1q2w3e4r@
         MYSQL_DATABASE=book-review
@@ -131,8 +129,7 @@
 
 - `Github.com/repository → settings → Secrets and variables → Actions → New repository secret`
     - `.env.example` 에 있는 환경 변수 등록
-- 푸쉬 감지
-- 깃허브 액션에서 `deploy.yml` 실행
+- 푸쉬 감지 후 깃허브 액션에서 `deploy.yml` 실행
 
 ## 📡 API 명세
 
@@ -142,49 +139,21 @@
 
 ## 🗂 ERD 다이어그램
 
-![book-review.png](attachment:2dd4acd2-31e2-4134-a7c6-3e6de52eba13:59459e16-6101-40fc-acb1-1e68c3ac15ae.png)
+![book-review.png](document/book-review.png)
 
 ## 📂 프로젝트 구조
 
 ```bash
-📦backend
- ┣ 📂src.main.java
- ┃ ┗ 📂org.example.book_report
- ┃ ┃ ┣ 📂common
- ┃ ┃ ┃ ┣ 📂config
- ┃ ┃ ┃ ┣ 📂controller
- ┃ ┃ ┃ ┣ 📂dto
- ┃ ┃ ┃ ┃ ┣ 📂request
- ┃ ┃ ┃ ┃ ┗ 📂response
- ┃ ┃ ┃ ┣ 📂entity
- ┃ ┃ ┃ ┣ 📂global
- ┃ ┃ ┃ ┃ ┣ 📂exception
- ┃ ┃ ┃ ┃ ┗ 📂security
- ┃ ┃ ┃ ┃ ┃ ┣ 📂handler
- ┃ ┃ ┃ ┃ ┃ ┗ 📂jwt
- ┃ ┃ ┃ ┣ 📂repository
- ┃ ┃ ┃ ┣ 📂service
- ┃ ┗ 📂resources
- ┃ ┃ ┗ 📜application.properties
- ┣ 📜.env
- ┣ 📜compose.yaml
- ┣ 📜Dockerfile
- ┣ 📜gradle.properties
+📦book-review
+ ┣ 📂.github                    # Github Actions 워크플로우
+ ┣ 📂.husky                     # git commit 설정
+ ┣ 📂document                   # ERD, Wire Frame
+ ┣ 📂frontend                   # React
+ ┣ 📂backend                    # Spring Boot
+ ┣ 📂scrap                      # 책 정보 수집(Python)
+ ┣ 📜.env                       # 배포용 환경변수
+ ┣ 📜docker-compose.yml         # 배포용 Nginx, Spring Boot, MySQL 이미지 실행
+ ┣ 📜.env.development.local     # 로컬용 환경변수
+ ┗ 📜docker-compose-local.yml   # 로컬용 Nginx, Spring Boot, MySQL 이미지 실행
 ```
 
-```
-📦frontend
- ┣ 📂nginx
- ┣ 📂public
- ┣ 📂src
- ┃ ┣ 📂api
- ┃ ┣ 📂assets
- ┃ ┣ 📂components
- ┃ ┣ 📂layouts
- ┃ ┣ 📂pages
- ┃ ┣ 📂router
- ┃ ┣ 📂store
- ┃ ┣ 📂styles
- ┣ 📜.env
- ┣ 📜Dockerfile
-```
