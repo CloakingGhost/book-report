@@ -21,7 +21,7 @@
 - 독자 간 연결성 부족 및 새로운 도서 발견 기회 제한
 - 타겟: 독서 경험 공유 희망자, 다양한 관점 탐색자, 새로운 도서/독서 친구 발견 희망자
 
-## 시연 영상
+## 📹 시연 영상
 
 
 ## 🛠 기술 스택
@@ -57,8 +57,8 @@
 ### 1. 필수 요구 사항
 
 - Java 21
-- Docker Desktop
-- npm
+- Docker Desktop 27.4
+- npm 10.8
 
 ### 2. 실행 방법
 
@@ -71,53 +71,10 @@
 - S3
     - `access-key`, `secret-key`
     - IAM → 사용자 → 보안 자격 증명 → 액세스 키 → 로컬 코드
-- 책 데이터(Python 코드를 실행시켜 DB에 저장)
+- [책 데이터(Python 코드를 실행시켜 DB에 저장)](scrap/README.md)
 - 프로젝트 `clone`
 - 디스코드 웹훅 URL
 
-### 배포 환경
-
-- EC2
-    - `t2.micro` 이상
-        - 단. RDS를 사용하지 않으므로 `t2.micro` 의 경우 멈출 수 있음(RAM 부족)
-    - Docker
-        
-        ```json
-        설치 코드~~~
-        ```
-        
-    - SSL 인증(HTTPS)
-        
-        **인증서 발급**
-        
-        - 무료 SSL 인증서 발급 기관인 **Let's Encrypt**을 활용한다.
-        1. 원격 서버 - 패키지 설치
-            - certbot - Let's Encrypt 인증서 발급 도구
-            
-            ```bash
-            sudo apt update
-            sudo apt install -y certbot
-            ```
-            
-        2. 원격 서버 - 개인 키와 인증서 생성
-            
-            ```bash
-            sudo certbot certonly --standalone -d ***[Public IPv4]***.sslip.io
-            ```
-            
-        3. 원격 서버 - Let’s Encrypt 인증서 발급 과정
-            1. Enter email address - **`이메일 작성`**
-            2. Please read the Terms of Service at - 서비스 약관 동의 여부 → **`Y`**
-            3. Would you be willing, … - 뉴스레터 구독 여부 → **`N`**
-            4. 인증서 생성 확인
-                
-                ```bash
-                sudo ls /etc/letsencrypt/live/도메인/
-                ```
-                
-                - 아래 파일 확인
-                    - /etc/letsencrypt/live/**`도메인`**/privkey.pem
-                    - /etc/letsencrypt/live/**`도메인`**/fullchain.pem
 
 ### 로컬 실행(Docker compose)
 
@@ -166,13 +123,15 @@
     - `.env.example` 에 있는 환경 변수 등록
 - 푸쉬 감지 후 깃허브 액션에서 `deploy.yml` 실행
 
+> [프로젝트 환경 구축 상세](document/readme-file/deploy.md)
+
 ## 📡 API 명세
 
 - API 문서: [Notion 링크](https://www.notion.so/1afe41ab207980c79817efa42f101f3d?pvs=21)
 - 분류 : 회원, 감상문, 도서, 이미지
 - 개수 : 15개
 
-## 🗂 ERD 다이어그램
+## 📜 ERD
 
 ![erd.png](document/readme-file/erd.png)
 
@@ -198,5 +157,9 @@
 | :---: | :---: | :---: | :---: |
 | ![박하은](https://github.com/apricity2u.png) | ![육슬찬](https://github.com/ysc13245.png) | ![임유진](https://github.com/cocobabb.png) | ![이재현](https://github.com/CloakingGhost.png) |
 
+
+
+> **Contributor**<br>
+> <a href="https://github.com/beemo-nodecrew"><img src="https://github.com/beemo-nodecrew.png" width=32></a>
 
 
