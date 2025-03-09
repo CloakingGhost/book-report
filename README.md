@@ -23,7 +23,13 @@
 
 - 메인페이지로 부터 회원/비회원에 따른 흐름을 구성하였습니다.
 
+## 와이어 프레임
 
+![wire-frame.png](document/readme-file/wire-frame.png)
+
+- 4가지로 분류 됩니다
+    - 가입 페이지, 메인 페이지, 감상문 작성 페이지, 유저 페이지
+- 도구: Obsidian - Excalidraw
 
 
 ## ⚙️ 설치 및 실행 방법
