@@ -133,7 +133,7 @@
 
 ## 📜 ERD
 
-![erd.png](document/readme-file/erd.png)
+![erd.png](document/readme-file/erd-drawio.png)
 
 ## 📂 프로젝트 구조
 
