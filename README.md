@@ -17,6 +17,15 @@
 - **데이터베이스**: MySQL
 - **인프라**: Docker, AWS(EC2, S3)
 
+## 유저 플로우
+
+![user-flow.png](document/readme-file/user-flow.png)
+
+- 메인페이지로 부터 회원/비회원에 따른 흐름을 구성하였습니다.
+
+
+
+
 ## ⚙️ 설치 및 실행 방법
 
 ### 1. 필수 요구 사항
@@ -139,7 +148,7 @@
 
 ## 🗂 ERD 다이어그램
 
-![book-review.png](document/book-review.png)
+![erd.png](document/readme-file/erd.png)
 
 ## 📂 프로젝트 구조
 
