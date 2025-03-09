@@ -27,11 +27,11 @@
 ## 🛠 기술 스택
 
 
-- **프론트엔드**: <img height="24" src="https://cdn.simpleicons.org/react/61DAFB?viewbox=auto" /><sub>React</sub> <img height="24" src="https://cdn.simpleicons.org/redux/764ABC?viewbox=auto" /><sub>Redux</sub>
+- **프론트엔드**: <img height="24" src="https://cdn.simpleicons.org/react/61DAFB?viewbox=auto" /><sub>React</sub> <img height="24" src="https://cdn.simpleicons.org/redux/764ABC?viewbox=auto" /><sub>Redux</sub> <img height="24" src="https://cdn.simpleicons.org/axios/5A29E4?viewbox=auto" /><sub>Axios</sub>
 - **백엔드**: <img height="24" src="https://cdn.simpleicons.org/springboot/6DB33F?viewbox=auto" /><sub>Spring Boot</sub> <img height="24" src="https://cdn.simpleicons.org/hibernate/59666C?viewbox=auto" /><sub>Hibernate</sub>
 - **데이터베이스**: <img height="24" src="https://cdn.simpleicons.org/mysql/4479A1?viewbox=auto" />
 - **인프라**: <img height="24" src="https://cdn.simpleicons.org/githubactions/2088FF?viewbox=auto" /><sub>Github Actions</sub> <img height="24" src="https://cdn.simpleicons.org/docker/2496ED?viewbox=auto" /><sub>Docker</sub> <img height="24" src="https://cdn.simpleicons.org/amazons3/569A31?viewbox=auto" /><sub>S3</sub> <img height="24" src="https://cdn.simpleicons.org/amazonec2/FF9900?viewbox=auto" /><sub>EC2</sub>
-- **이슈 및 버전 관리**: <img height="24" src="https://cdn.simpleicons.org/git/F05032?viewbox=auto" /><sub>Git, Git Hooks</sub> <img height="24" src="https://cdn.simpleicons.org/github/181717?viewbox=auto" /><sub>Github</sub> <img height="24" src="https://cdn.simpleicons.org/githubactions/2088FF?viewbox=auto" /><sub>Git HooActions</sub> <img height="24" src="https://cdn.simpleicons.org/jira/0052CC?viewbox=auto" /><sub>Jira</sub> <img height="24" src="https://cdn.simpleicons.org/confluence/172B4D?viewbox=auto" /><sub>Confluence</sub>
+- **이슈 및 버전 관리**: <img height="24" src="https://cdn.simpleicons.org/git/F05032?viewbox=auto" /><sub>Git, Git Hooks</sub> <img height="24" src="https://cdn.simpleicons.org/github/181717?viewbox=auto" /><sub>GitHub</sub> <img height="24" src="https://cdn.simpleicons.org/githubactions/2088FF?viewbox=auto" /><sub>GitHub Actions</sub> <img height="24" src="https://cdn.simpleicons.org/jira/0052CC?viewbox=auto" /><sub>Jira</sub> <img height="24" src="https://cdn.simpleicons.org/confluence/172B4D?viewbox=auto" /><sub>Confluence</sub>
 
 ## 👨‍👩‍👧‍👦 유저 플로우
 
@@ -47,6 +47,10 @@
     - 가입 페이지, 메인 페이지, 감상문 작성 페이지, 유저 페이지
 > 도구: Obsidian - Excalidraw
 
+## 아키텍처
+![architecture](document/readme-file/architecture.png)
+
+- 배포, 시스템, 네트워크(요청/응답) 흐름을 포함합니다.
 
 ## ⚙️ 설치 및 실행 방법
 
@@ -187,4 +191,12 @@
  ┣ 📜.env.development.local     # 로컬용 환경변수
  ┗ 📜docker-compose-local.yml   # 로컬용 Nginx, Spring Boot, MySQL 이미지 실행
 ```
+
+## 👥 팀 소개
+
+| [박하은](https://github.com/apricity2u) | [육슬찬](https://github.com/ysc13245) | [임유진](https://github.com/cocobabb) | [이재현](https://github.com/CloakingGhost) | 
+| :---: | :---: | :---: | :---: |
+| ![박하은](https://github.com/apricity2u.png) | ![육슬찬](https://github.com/ysc13245.png) | ![임유진](https://github.com/cocobabb.png) | ![이재현](https://github.com/CloakingGhost.png) |
+
+
 

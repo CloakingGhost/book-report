@@ -1,17 +1,22 @@
 from requests import get
 from dotenv import load_dotenv
 import os
+import traceback
 
 load_dotenv()
 
+url = os.getenv("NAVER_API_URL")
+CLIENT_ID = os.getenv("NAVER_CLIENT_ID")
+CLIENT_SECRET = os.getenv("NAVER_CLIENT_SECRET")
+
+# print(CLIENT_ID, CLIENT_SECRET, url)
 
 def fetch_api(query):
 
-    url = os.getenv("NAVER_API_URL")
     cur = 1
     PAGE = 100
-    CLIENT_ID = os.getenv("NAVER_CLIENT_ID")
-    CLIENT_SECRET = os.getenv("NAVER_CLIENT_SECRET")
+    
+    
     total = 10000
     items = []
     try:
@@ -25,6 +30,7 @@ def fetch_api(query):
 
             response = get(url=url, headers=headers, params=params)
             data = response.json()
+            # print(data)
             total = data["total"]
 
             items.extend(
@@ -43,7 +49,8 @@ def fetch_api(query):
             )
             cur += PAGE
 
-    except:
-        print(1)
+    except Exception as e:
+        print("API 요청 오류:", e)
+        traceback.print_exc()
     
     return items

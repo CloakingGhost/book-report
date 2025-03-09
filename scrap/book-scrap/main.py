@@ -1,9 +1,12 @@
 from api import fetch_api
 from db import execute_query
-from dotenv import load_dotenv
 
+print("Start Scraping")
+count = 0
 for c in range(ord('가'), ord('핳')+1):
-    
+    if count % 100 == 0:
+        print(f"Scraping {count}th page")
+        count += 1
     query = c
     result = fetch_api(query)
 
@@ -39,3 +42,5 @@ for c in range(ord('가'), ord('핳')+1):
                 VALUES (-1, {image_id}, '{books['title']}', '{books['title'].replace(" ","")}', '{books['author']}'
                 , '{books['publisher']}', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);"""
             )
+
+print("End Scraping")

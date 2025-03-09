@@ -10,9 +10,10 @@ load_dotenv()
 DATABASE_HOST = os.getenv("DATABASE_HOST")
 DATABASE_PORT = os.getenv("DATABASE_PORT")
 DATABASE_NAME = os.getenv("DATABASE_NAME")
-DATABASE_USER = os.getenv("DATABASE_USERNAME")
+DATABASE_USERNAME = os.getenv("DATABASE_USERNAME")
 DATABASE_PASSWORD = os.getenv("DATABASE_PASSWORD")
 
+# print(DATABASE_HOST, DATABASE_PORT, DATABASE_NAME, DATABASE_USERNAME, DATABASE_PASSWORD)
 
 pool = MySQLConnectionPool(
     pool_name="db_pool",
@@ -20,7 +21,7 @@ pool = MySQLConnectionPool(
     host=DATABASE_HOST,
     port=DATABASE_PORT,
     database=DATABASE_NAME,
-    user=DATABASE_USER,
+    user=DATABASE_USERNAME,
     password=DATABASE_PASSWORD,
 )
 
