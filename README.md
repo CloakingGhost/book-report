@@ -23,6 +23,7 @@
 
 ## 📹 시연 영상
 
+![demo](document/readme-file/demo.gif)
 
 ## 🛠 기술 스택
 
