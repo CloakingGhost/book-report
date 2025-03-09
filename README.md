@@ -1,7 +1,5 @@
 # 📌 Book Review
 
-
-
 ## 📖 프로젝트 개요
 
 ### a. 프로젝트 소개
@@ -23,12 +21,17 @@
 - 독자 간 연결성 부족 및 새로운 도서 발견 기회 제한
 - 타겟: 독서 경험 공유 희망자, 다양한 관점 탐색자, 새로운 도서/독서 친구 발견 희망자
 
+## 시연 영상
+
+
 ## 🛠 기술 스택
 
-- **프론트엔드**: ****React, Redux
-- **백엔드**: Spring Boot
-- **데이터베이스**: MySQL
-- **인프라**: Docker, AWS(EC2, S3)
+
+- **프론트엔드**: <img height="24" src="https://cdn.simpleicons.org/react/61DAFB?viewbox=auto" /><sub>React</sub> <img height="24" src="https://cdn.simpleicons.org/redux/764ABC?viewbox=auto" /><sub>Redux</sub>
+- **백엔드**: <img height="24" src="https://cdn.simpleicons.org/springboot/6DB33F?viewbox=auto" /><sub>Spring Boot</sub> <img height="24" src="https://cdn.simpleicons.org/hibernate/59666C?viewbox=auto" /><sub>Hibernate</sub>
+- **데이터베이스**: <img height="24" src="https://cdn.simpleicons.org/mysql/4479A1?viewbox=auto" />
+- **인프라**: <img height="24" src="https://cdn.simpleicons.org/githubactions/2088FF?viewbox=auto" /><sub>Github Actions</sub> <img height="24" src="https://cdn.simpleicons.org/docker/2496ED?viewbox=auto" /><sub>Docker</sub> <img height="24" src="https://cdn.simpleicons.org/amazons3/569A31?viewbox=auto" /><sub>S3</sub> <img height="24" src="https://cdn.simpleicons.org/amazonec2/FF9900?viewbox=auto" /><sub>EC2</sub>
+- **이슈 및 버전 관리**: <img height="24" src="https://cdn.simpleicons.org/git/F05032?viewbox=auto" /><sub>Git, Git Hooks</sub> <img height="24" src="https://cdn.simpleicons.org/github/181717?viewbox=auto" /><sub>Github</sub> <img height="24" src="https://cdn.simpleicons.org/githubactions/2088FF?viewbox=auto" /><sub>Git HooActions</sub> <img height="24" src="https://cdn.simpleicons.org/jira/0052CC?viewbox=auto" /><sub>Jira</sub> <img height="24" src="https://cdn.simpleicons.org/confluence/172B4D?viewbox=auto" /><sub>Confluence</sub>
 
 ## 👨‍👩‍👧‍👦 유저 플로우
 
