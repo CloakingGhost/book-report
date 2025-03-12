@@ -38,10 +38,10 @@ export default function BookReview() {
 
   const handleSearchBookTitle = async (e) => {
     const searchTitle = e.target.value;
-    if (cleanSearchTitle.current.value != '') {
+    if (cleanSearchTitle.current.value) {
       setSearchBook(searchTitle);
 
-      if (cleanSearchTitle.current.value != '' && searchBook.trim() !== '') {
+      if (cleanSearchTitle.current.value && searchBook.trim()) {
         try {
           const response = await bookApi.searchBooks(searchTitle);
           let { hasNext, bookList } = response;
@@ -99,70 +99,49 @@ export default function BookReview() {
    * @param {React.ChangeEvent<HTMLInputElement>} e - 파일 입력의 변경 이벤트.
    */
   const addImage = (e) => {
-    const addImage = e.target.files[0];
+    const addImage = e.target.files;
     setBookImageFile(addImage);
-    setBookImage(URL.createObjectURL(addImage));
+    setBookImage(URL.createObjectURL(addImage[0]));
   };
 
   /**
    * 도서 리뷰를 API에 제출합니다.
    */
   const postBookReview = async () => {
-    if (
-      !title ||
-      title.trim() == '' ||
-      selectedCardInfo.title?.trim() == '' ||
-      !content ||
-      content?.trim() == ''
-    ) {
+    if (!title?.trim() || !selectedCardInfo.title?.trim() || !content?.trim()) {
       alert('도서 제목, 한줄평 이미지, 한줄평, 감상문 입력은 필수입니다');
       return;
     }
-    let bookReview;
+    const bookReview = {
+      data: {
+        book: {
+          bookId: bookId,
+          title: title,
+          author: author,
+          publisher: publisher,
+        },
+        review: {
+          imageId: selectedCardInfo.imageId, // 카드 커버
+          title: selectedCardInfo.title, // 한줄평
+          content: content,
+        },
+      },
+      imageFile: bookImageFile, // (책 표지)
+    };
 
     if (bookId) {
-      bookReview = {
-        data: {
-          book: {
-            bookId: bookId,
-            title: null,
-            author: null,
-            publisher: null,
-          },
-          review: {
-            imageId: selectedCardInfo.imageId, // 카드 커버
-            title: selectedCardInfo.title, // 한줄평
-            content: content,
-          },
-        },
-        imageFile: bookImageFile, // (책 표지)
-      };
-    } else {
-      bookReview = {
-        data: {
-          book: {
-            bookId: bookId,
-            title: title,
-            author: author,
-            publisher: publisher,
-          },
-          review: {
-            imageId: selectedCardInfo.imageId, // 카드 커버
-            title: selectedCardInfo.title, // 한줄평
-            content: content,
-          },
-        },
-        imageFile: bookImageFile, // (책 표지)
-      };
+      bookReview.data.book.title = null
+      bookReview.data.book.author = null
+      bookReview.data.book.publisher = null
     }
     await saveBookreview(bookReview);
   };
 
   const saveBookreview = async (bookReview) => {
     try {
-      console.log(bookReview);
+      // console.log(bookReview);
       const response = await reviewApi.createReview(bookReview);
-      const { status, data } = response;
+      const { data } = response;
       const bookReviewId = data.bookReviewId;
 
       navigate(`/reviews/${bookReviewId}`, { replace: true });

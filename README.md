@@ -9,7 +9,7 @@
 ### a. 프로젝트 소개
 
 - 주제 : 카드 기반 감상문 공유 프로젝트
-- 도메인 : ~~https://52.79.68.247.sslip.io/ (03.08 종료)~~
+- 도메인 : https://15.165.159.90.sslip.io/ ( ~ 26.03.10)
 - 개발기간 : 2025.02.19~2025.03.06 (약 2주)
 - 개발인원 : 4인
 
@@ -67,7 +67,7 @@
 - S3
     - `access-key`, `secret-key`
     - IAM → 사용자 → 보안 자격 증명 → 액세스 키 → 로컬 코드
-- [책 데이터(Python 코드를 실행시켜 DB에 저장)](scrap/README.md)
+- [책 데이터](scrap/README.md)
 - 프로젝트 `clone`
 - 디스코드 웹훅 URL
 
@@ -76,7 +76,7 @@
 
 - 프로젝트 루트 위치
 - `.env.development.local.example` 을 `.env.development.local` 로 복사하여 **환경 변수 작성**
-    - 샘플 환경 변수(S3의 키는 개인 발급)
+    - 샘플 환경 변수(S3의 키는 개인 발급, JWT_SECRET 새로 생성)
         
         ```bash
         # Local
@@ -97,7 +97,7 @@
         DATABASE_NAME=book-review
         DATABASE_USERNAME=root
         DATABASE_PASSWORD=1q2w3e4r@
-        JWT_SECRET=qg0hqJgqNtiFu/P4tCslwA==NLKXOy619FZ5d0KuwWZ9U7IjCjlVP2tO0FGtDqc
+        JWT_SECRET= # echo $(openssl rand -base64 64)
         SECURE=false
         CORS_ALLOWED_ORIGIN=http://localhost
         

@@ -2,13 +2,8 @@ from api import fetch_api
 from db import execute_query
 
 print("Start Scraping")
-count = 0
-for c in range(ord('가'), ord('핳')+1):
-    if count % 100 == 0:
-        print(f"Scraping {count}th page")
-        count += 1
-    query = c
-    result = fetch_api(query)
+for c in range(ord('가'), ord('힣')+1):
+    result = fetch_api(query=c)
 
     for dict in result:
         books, images = dict["books"], dict["images"]
