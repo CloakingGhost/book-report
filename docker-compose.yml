@@ -24,7 +24,7 @@ services:
         - type=local,dest=/tmp/.buildx-cache/api,mode=max
       cache_from: 
         - type=local,src=/tmp/.buildx-cache/api
-    image: cloakingghost/book-backend:lts
+    image: ${DOCKER_USERNAME}/book-backend:lts
     env_file:
       - .env
     networks:
@@ -43,7 +43,7 @@ services:
         - type=local,dest=/tmp/.buildx-cache/client,mode=max
       cache_from: 
         - type=local,src=/tmp/.buildx-cache/client
-    image: cloakingghost/book-front:lts
+    image: ${DOCKER_USERNAME}/book-front:lts
     env_file:
       - .env
     ports:

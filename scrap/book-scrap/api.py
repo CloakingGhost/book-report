@@ -2,7 +2,7 @@ from requests import get
 from dotenv import load_dotenv
 import os
 import traceback
-
+from pprint import pprint
 load_dotenv()
 
 url = os.getenv("NAVER_API_URL")
@@ -30,9 +30,10 @@ def fetch_api(query):
 
             response = get(url=url, headers=headers, params=params)
             data = response.json()
-            # print(data)
-            total = data["total"]
-
+            # pprint(data)
+            # total = data["total"]
+            if not data.get("items"):
+                break
             items.extend(
                 [
                     {
@@ -49,8 +50,10 @@ def fetch_api(query):
             )
             cur += PAGE
 
-    except Exception as e:
-        print("API 요청 오류:", e)
-        traceback.print_exc()
+    # except Exception as e:
+    except :
+        # print("API 요청 오류:", e)
+        # traceback.print_exc()
+        print(1)
     
     return items
