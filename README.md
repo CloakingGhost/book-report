@@ -62,14 +62,14 @@
 
 ### 공통 사항
 
-- Docker Desktop
-- AWS 계정
-- S3
+- Docker Desktop 설치
+- AWS EC2
+- AWS S3 생성
     - `access-key`, `secret-key`
     - IAM → 사용자 → 보안 자격 증명 → 액세스 키 → 로컬 코드
-- [책 데이터](scrap/README.md)
 - 프로젝트 `clone`
 - 디스코드 웹훅 URL
+- [책 데이터](scrap/README.md)
 
 
 ### 로컬 실행(Docker Compose)
